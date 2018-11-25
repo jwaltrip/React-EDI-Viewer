@@ -8,7 +8,7 @@ It is used by myself to quickly get a full stack MERN + Redux app up and running
 
 >Both the front end and back end utilize the same package.json file
 
-After cloning, simply cd into the root directory and run either:
+After cloning, simply `cd` into the root directory and run either:
 
 `yarn install` or `npm install` (depending on which package manager you prefer)
 
@@ -34,7 +34,7 @@ The React + Redux frontend is located in the `/src` dir (and runs on port `3000`
 
 `npm run start:dev`
 
-_Note: to kill both servers, type ctrl+c **once** into the terminal_
+_Note: to kill both servers, type `ctrl+c` **once** into the terminal_
 
 **To start just the Express + MongoDB backend:**
 
