@@ -34,6 +34,7 @@ class PostForm extends Component {
     }
   };
 
+  // reset form inputs to blank
   handleReset = () => {
     this.setState({
       title: '',
@@ -77,8 +78,10 @@ class PostForm extends Component {
   }
 }
 
+// prop types for the connected redux action createPost()
 PostForm.propTypes = {
   createPost: PropTypes.func.isRequired
 };
 
+// connect createPost() redux action to this.props
 export default connect(null, { createPost })(PostForm);

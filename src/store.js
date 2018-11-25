@@ -4,8 +4,10 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 
+// initial state object that reducer states are added to
 const initialState = {};
 
+// add any additional middleware to this array
 const middleware = [thunk];
 
 const store = createStore(

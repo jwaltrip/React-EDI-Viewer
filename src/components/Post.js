@@ -11,7 +11,7 @@ const styles = {
 
 const Post = (props) => {
   return (
-    <div style={styles}>
+    <div style={ styles }>
       <h2>{ props.title }</h2>
       <p>{ props.body }</p>
       <button
