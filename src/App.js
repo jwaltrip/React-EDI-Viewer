@@ -6,7 +6,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 // import provider to connect App to redux store
 import { Provider } from 'react-redux';
 
-import Post from "./components/Post";
+import Post from "./components/PostList";
 import PostForm from "./components/PostForm";
 
 // import the redux store to be used in the Provider component
@@ -19,10 +19,10 @@ class App extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-6">
-              <Post />
+              <PostForm />
             </div>
             <div className="col-md-6">
-              <PostForm />
+              <Post />
             </div>
           </div>
         </div>
