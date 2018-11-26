@@ -14,6 +14,7 @@ import PostForm from "./components/PostForm";
 import store from './store';
 import Navbar from "./components/Navbar";
 import Register from "./components/Register";
+import Login from "./components/Login";
 
 class App extends Component {
   render() {
@@ -21,8 +22,8 @@ class App extends Component {
       <Provider store={store}>
         <div className="container">
           <Navbar />
-          <Register />
-
+          {/*<Register />*/}
+          <Login />
 
           {/*<div className="row" style={{ marginTop: 50 }}>*/}
             {/*<div className="col-md-6">*/}
