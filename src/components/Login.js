@@ -15,6 +15,26 @@ class Login extends Component {
     };
   }
 
+  componentDidMount() {
+    // if user is authenticated, then redirect them to homepage
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/');
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // if user is authenticated, then redirect them to homepage
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push('/');
+    }
+    // if there are errors in the loginUser redux action, add errors to props
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
+
   handleInputChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -32,15 +52,6 @@ class Login extends Component {
     // call redux action loginUser
     this.props.loginUser(user);
   };
-
-  // if there are errors in the loginUser redux action, add errors to props
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
-    }
-  }
 
   render() {
     const { errors } = this.state;
@@ -85,10 +96,12 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   errors: state.errors
 });
 

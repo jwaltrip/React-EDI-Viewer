@@ -18,6 +18,28 @@ class Register extends Component {
     };
   }
 
+  componentDidMount() {
+    // if user is logged in, then they should not be able to access the Register page
+    // redirect them to the homepage
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/');
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // if user is logged in, then they should not be able to access the Register page
+    // redirect them to the homepage
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push('/');
+    }
+    // if there were any errors in registering the user, they will be added as props
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
+
   handleInputChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -37,15 +59,6 @@ class Register extends Component {
     // call redux action registerUser
     this.props.registerUser(user, this.props.history);
   };
-
-  // if there were any errors in registering the user, they will be added as props
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
-    }
-  }
 
   render() {
     const { errors } = this.state;
@@ -116,10 +129,12 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  registerUser: PropTypes.func.isRequired
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   errors: state.errors
 });
 
