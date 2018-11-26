@@ -12,20 +12,26 @@ import PostForm from "./components/PostForm";
 
 // import the redux store to be used in the Provider component
 import store from './store';
+import Navbar from "./components/Navbar";
+import Register from "./components/Register";
 
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
         <div className="container">
-          <div className="row">
-            <div className="col-md-6">
-              <PostForm />
-            </div>
-            <div className="col-md-6">
-              <PostList />
-            </div>
-          </div>
+          <Navbar />
+          <Register />
+
+
+          {/*<div className="row" style={{ marginTop: 50 }}>*/}
+            {/*<div className="col-md-6">*/}
+              {/*<PostForm />*/}
+            {/*</div>*/}
+            {/*<div className="col-md-6">*/}
+              {/*<PostList />*/}
+            {/*</div>*/}
+          {/*</div>*/}
         </div>
       </Provider>
     );
