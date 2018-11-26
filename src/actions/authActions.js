@@ -24,10 +24,7 @@ export const loginUser = (user) => dispatch => {
       setAuthToken(token);
       // decode the token
       const decoded = jwt_decode(token);
-      dispatch({
-        type: SET_CURRENT_USER,
-        payload: decoded
-      });
+      dispatch(setCurrentUser(decoded));
     })
     .catch(err => {
       dispatch({
@@ -35,4 +32,22 @@ export const loginUser = (user) => dispatch => {
         payload: err.response.data
       });
     });
+};
+
+export const setCurrentUser = decoded => {
+  return {
+    type: SET_CURRENT_USER,
+    payload: decoded
+  };
+};
+
+export const logoutUser = (history) => dispatch => {
+  // remove JWT token from localStorage
+  localStorage.removeItem('jwtToken');
+  // remove JWT token from axios Authorization headers
+  setAuthToken(false);
+  // set current user back to empty object
+  dispatch(setCurrentUser({}));
+  // redirect to login page
+  history.push('/login');
 };
