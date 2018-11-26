@@ -15,8 +15,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 // import example post components
 // TODO make posts container and set as a protected route and add links to navbar
-import PostList from "./components/PostList";
-import PostForm from "./components/PostForm";
+import PostContainer from './components/Post/PostContainer';
 
 import Navbar from "./components/Navbar";
 import Register from "./components/Register";
@@ -44,12 +43,13 @@ class App extends Component {
     return (
       <Provider store={ store }>
         <Router>
-          <div className="container">
+          <div>
             <Navbar />
-            <Route exact path="/" component={ Home } />
             <div className="container">
+              <Route exact path="/" component={ Home } />
               <Route exact path="/register" component={ Register } />
               <Route exact path="/login" component={ Login } />
+              <Route exact path="/posts" component={ PostContainer } />
             </div>
           </div>
         </Router>

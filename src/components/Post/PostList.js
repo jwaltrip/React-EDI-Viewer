@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPosts, deletePost } from "../actions/postActions";
+import { fetchPosts, deletePost } from "../../actions/postActions";
 import Post from "./Post";
 
 class PostList extends Component {
