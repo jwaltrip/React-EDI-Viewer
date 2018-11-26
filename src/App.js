@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 // import bootstrap css
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
@@ -12,28 +13,26 @@ import PostForm from "./components/PostForm";
 
 // import the redux store to be used in the Provider component
 import store from './store';
+
 import Navbar from "./components/Navbar";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import Home from "./components/Home";
 
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="container">
-          <Navbar />
-          {/*<Register />*/}
-          <Login />
-
-          {/*<div className="row" style={{ marginTop: 50 }}>*/}
-            {/*<div className="col-md-6">*/}
-              {/*<PostForm />*/}
-            {/*</div>*/}
-            {/*<div className="col-md-6">*/}
-              {/*<PostList />*/}
-            {/*</div>*/}
-          {/*</div>*/}
-        </div>
+        <Router>
+          <div className="container">
+            <Navbar />
+            <Route exact path="/" component={ Home } />
+            <div className="container">
+              <Route exact path="/register" component={ Register } />
+              <Route exact path="/login" component={ Login } />
+            </div>
+          </div>
+        </Router>
       </Provider>
     );
   }
