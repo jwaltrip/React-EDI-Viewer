@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUser } from "../actions/authActions";
+import classnames from 'classnames';
 
 class Login extends Component {
   constructor(props) {
@@ -25,10 +29,22 @@ class Login extends Component {
       password: this.state.password
     };
 
-    console.log(user);
+    // call redux action loginUser
+    this.props.loginUser(user);
   };
 
+  // if there are errors in the loginUser redux action, add errors to props
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
+
   render() {
+    const { errors } = this.state;
+
     return (
       <div className="container" style={{ marginTop: 50, width: 700 }}>
         <h2 style={{ marginBottom: 40 }}>Login</h2>
@@ -37,21 +53,27 @@ class Login extends Component {
             <input
               type="email"
               placeholder="Email"
-              className="form-control"
+              className={classnames('form-control form-control-lg', {
+                'is-invalid': errors.email
+              })}
               name="email"
               onChange={ this.handleInputChange }
               value={ this.state.email }
             />
+            {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
           </div>
           <div className="form-group">
             <input
               type="password"
               placeholder="Password"
-              className="form-control"
+              className={classnames('form-control form-control-lg', {
+                'is-invalid': errors.password
+              })}
               name="password"
               onChange={ this.handleInputChange }
               value={ this.state.password }
             />
+            {errors.password && (<div className="invalid-feedback">{errors.password}</div>)}
           </div>
           <div className="form-group">
             <button type="submit" className="btn btn-primary">Login User</button>
@@ -62,4 +84,15 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);
