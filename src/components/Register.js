@@ -64,7 +64,7 @@ class Register extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container" style={{ marginTop: 50, width: 700 }}>
+      <div className="container" style={{ width: 700 }}>
         <h2 style={{ marginBottom: 40 }}>Registration</h2>
         <form onSubmit={ this.handleSubmit }>
           <div className="form-group">

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logoutUser } from '../actions/authActions';
 import { withRouter } from 'react-router-dom';
+import { logoutUser } from '../actions/authActions';
 
 class Navbar extends Component {
 
@@ -48,7 +48,7 @@ class Navbar extends Component {
     );
 
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
         <Link className="navbar-brand" to="/">Redux Auth</Link>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           {isAuthenticated ? authLinks : guestLinks}

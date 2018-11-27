@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { fetchPosts, deletePost, createPost } from "../../actions/postActions";
 
 import PostForm from './PostForm';
@@ -58,4 +59,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { fetchPosts, deletePost, createPost }
-)(PostContainer);
+)(withRouter(PostContainer));

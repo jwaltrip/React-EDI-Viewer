@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { loginUser } from "../actions/authActions";
 import classnames from 'classnames';
 
@@ -57,7 +58,7 @@ class Login extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container" style={{ marginTop: 50, width: 700 }}>
+      <div className="container" style={{ width: 700 }}>
         <h2 style={{ marginBottom: 40 }}>Login</h2>
         <form onSubmit={ this.handleSubmit }>
           <div className="form-group">
@@ -108,4 +109,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { loginUser }
-)(Login);
+)(withRouter(Login));

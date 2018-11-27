@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const cors = require("cors");
+// const cors = require("cors");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const config = require("./config/DB");
@@ -26,7 +26,7 @@ const postRoutes = require("./routes/PostRoute");
 // setup middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
+// app.use(cors());
 
 // set the backend server port
 const port = process.env.PORT || 5000;
