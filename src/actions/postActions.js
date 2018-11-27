@@ -2,7 +2,7 @@ import { FETCH_POSTS, ADD_POST, DELETE_POST } from "./types";
 import axios from "axios";
 
 // set backend server url for /posts route
-const apiUrl = 'http://localhost:4000/posts';
+const apiUrl = 'http://localhost:5000/posts';
 
 // redux action to fetch all posts from the DB
 export const fetchPosts = () => dispatch => {

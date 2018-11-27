@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const styles = {
   borderBottom: '2px solid #eee',
@@ -9,17 +10,24 @@ const styles = {
   borderRadius: '7px'
 };
 
-const Post = (props) => {
+const Post = ({ title, body, id, onDelete }) => {
   return (
     <div style={ styles }>
-      <h2>{ props.title }</h2>
-      <p>{ props.body }</p>
+      <h2>{ title }</h2>
+      <p>{ body }</p>
       <button
         className="btn btn-danger"
         type="button"
-        onClick={() => props.onDelete(props.id)}>Remove</button>
+        onClick={() => onDelete(id)}>Remove</button>
     </div>
   );
+};
+
+Post.propTypes = {
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  onDelete: PropTypes.func.isRequired
 };
 
 export default Post;

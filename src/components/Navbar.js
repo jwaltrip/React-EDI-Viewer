@@ -15,9 +15,15 @@ class Navbar extends Component {
   render() {
     const { isAuthenticated, user } = this.props.auth;
 
-    const authLinks = (
+    // this is utilizing fragments
+    const authLinks = ([
+      <ul className="navbar-nav mr-auto">
+        <li className="nav-item">
+          <Link className="nav-link" to="/posts">Posts</Link>
+        </li>
+      </ul>,
       <ul className="navbar-nav ml-auto">
-        <a className="nav-link" href="#" onClick={ this.onLogout.bind(this) }>
+        <a className="nav-link" href="#" onClick={ this.onLogout }>
           <img
             src={user.avatar}
             alt={user.name}
@@ -28,7 +34,7 @@ class Navbar extends Component {
           Logout
         </a>
       </ul>
-    );
+    ]);
 
     const guestLinks = (
       <ul className="navbar-nav ml-auto">
@@ -44,7 +50,6 @@ class Navbar extends Component {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <Link className="navbar-brand" to="/">Redux Auth</Link>
-        <Link className="nav-item" to="/posts">Posts</Link>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           {isAuthenticated ? authLinks : guestLinks}
         </div>
