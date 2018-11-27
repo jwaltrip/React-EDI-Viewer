@@ -1,6 +1,6 @@
-## MERN Stack + Redux Boilerplate
+## MERN Stack + Redux Boilerplate w/ JWT User Authentication
 
-This is a simple full MERN stack boilerplate with Redux integrated.
+This is a simple full MERN stack boilerplate with Redux and JSON Web Token user authentication integrated.
 
 It is used by myself to quickly get a full stack MERN + Redux app up and running with minimal setup
 
