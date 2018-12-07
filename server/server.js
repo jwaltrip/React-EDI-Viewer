@@ -22,6 +22,7 @@ mongoose.connect(config.DB, { useNewUrlParser: true }).then(
 // import routes
 const userRoutes = require("./routes/UserRoute");
 const postRoutes = require("./routes/PostRoute");
+const ediRoutes = require("./routes/EdiRoute");
 
 // setup middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,6 +35,7 @@ const port = process.env.PORT || 5000;
 // setup routes
 app.use('/api/users', userRoutes);
 app.use('/posts', postRoutes);
+app.use('/edi', ediRoutes);
 
 const server = app.listen(port, () => {
   console.log(`Backend server running and listening on port ${port}`);
