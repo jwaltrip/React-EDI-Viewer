@@ -1,3 +1,8 @@
+# React X12 EDI Viewer  
+This app reads incoming data from X12 EDI 850 Purchase Order documents and displays them in a user friendly format
+
+---
+
 ## MERN Stack + Redux Boilerplate w/ JWT User Authentication
 
 This is a simple full MERN stack boilerplate with Redux and JSON Web Token user authentication integrated.
