@@ -7,7 +7,8 @@ import classnames from 'classnames';
 import { css } from 'glamor';
 // primereact
 import { InputText } from 'primereact/inputtext';
-import {Button} from 'primereact/button';
+import { Button } from 'primereact/button';
+import { Message } from '../../../node_modules/primereact/components/message/Message';
 
 class Register extends Component {
   constructor(props) {
@@ -69,7 +70,7 @@ class Register extends Component {
 
     // css styles using glamor
     const formContainerStyle = css({
-      width: '500px',
+      width: '700px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -81,7 +82,7 @@ class Register extends Component {
 
     const formTagStyle = css({
       margin: '0 auto',
-      width: '500px'
+      width: '700px'
     });
 
     const submitBtnStyle = css({
@@ -100,50 +101,58 @@ class Register extends Component {
           <div {...formContainerStyle}>
             <span className="p-float-label">
               <InputText
-                name="name"
-                id="username-float-label"
                 type="text"
+                name="name"
+                className={classnames({ 'p-error': errors.name })}
+                id="name-float-label"
                 size="50"
                 value={ this.state.name }
                 onChange={ this.handleInputChange }
               />
-              <label htmlFor="username-float-label">Username</label>
+              <label htmlFor="username-float-label">Name</label>
+              {errors.name && (<Message severity="error" text="Name is required" style={{ marginLeft: 10 }} />)}
             </span>
 
             <span className="p-float-label">
               <InputText
-                name="email"
-                id="email-float-label"
                 type="text"
+                name="email"
+                className={classnames({ 'p-error': errors.email })}
+                id="email-float-label"
                 size="50"
                 value={ this.state.email }
                 onChange={ this.handleInputChange }
               />
               <label htmlFor="email-float-label">Email</label>
+              {errors.email && (<Message severity="error" text="Email is required" style={{ marginLeft: 10 }} />)}
             </span>
 
             <span className="p-float-label">
               <InputText
-                name="password"
-                id="password-float-label"
                 type="password"
+                name="password"
+                className={classnames({ 'p-error': errors.password })}
+                id="password-float-label"
                 size="50"
                 value={ this.state.password }
                 onChange={ this.handleInputChange }
               />
               <label htmlFor="password-float-label">Password</label>
+              {errors.password && (<Message severity="error" text="Password is required" style={{ marginLeft: 10 }} />)}
             </span>
 
             <span className="p-float-label">
               <InputText
-                name="password_confirm"
-                id="password_confirm-float-label"
                 type="password"
+                name="password_confirm"
+                className={classnames({ 'p-error': errors.password_confirm })}
+                id="password_confirm-float-label"
                 size="50"
                 value={ this.state.password_confirm }
                 onChange={ this.handleInputChange }
               />
               <label htmlFor="password_confirm-float-label">Confirm Password</label>
+              {errors.password_confirm && (<Message severity="error" text="Confirm password is required" style={{ marginLeft: 10 }} />)}
             </span>
 
             <div {...submitBtnStyle}>
