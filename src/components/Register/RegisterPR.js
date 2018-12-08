@@ -70,19 +70,15 @@ class Register extends Component {
 
     // css styles using glamor
     const formContainerStyle = css({
-      width: '700px',
+      width: '500px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      '> span': {
-        margin: '10px',
-        width: '100%'
-      }
     });
 
     const formTagStyle = css({
       margin: '0 auto',
-      width: '700px'
+      width: '500px'
     });
 
     const submitBtnStyle = css({
@@ -90,70 +86,82 @@ class Register extends Component {
       width: '100%',
       flexDirection: 'row',
       '> button': {
-        margin: '10px 69px 20px auto'
+        margin: '15px 75px 20px auto'
       }
     });
 
+    const invalidFormMsg = css({
+      textAlign: 'right',
+    });
+
+    const formGroup = css({
+      marginBottom: '0'
+    });
+
     return (
-      <div className="container" style={{ width: 700 }}>
+      <div className="container" style={{ width: 500 }}>
         <h2 style={{ marginBottom: 40 }}>Registration</h2>
         <form onSubmit={ this.handleSubmit } {...formTagStyle}>
           <div {...formContainerStyle}>
-            <span className="p-float-label">
+            <div className="form-group" {...formGroup}>
+              <label htmlFor="name-label">Name</label><br/>
               <InputText
                 type="text"
                 name="name"
-                className={classnames({ 'p-error': errors.name })}
-                id="name-float-label"
-                size="50"
+                className={classnames('form-control', { 'p-error is-invalid': errors.name })}
+                id="name-label"
+                size="40"
                 value={ this.state.name }
                 onChange={ this.handleInputChange }
               />
-              <label htmlFor="username-float-label">Name</label>
-              {errors.name && (<Message severity="error" text="Name is required" style={{ marginLeft: 10 }} />)}
-            </span>
 
-            <span className="p-float-label">
+              {errors.name && (<div className="invalid-feedback" {...invalidFormMsg}>{errors.name}</div>)}
+            </div>
+
+            <div className="form-group" {...formGroup}>
+              <label htmlFor="email-label">Email</label><br/>
               <InputText
                 type="text"
                 name="email"
-                className={classnames({ 'p-error': errors.email })}
-                id="email-float-label"
-                size="50"
+                className={classnames('form-control', { 'p-error is-invalid': errors.email })}
+                id="email-label"
+                size="40"
                 value={ this.state.email }
                 onChange={ this.handleInputChange }
               />
-              <label htmlFor="email-float-label">Email</label>
-              {errors.email && (<Message severity="error" text="Email is required" style={{ marginLeft: 10 }} />)}
-            </span>
 
-            <span className="p-float-label">
+              {errors.email && (<div className="invalid-feedback" {...invalidFormMsg}>{errors.email}</div>)}
+            </div>
+
+            <div className="form-group" {...formGroup}>
+              <label htmlFor="password-label">Password</label><br/>
               <InputText
                 type="password"
                 name="password"
-                className={classnames({ 'p-error': errors.password })}
-                id="password-float-label"
-                size="50"
+                className={classnames('form-control', { 'p-error is-invalid': errors.password })}
+                id="password-label"
+                size="40"
                 value={ this.state.password }
                 onChange={ this.handleInputChange }
               />
-              <label htmlFor="password-float-label">Password</label>
-              {errors.password && (<Message severity="error" text="Password is required" style={{ marginLeft: 10 }} />)}
-            </span>
 
-            <span className="p-float-label">
+              {errors.password && (<div className="invalid-feedback" {...invalidFormMsg}>{errors.password}</div>)}
+            </div>
+
+            <div className="form-group" {...formGroup}>
+              <label htmlFor="password_confirm-label">Confirm Password</label><br/>
               <InputText
                 type="password"
                 name="password_confirm"
-                className={classnames({ 'p-error': errors.password_confirm })}
-                id="password_confirm-float-label"
-                size="50"
+                className={classnames('form-control', { 'p-error is-invalid': errors.password_confirm })}
+                id="password_confirm-label"
+                size="40"
                 value={ this.state.password_confirm }
                 onChange={ this.handleInputChange }
               />
-              <label htmlFor="password_confirm-float-label">Confirm Password</label>
-              {errors.password_confirm && (<Message severity="error" text="Confirm password is required" style={{ marginLeft: 10 }} />)}
-            </span>
+
+              {errors.password_confirm && (<div className="invalid-feedback" {...invalidFormMsg}>{errors.password_confirm}</div>)}
+            </div>
 
             <div {...submitBtnStyle}>
               <Button type="submit" label="Register User" />
