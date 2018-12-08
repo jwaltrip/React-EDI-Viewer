@@ -1,10 +1,13 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { registerUser } from "../../actions/authActions";
 import classnames from 'classnames';
-import { css } from 'glamor';
+import css from '@emotion/css/macro';
+// import { css } from 'glamor';
 // primereact
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -68,42 +71,23 @@ class Register extends Component {
   render() {
     const { errors } = this.state;
 
-    // css styles using glamor
-    const formContainerStyle = css({
-      width: '500px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    });
-
-    const formTagStyle = css({
-      margin: '0 auto',
-      width: '500px'
-    });
-
-    const submitBtnStyle = css({
-      display: 'flex',
-      width: '100%',
-      flexDirection: 'row',
-      '> button': {
-        margin: '15px 75px 20px auto'
-      }
-    });
-
-    const invalidFormMsg = css({
-      textAlign: 'right',
-    });
-
-    const formGroup = css({
-      marginBottom: '0'
-    });
-
     return (
       <div className="container" style={{ width: 500 }}>
         <h2 style={{ marginBottom: 40 }}>Registration</h2>
-        <form onSubmit={ this.handleSubmit } {...formTagStyle}>
-          <div {...formContainerStyle}>
-            <div className="form-group" {...formGroup}>
+        <form onSubmit={ this.handleSubmit } css={css`margin: 0 auto;`}>
+          <div
+            css={css`
+              width: 500px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            `}>
+            <div
+              className="form-group"
+              css={css`
+                margin-bottom: ${errors.name ? '0' : '0.5rem'};
+              `}
+            >
               <label htmlFor="name-label">Name</label><br/>
               <InputText
                 type="text"
@@ -115,10 +99,15 @@ class Register extends Component {
                 onChange={ this.handleInputChange }
               />
 
-              {errors.name && (<div className="invalid-feedback" {...invalidFormMsg}>{errors.name}</div>)}
+              {errors.name && (<div className="invalid-feedback" css={css`text-align: right;`}>{errors.name}</div>)}
             </div>
 
-            <div className="form-group" {...formGroup}>
+            <div
+              className="form-group"
+              css={css`
+                margin-bottom: ${errors.email ? '0' : '0.5rem'};
+              `}
+            >
               <label htmlFor="email-label">Email</label><br/>
               <InputText
                 type="text"
@@ -130,10 +119,15 @@ class Register extends Component {
                 onChange={ this.handleInputChange }
               />
 
-              {errors.email && (<div className="invalid-feedback" {...invalidFormMsg}>{errors.email}</div>)}
+              {errors.email && (<div className="invalid-feedback" css={css`text-align: right;`}>{errors.email}</div>)}
             </div>
 
-            <div className="form-group" {...formGroup}>
+            <div
+              className="form-group"
+              css={css`
+                margin-bottom: ${errors.password ? '0' : '0.5rem'};
+              `}
+            >
               <label htmlFor="password-label">Password</label><br/>
               <InputText
                 type="password"
@@ -145,10 +139,15 @@ class Register extends Component {
                 onChange={ this.handleInputChange }
               />
 
-              {errors.password && (<div className="invalid-feedback" {...invalidFormMsg}>{errors.password}</div>)}
+              {errors.password && (<div className="invalid-feedback" css={css`text-align: right;`}>{errors.password}</div>)}
             </div>
 
-            <div className="form-group" {...formGroup}>
+            <div
+              className="form-group"
+              css={css`
+                margin-bottom: ${errors.password_confirm ? '0' : '0.5rem'};
+              `}
+            >
               <label htmlFor="password_confirm-label">Confirm Password</label><br/>
               <InputText
                 type="password"
@@ -160,10 +159,19 @@ class Register extends Component {
                 onChange={ this.handleInputChange }
               />
 
-              {errors.password_confirm && (<div className="invalid-feedback" {...invalidFormMsg}>{errors.password_confirm}</div>)}
+              {errors.password_confirm && (<div className="invalid-feedback" css={css`text-align: right;`}>{errors.password_confirm}</div>)}
             </div>
 
-            <div {...submitBtnStyle}>
+            <div
+              css={css`
+                display: flex;
+                width: 100%;
+                flex-direction: row;
+
+                > button {
+                  margin: 15px 75px 20px auto;
+                }
+              `}>
               <Button type="submit" label="Register User" />
             </div>
           </div>
