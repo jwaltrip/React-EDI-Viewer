@@ -14,9 +14,9 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import primereact css
-import 'primereact/resources/themes/rhea/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+// import 'primereact/resources/themes/rhea/theme.css';
+// import 'primereact/resources/primereact.min.css';
+// import 'primeicons/primeicons.css';
 
 // import example post components
 import PostContainer from './components/Post/PostContainer';
@@ -27,7 +27,8 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 
 // prime react refactor
-import RegisterPR from "./components/Register/RegisterPR";
+// import RegisterPR from "./components/Register/RegisterPR";
+import ListOrders from "./components/ListOrders/ListOrders";
 
 // when app starts, check localStorage if jwtToken is set, if so, setCurrentUser
 // then check jwtToken expiration date, if expired, then logout user, redirect to /login
@@ -58,6 +59,7 @@ class App extends Component {
                 <Route exact path="/register" component={ Register } />
                 <Route exact path="/login" component={ Login } />
                 <Route exact path="/posts" component={ PostContainer } />
+                <Route exact path="/orders" component={ ListOrders } />
               </Switch>
             </div>
           </div>

@@ -14,4 +14,22 @@ router.get('/', (req, res, next) => {
     })
 });
 
+router.get('/:page', (req, res, next) => {
+  // config pagination
+  const perPage = 20;
+  const currPage = req.params.page || 1;
+
+  EdiDoc.find({})
+    .sort({"Luma Order Number": -1})
+    .skip((perPage * currPage) - perPage)
+    .limit(perPage)
+    .exec()
+    .then(orders => {
+      return res.json({ orders: orders, currentPage: currPage, success: true });
+    })
+    .catch(err => {
+      return res.json({ error: err, success: false });
+    })
+});
+
 module.exports = router;

@@ -35,6 +35,7 @@ const port = process.env.PORT || 5000;
 // setup routes
 app.use('/api/users', userRoutes);
 app.use('/posts', postRoutes);
+// app.use('/edi', passport.authenticate('jwt', { session: false }), ediRoutes);
 app.use('/edi', ediRoutes);
 
 const server = app.listen(port, () => {
