@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class ListOrders extends Component {
   state = {
@@ -9,13 +10,21 @@ class ListOrders extends Component {
     isLoading: true
   };
 
-  componentDidMount() {
-    axios('/edi/1')
-      .then(orders => this.setState({ orders: orders.data.orders, currentPage: orders.data.currentPage, isLoading: false }));
+  async componentDidMount() {
+    // const { id } = this.props.match.params;
+    // await axios(`/edi/${id}`)
+    //   .then(orders => this.setState({ orders: orders.data.orders, currentPage: Number(orders.data.currentPage), isLoading: false }));
+
+    await this.fetchData();
   }
 
+  fetchData = async (pgNum = this.props.match.params.id) => {
+    await axios(`/edi/${pgNum}`)
+      .then(orders => this.setState({ orders: orders.data.orders, currentPage: Number(orders.data.currentPage), isLoading: false }));
+  };
+
   listOrders = () => {
-    if (!this.state.isLoading) {
+    // if (!this.state.isLoading) {
       return this.state.orders.map((order, idx) => {
         return (
           <tr key={idx}>
@@ -27,43 +36,43 @@ class ListOrders extends Component {
           </tr>
         );
       });
-    }
+    // }
   };
 
   render() {
     // calculate pagination
     let firstLink;
     if (this.state.currentPage === 1) {
-      firstLink = <li className="page-item disabled">First</li>;
+      firstLink = <li className="page-item disabled"><Link to="/orders/1" className="page-link">First</Link></li>;
     } else {
-      firstLink = <li className="page-item"><a href="/edi/1" className="page-link">First</a></li>
+      firstLink = <li className="page-item"><Link to="/orders/1" className="page-link" onClick={() => this.fetchData(1)}>First</Link></li>;
     }
 
     let i = (this.state.currentPage > 5) ? this.state.currentPage - 1 : 1;
 
     let firstEllipses;
     if (i !== 1) {
-      firstEllipses = <li className="page-item disabled"><a href="#" className="page-link">...</a></li>;
+      firstEllipses = <li className="page-item disabled"><Link to="#" className="page-link">...</Link></li>;
     }
 
     let middleLinks = [];
     for (; i <= (this.state.currentPage + 4) && i <= this.state.totalPages; i++) {
       if (i === this.state.currentPage) {
-        middleLinks.push(<li className="page-item active"><a href="#" className="page-link">{i}</a></li>);
+        middleLinks.push(<li key={i} className="page-item active"><Link to={`/orders/${i}`} className="page-link" onClick={() => this.fetchData(i)}>{i}</Link></li>);
       } else {
-        middleLinks.push(<li className="page-item"><a href={`/edi/${i}`} className="page-link">{i}</a></li>);
+        middleLinks.push(<li key={i} className="page-item"><Link to={`/orders/${i}`} className="page-link" onClick={() => this.fetchData(i)}>{i}</Link></li>);
       }
 
       if ((i === this.state.currentPage + 4) && (i < this.state.totalPages)) {
-        middleLinks.push(<li className="page-item disabled"><a href="#" className="page-link">...</a></li>);
+        middleLinks.push(<li key={i} className="page-item disabled"><Link to="#" className="page-link">...</Link></li>);
       }
     }
 
     let lastLink;
     if (this.state.currentPage === this.state.totalPages) {
-      lastLink = <li className="page-item disabled"><a href="#" className="page-link">Last</a></li>;
+      lastLink = <li className="page-item disabled"><Link to={`/orders/${this.state.totalPages}`} className="page-link" onClick={() => this.fetchData(this.state.totalPages)}>Last</Link></li>;
     } else {
-      lastLink = <li className="page-item"><a href={`/edi/${this.state.totalPages}`} className="page-link">Last</a></li>;
+      lastLink = <li className="page-item"><Link to={`/orders/${this.state.totalPages}`} className="page-link" onClick={() => this.fetchData(this.state.totalPages)}>Last</Link></li>;
     }
 
     const pagination = (

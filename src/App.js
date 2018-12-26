@@ -59,7 +59,7 @@ class App extends Component {
                 <Route exact path="/register" component={ Register } />
                 <Route exact path="/login" component={ Login } />
                 <Route exact path="/posts" component={ PostContainer } />
-                <Route exact path="/orders" component={ ListOrders } />
+                {/*<Route exact path="/orders" component={ ListOrders } />*/}
                 <Route path="/orders/:id" component={ ListOrders } />
               </Switch>
             </div>
