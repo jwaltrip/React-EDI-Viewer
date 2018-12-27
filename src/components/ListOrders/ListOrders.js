@@ -10,17 +10,22 @@ class ListOrders extends Component {
     isLoading: true
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     // const { id } = this.props.match.params;
     // await axios(`/edi/${id}`)
     //   .then(orders => this.setState({ orders: orders.data.orders, currentPage: Number(orders.data.currentPage), isLoading: false }));
 
-    await this.fetchData();
+    // this.fetchData(1);
+    this.fetchData(1);
   }
 
-  fetchData = async (pgNum = this.props.match.params.id) => {
+  fetchData = async (pgNum) => {
+    console.log('url page id', pgNum, typeof pgNum);
     await axios(`/edi/${pgNum}`)
-      .then(orders => this.setState({ orders: orders.data.orders, currentPage: Number(orders.data.currentPage), isLoading: false }));
+      .then(orders => {
+        console.log('current page react', Number(orders.data.currentPage));
+        this.setState({orders: orders.data.orders, currentPage: Number(orders.data.currentPage), isLoading: false})
+      });
   };
 
   listOrders = () => {
@@ -60,20 +65,23 @@ class ListOrders extends Component {
       if (i === this.state.currentPage) {
         middleLinks.push(<li key={i} className="page-item active"><Link to={`/orders/${i}`} className="page-link" onClick={() => this.fetchData(i)}>{i}</Link></li>);
       } else {
-        middleLinks.push(<li key={i} className="page-item"><Link to={`/orders/${i}`} className="page-link" onClick={() => this.fetchData(i)}>{i}</Link></li>);
+        middleLinks.push(<li key={i} className="page-item"><Link to={`/orders/${i}`} className="page-link">{i}</Link></li>);
       }
 
       if ((i === this.state.currentPage + 4) && (i < this.state.totalPages)) {
         middleLinks.push(<li key={i} className="page-item disabled"><Link to="#" className="page-link">...</Link></li>);
       }
+
+      // i = (this.state.currentPage > 5) ? this.state.currentPage - 1 : 1;
     }
 
     let lastLink;
     if (this.state.currentPage === this.state.totalPages) {
-      lastLink = <li className="page-item disabled"><Link to={`/orders/${this.state.totalPages}`} className="page-link" onClick={() => this.fetchData(this.state.totalPages)}>Last</Link></li>;
+      lastLink = <li key={i} className="page-item disabled"><Link to={`/orders/${this.state.totalPages}`} className="page-link" onClick={() => this.fetchData(this.state.totalPages)}>Last</Link></li>;
     } else {
-      lastLink = <li className="page-item"><Link to={`/orders/${this.state.totalPages}`} className="page-link" onClick={() => this.fetchData(this.state.totalPages)}>Last</Link></li>;
+      lastLink = <li key={i} className="page-item"><Link to={`/orders/${this.state.totalPages}`} className="page-link" onClick={() => this.fetchData(this.state.totalPages)}>Last</Link></li>;
     }
+
 
     const pagination = (
       <div className="d-flex justify-content-center pt-1">

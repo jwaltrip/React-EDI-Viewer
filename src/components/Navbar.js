@@ -17,15 +17,15 @@ class Navbar extends Component {
 
     // this is utilizing fragments
     const authLinks = ([
-      <ul className="navbar-nav mr-auto">
+      <ul key={1} className="navbar-nav mr-auto">
         <li className="nav-item">
           <Link className="nav-link" to="/posts">Posts</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/orders">Orders</Link>
+          <Link className="nav-link" to="/orders/1">Orders</Link>
         </li>
       </ul>,
-      <ul className="navbar-nav ml-auto">
+      <ul key={2} className="navbar-nav ml-auto">
         <a className="nav-link" href="#" onClick={ this.onLogout }>
           <img
             src={user.avatar}

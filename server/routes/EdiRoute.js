@@ -18,18 +18,41 @@ router.get('/:page', (req, res, next) => {
   // config pagination
   const perPage = 20;
   const currPage = req.params.page || 1;
+  console.log('curr page backend', currPage);
 
-  EdiDoc.find({})
-    .sort({"Luma Order Number": -1})
-    .skip((perPage * currPage) - perPage)
-    .limit(perPage)
-    .exec()
-    .then(orders => {
-      return res.json({ orders: orders, currentPage: currPage, success: true });
+  const queryOpts = {
+    sort: { "Luma Order Number": -1 },
+    lean: true,
+    page: currPage,
+    limit: perPage
+  };
+
+  EdiDoc.paginate({}, queryOpts)
+    .then(result => {
+      return res.send({ success: true, result });
     })
     .catch(err => {
-      return res.json({ error: err, success: false });
-    })
+      return res.json({ success: false, error: err });
+    });
 });
+
+// router.get('/:page', (req, res, next) => {
+//   // config pagination
+//   const perPage = 20;
+//   const currPage = req.params.page || 1;
+//   console.log('curr page backend', currPage);
+//
+//   EdiDoc.find({})
+//     .sort({"Luma Order Number": -1})
+//     .skip((perPage * currPage) - perPage)
+//     .limit(perPage)
+//     .exec()
+//     .then(orders => {
+//       return res.json({ orders: orders, currentPage: currPage, success: true });
+//     })
+//     .catch(err => {
+//       return res.json({ error: err, success: false });
+//     })
+// });
 
 module.exports = router;
