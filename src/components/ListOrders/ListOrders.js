@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 
 class ListOrders extends Component {
   state = {
     orders: [],
     currentPage: 1,
-    totalPages: 10,
+    totalPages: 0,
+    totalResults: 0,
     isLoading: true
   };
 
@@ -16,16 +18,26 @@ class ListOrders extends Component {
     //   .then(orders => this.setState({ orders: orders.data.orders, currentPage: Number(orders.data.currentPage), isLoading: false }));
 
     // this.fetchData(1);
-    this.fetchData(1);
+    this.fetchData();
   }
 
-  fetchData = async (pgNum) => {
-    console.log('url page id', pgNum, typeof pgNum);
-    await axios(`/edi/${pgNum}`)
+  fetchData = () => {
+    const currPage = this.state.currentPage;
+    console.log('url page id', currPage, typeof currPage);
+    axios(`/edi/${currPage}`)
       .then(orders => {
-        console.log('current page react', Number(orders.data.currentPage));
-        this.setState({orders: orders.data.orders, currentPage: Number(orders.data.currentPage), isLoading: false})
+        console.log('current page react', currPage);
+        this.setState({orders: orders.data.result.docs, currentPage: Number(orders.data.result.page), totalPages: orders.data.result.pages, totalResults: orders.data.result.total, isLoading: false});
       });
+  };
+
+  handlePageClick = (data) => {
+    // const { id } = this.props.match.params;
+    console.log('data', data);
+
+    this.setState({currentPage: data.selected + 1}, () => {
+      this.fetchData();
+    });
   };
 
   listOrders = () => {
@@ -45,57 +57,6 @@ class ListOrders extends Component {
   };
 
   render() {
-    // calculate pagination
-    let firstLink;
-    if (this.state.currentPage === 1) {
-      firstLink = <li className="page-item disabled"><Link to="/orders/1" className="page-link">First</Link></li>;
-    } else {
-      firstLink = <li className="page-item"><Link to="/orders/1" className="page-link" onClick={() => this.fetchData(1)}>First</Link></li>;
-    }
-
-    let i = (this.state.currentPage > 5) ? this.state.currentPage - 1 : 1;
-
-    let firstEllipses;
-    if (i !== 1) {
-      firstEllipses = <li className="page-item disabled"><Link to="#" className="page-link">...</Link></li>;
-    }
-
-    let middleLinks = [];
-    for (; i <= (this.state.currentPage + 4) && i <= this.state.totalPages; i++) {
-      if (i === this.state.currentPage) {
-        middleLinks.push(<li key={i} className="page-item active"><Link to={`/orders/${i}`} className="page-link" onClick={() => this.fetchData(i)}>{i}</Link></li>);
-      } else {
-        middleLinks.push(<li key={i} className="page-item"><Link to={`/orders/${i}`} className="page-link">{i}</Link></li>);
-      }
-
-      if ((i === this.state.currentPage + 4) && (i < this.state.totalPages)) {
-        middleLinks.push(<li key={i} className="page-item disabled"><Link to="#" className="page-link">...</Link></li>);
-      }
-
-      // i = (this.state.currentPage > 5) ? this.state.currentPage - 1 : 1;
-    }
-
-    let lastLink;
-    if (this.state.currentPage === this.state.totalPages) {
-      lastLink = <li key={i} className="page-item disabled"><Link to={`/orders/${this.state.totalPages}`} className="page-link" onClick={() => this.fetchData(this.state.totalPages)}>Last</Link></li>;
-    } else {
-      lastLink = <li key={i} className="page-item"><Link to={`/orders/${this.state.totalPages}`} className="page-link" onClick={() => this.fetchData(this.state.totalPages)}>Last</Link></li>;
-    }
-
-
-    const pagination = (
-      <div className="d-flex justify-content-center pt-1">
-        <nav>
-          <ul className="pagination text-center">
-            {firstLink}
-            {firstEllipses}
-            {middleLinks}
-            {lastLink}
-          </ul>
-        </nav>
-      </div>
-    );
-
     return (
       <div className="container">
         <h2>Orders</h2>
@@ -115,7 +76,17 @@ class ListOrders extends Component {
           </tbody>
         </table>
         <hr/>
-        {pagination}
+        <ReactPaginate previousLabel={"previous"}
+                       nextLabel={"next"}
+                       breakLabel={"..."}
+                       breakClassName={"break-me"}
+                       pageCount={this.state.totalPages}
+                       marginPagesDisplayed={2}
+                       pageRangeDisplayed={5}
+                       onPageChange={this.handlePageClick}
+                       containerClassName={"pagination"}
+                       subContainerClassName={"pages pagination"}
+                       activeClassName={"active"} />
       </div>
     );
   }
