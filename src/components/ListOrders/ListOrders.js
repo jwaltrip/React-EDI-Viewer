@@ -76,17 +76,27 @@ class ListOrders extends Component {
           </tbody>
         </table>
         <hr/>
-        <ReactPaginate previousLabel={"previous"}
-                       nextLabel={"next"}
-                       breakLabel={"..."}
-                       breakClassName={"break-me"}
-                       pageCount={this.state.totalPages}
-                       marginPagesDisplayed={2}
-                       pageRangeDisplayed={5}
-                       onPageChange={this.handlePageClick}
-                       containerClassName={"pagination"}
-                       subContainerClassName={"pages pagination"}
-                       activeClassName={"active"} />
+        <nav>
+          <ReactPaginate previousLabel={"previous"}
+                         nextLabel={"next"}
+                         breakLabel={"..."}
+                         breakClassName={"page-item page-link disabled"}
+                         pageCount={this.state.totalPages}
+                         marginPagesDisplayed={2}
+                         pageRangeDisplayed={5}
+                         onPageChange={this.handlePageClick}
+                         containerClassName={"pagination text-center"}
+                         subContainerClassName={"pages pagination"}
+                         activeClassName={"active"}
+                         disabledClassName={"disabled"}
+                         pageClassName={"page-item"}
+                         previousClassName={"page-item"}
+                         nextClassName={"page-item"}
+                         pageLinkClassName={"page-link"}
+                         previousLinkClassName={"page-link"}
+                         nextLinkClassName={"page-link"}
+          />
+        </nav>
       </div>
     );
   }
