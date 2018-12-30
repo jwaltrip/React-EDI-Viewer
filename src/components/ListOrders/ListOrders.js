@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
 import ReactPaginate from 'react-paginate';
 
 import './ListOrders.css';
@@ -38,6 +39,7 @@ class ListOrders extends Component {
     console.log('data', data);
 
     this.setState({currentPage: data.selected + 1}, () => {
+      this.props.history.push(`/orders/${this.state.currentPage}`);
       this.fetchData();
     });
   };
@@ -86,7 +88,7 @@ class ListOrders extends Component {
                          marginPagesDisplayed={2}
                          pageRangeDisplayed={5}
                          onPageChange={this.handlePageClick}
-                         containerClassName={"pagination text-center"}
+                         containerClassName={"pagination text-center justify-content-center"}
                          subContainerClassName={"pages pagination"}
                          activeClassName={"active"}
                          disabledClassName={"disabled"}
@@ -103,4 +105,4 @@ class ListOrders extends Component {
   }
 }
 
-export default ListOrders;
+export default withRouter(ListOrders);
