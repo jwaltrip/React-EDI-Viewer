@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom'
 import ReactPaginate from 'react-paginate';
 
@@ -12,52 +11,64 @@ class ListOrders extends Component {
     currentPage: 1,
     totalPages: 0,
     totalResults: 0,
+    perPage: 20,
     isLoading: true
   };
 
   componentDidMount() {
-    // const { id } = this.props.match.params;
-    // await axios(`/edi/${id}`)
-    //   .then(orders => this.setState({ orders: orders.data.orders, currentPage: Number(orders.data.currentPage), isLoading: false }));
+    const { id } = this.props.match.params;
 
-    // this.fetchData(1);
-    this.fetchData();
+    if (id === this.state.currentPage) {
+      this.fetchData();
+    } else {
+      this.fetchData(Number(id));
+    }
   }
 
-  fetchData = () => {
-    const currPage = this.state.currentPage;
-    console.log('url page id', currPage, typeof currPage);
+  fetchData = (currPage = this.state.currentPage) => {
+    // const currPage = this.state.currentPage;
+
     axios(`/edi/${currPage}`)
       .then(orders => {
-        console.log('current page react', currPage);
-        this.setState({orders: orders.data.result.docs, currentPage: Number(orders.data.result.page), totalPages: orders.data.result.pages, totalResults: orders.data.result.total, isLoading: false});
+        this.setState({
+          orders: orders.data.result.docs,
+          currentPage: Number(orders.data.result.page),
+          totalPages: orders.data.result.pages,
+          totalResults: orders.data.result.total,
+          isLoading: false
+        });
       });
   };
 
   handlePageClick = (data) => {
-    // const { id } = this.props.match.params;
-    console.log('data', data);
-
     this.setState({currentPage: data.selected + 1}, () => {
+      // update router url
       this.props.history.push(`/orders/${this.state.currentPage}`);
+      // fetch next page data
       this.fetchData();
     });
   };
 
+  range = (size, startAt = 0) => {
+    return [...Array(size).keys()].map(i => i + startAt).reverse();
+  };
+
   listOrders = () => {
-    // if (!this.state.isLoading) {
-      return this.state.orders.map((order, idx) => {
-        return (
-          <tr key={idx}>
-            <th scope="row">{idx+1}</th>
-            <td>{order["Filename"]}</td>
-            <td>{order["Luma Order Number"]}</td>
-            <td>{order["Partner Po Number"]}</td>
-            <td>{order["Transaction Set Data"]["Purchase Order Date"]}</td>
-          </tr>
-        );
-      });
-    // }
+    const startIdx = this.state.totalResults - (this.state.perPage * this.state.currentPage-1);
+
+    const idxRange = this.range(20, startIdx);
+
+    return this.state.orders.map((order, idx, origArr) => {
+      return (
+        <tr key={idx}>
+          <th scope="row">{idxRange[idx]}</th>
+          <td>{order["Filename"]}</td>
+          <td>{order["Luma Order Number"]}</td>
+          <td>{order["Partner Po Number"]}</td>
+          <td>{order["Transaction Set Data"]["Purchase Order Date"]}</td>
+        </tr>
+      );
+    });
   };
 
   render() {
