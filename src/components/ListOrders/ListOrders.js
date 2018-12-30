@@ -77,7 +77,6 @@ class ListOrders extends Component {
           {this.listOrders()}
           </tbody>
         </table>
-        {/*<hr/>*/}
         <nav>
           <ReactPaginate previousLabel={"previous"}
                          nextLabel={"next"}
