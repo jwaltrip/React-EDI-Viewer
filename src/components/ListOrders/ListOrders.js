@@ -26,8 +26,6 @@ class ListOrders extends Component {
   }
 
   fetchData = (currPage = this.state.currentPage) => {
-    // const currPage = this.state.currentPage;
-
     axios(`/edi/${currPage}`)
       .then(orders => {
         this.setState({
@@ -41,7 +39,7 @@ class ListOrders extends Component {
   };
 
   handlePageClick = (data) => {
-    this.setState({currentPage: data.selected + 1}, () => {
+    this.setState({currentPage: data.selected + 1, isLoading: true}, () => {
       // update router url
       this.props.history.push(`/orders/${this.state.currentPage}`);
       // fetch next page data
@@ -50,15 +48,15 @@ class ListOrders extends Component {
   };
 
   range = (size, startAt = 0) => {
-    return [...Array(size).keys()].map(i => i + startAt).reverse();
+    return [...Array(size).keys()].map(i => i + startAt);
   };
 
   listOrders = () => {
     const startIdx = this.state.totalResults - (this.state.perPage * this.state.currentPage-1);
 
-    const idxRange = this.range(20, startIdx);
+    const idxRange = this.range(this.state.perPage, startIdx).reverse();
 
-    return this.state.orders.map((order, idx, origArr) => {
+    return this.state.orders.map((order, idx) => {
       return (
         <tr key={idx}>
           <th scope="row">{idxRange[idx]}</th>
@@ -66,6 +64,30 @@ class ListOrders extends Component {
           <td>{order["Luma Order Number"]}</td>
           <td>{order["Partner Po Number"]}</td>
           <td>{order["Transaction Set Data"]["Purchase Order Date"]}</td>
+        </tr>
+      );
+    });
+  };
+
+  listOrdersSkeleton = () => {
+    const idxRange = this.range(this.state.perPage);
+
+    return idxRange.map((order, idx) => {
+      return (
+        <tr key={idx}>
+          <th scope="row">#</th>
+          <td className="order-skeleton">
+            &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;
+          </td>
+          <td className="order-skeleton">
+            &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;
+          </td>
+          <td className="order-skeleton">
+            &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;
+          </td>
+          <td className="order-skeleton">
+            &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;
+          </td>
         </tr>
       );
     });
@@ -87,7 +109,10 @@ class ListOrders extends Component {
           </tr>
           </thead>
           <tbody>
-          {this.listOrders()}
+          { this.state.isLoading ?
+            this.listOrdersSkeleton() :
+            this.listOrders()
+          }
           </tbody>
         </table>
         <nav>

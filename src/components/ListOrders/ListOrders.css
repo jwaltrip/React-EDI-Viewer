@@ -10,3 +10,10 @@
   line-height: 1.25;
   border: 1px solid #dee2e6;
 }
+
+.order-skeleton {
+  /*background-image: linear-gradient(gray 80%, transparent 0);*/
+  color: #e7e7e7;
+  pointer-events: none;
+  cursor: auto;
+}
