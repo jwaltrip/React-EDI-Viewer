@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
+import './ListOrders.css';
+
 class ListOrders extends Component {
   state = {
     orders: [],
@@ -75,12 +77,12 @@ class ListOrders extends Component {
           {this.listOrders()}
           </tbody>
         </table>
-        <hr/>
+        {/*<hr/>*/}
         <nav>
           <ReactPaginate previousLabel={"previous"}
                          nextLabel={"next"}
                          breakLabel={"..."}
-                         breakClassName={"page-item page-link disabled"}
+                         breakClassName={"page-item break-disabled"}
                          pageCount={this.state.totalPages}
                          marginPagesDisplayed={2}
                          pageRangeDisplayed={5}
