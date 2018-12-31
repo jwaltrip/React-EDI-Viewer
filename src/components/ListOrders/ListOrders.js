@@ -135,6 +135,7 @@ class ListOrders extends Component {
                          pageLinkClassName={"page-link"}
                          previousLinkClassName={"page-link"}
                          nextLinkClassName={"page-link"}
+                         initialPage={this.props.match.params.id-1}
           />
         </nav>
       </div>
