@@ -161,9 +161,10 @@ class ListOrders extends Component {
             {
               this.state.selectedOrder && (
                 <div className="container-fluid">
+                  {/* Document Information */}
                   <div className="row pb-2">
+                    {/* Doc Info - LEFT */}
                     <div className="container col-6">
-                      {/* Document Information - Header LEFT */}
                       <div className="row line-item-header">
                         <div className="col-12 bg-dark text-white pl-3">Document Information</div>
                       </div>
@@ -181,8 +182,8 @@ class ListOrders extends Component {
                       </div>
                     </div>
 
+                    {/* Doc Info - RIGHT */}
                     <div className="container col-6">
-                      {/* Document Information - Header RIGHT */}
                       <div className="row line-item-header">
                         <div className="col-12 bg-dark text-white pl-3">&nbsp;</div>
                       </div>
@@ -197,8 +198,9 @@ class ListOrders extends Component {
                     </div>
                   </div>
 
-                  {/* Reference Identification section (left) */}
+                  {/* Reference Identificaiton + Datetime Reference */}
                   <div className="row pb-2">
+                    {/* Ref ID - LEFT */}
                     <div className="container col-6">
                       <div className="row mr-1">
                         <div className="col-12 bg-dark text-white pl-3 line-item-header">Reference Identification</div>
@@ -217,7 +219,7 @@ class ListOrders extends Component {
                       </div>
                     </div>
 
-                    {/* Date/Time Reference section (right) */}
+                    {/* Date/Time Ref - RIGHT */}
                     <div className="container col-6">
                       <div className="row">
                         <div className="col-12 bg-dark text-white line-item-header">Date/Time Reference</div>
@@ -227,7 +229,22 @@ class ListOrders extends Component {
                         <div className="col-6 font-weight-bold">Customer Order Date:</div>
                         <div className="col-6 pl-3">{moment(this.state.selectedOrder["Transaction Set Data"]["DateTime References"]["Order"]).format("YYYY-MM-DD")}</div>
                       </div>
+                    </div>
+                  </div>
 
+                  <div className="row pb-2">
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Shipping Details (Routing Sequence/Transit Time)</div>
+                      </div>
+                      <div className="row">
+                        <div className="col-4 font-weight-bold">Ship ID Code Qualifier:</div>
+                        <div className="col-8">{this.state.selectedOrder["Transaction Set Data"]["Shipping Method ID Code Qualifier"][0]}</div>
+                      </div>
+                      <div className="row">
+                        <div className="col-4 font-weight-bold">Ship ID Code/Route:</div>
+                        <div className="col-8">{this.state.selectedOrder["Transaction Set Data"]["Shipping Method ID Code"] + ' ' + this.state.selectedOrder["Transaction Set Data"]["Shipping Routing Method"]}</div>
+                      </div>
                     </div>
                   </div>
 
