@@ -3,6 +3,7 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom'
 import ReactPaginate from 'react-paginate';
 import moment from 'moment';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import './ListOrders.css';
 
@@ -13,6 +14,8 @@ class ListOrders extends Component {
     totalPages: 0,
     totalResults: 0,
     perPage: 20,
+    modal: false,
+    selectedOrder: null,
     isLoading: true
   };
 
@@ -59,7 +62,7 @@ class ListOrders extends Component {
 
     return this.state.orders.map((order, idx) => {
       return (
-        <tr key={idx}>
+        <tr className="order-row" key={idx} onClick={() => this.setCurrentOrder(order)}>
           <th scope="row">{idxRange[idx]}</th>
           <td>{order["Filename"]}</td>
           <td>{order["Luma Order Number"]}</td>
@@ -91,6 +94,16 @@ class ListOrders extends Component {
           </td>
         </tr>
       );
+    });
+  };
+
+  toggleModal = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
+  setCurrentOrder = (order) => {
+    this.setState({ selectedOrder: order }, () => {
+      this.toggleModal();
     });
   };
 
@@ -138,6 +151,48 @@ class ListOrders extends Component {
                          initialPage={this.props.match.params.id-1}
           />
         </nav>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggleModal}
+          size="lg"
+        >
+          <ModalHeader toggle={this.toggleModal}>{this.state.selectedOrder && ('Luma Order #: ' + this.state.selectedOrder["Luma Order Number"])}</ModalHeader>
+          <ModalBody>
+            {
+              this.state.selectedOrder && (
+                <div className="container-fluid">
+                  <div className="row pb-2">
+                    <div className="container">
+                      <div className="row line-item-header">
+                        <div className="col-12 bg-dark text-white pl-3">Document Information</div>
+                      </div>
+                      <div className="row no-gutters">
+                        <div className="col-6"><strong>Partner Order #: </strong>{this.state.selectedOrder["Partner Po Number"]}</div>
+                        {/*<div className="col-3">{this.state.selectedOrder && this.state.selectedOrder["Partner Po Number"]}</div>*/}
+                        <div className="col-6"><strong>Transaction Purpose: </strong>{this.state.selectedOrder["Transaction Set Data"]["Transaction Set Purpose Code"][0]}</div>
+                        {/*<div className="col-3">{this.state.selectedOrder && this.state.selectedOrder["Transaction Set Data"]["Transaction Set Purpose Code"][0]}</div>*/}
+                      </div>
+                      {/*<div className="table-responsive">*/}
+                        {/*<table className="table table-sm table-borderless">*/}
+                          {/*<tbody>*/}
+                            {/*<tr>*/}
+                              {/*<td><strong>Partner Order #: </strong>{this.state.selectedOrder && this.state.selectedOrder["Partner Po Number"]}</td>*/}
+                              {/*<th scope="row">Transaction Purpose:</th>*/}
+                              {/*<td>{this.state.selectedOrder && this.state.selectedOrder["Transaction Set Data"]["Transaction Set Purpose Code"][0]}</td>*/}
+                            {/*</tr>*/}
+                          {/*</tbody>*/}
+                        {/*</table>*/}
+                      {/*</div>*/}
+                    </div>
+                  </div>
+                </div>
+              )
+            }
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.toggleModal}>Close</Button>
+          </ModalFooter>
+        </Modal>
       </div>
     );
   }
