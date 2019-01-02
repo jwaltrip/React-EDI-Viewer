@@ -189,6 +189,44 @@ class ListOrders extends Component {
 
                     </div>
                   </div>
+
+                  {/* Reference Identification section (left) */}
+                  <div className="row pb-2">
+                    <div className="container col-6">
+                      <div className="row mr-1">
+                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Reference Identification</div>
+                      </div>
+                      <div className="container pl-0">
+                        <div className="row">
+                          <div className="col-6 font-weight-bold">Vendor ID #: </div>
+                          <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Vendor ID Number"]}</div>
+                        </div>
+                        <div className="row">
+                          <div className="col-6 font-weight-bold">Customer Order #: </div>
+                          <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Order Number"]}</div>
+                        </div>
+                        <div className="row">
+                          <div className="col-6 font-weight-bold">Customer Ref #: </div>
+                          <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Customer Reference Number"]}</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Date/Time Reference section (right) */}
+                    <div className="container col-6">
+                      <div className="row ml-0">
+                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Date/Time Reference</div>
+                      </div>
+                      <div className="container pl-0">
+                        <div className="row">
+                          <div className="col-6 font-weight-bold">Order Date: </div>
+                          <div className="col-6">{moment(this.state.selectedOrder["Transaction Set Data"]["DateTime References"]["Order"]).format("YYYY-MM-DD")}</div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
                 </div>
               )
             }
