@@ -162,31 +162,38 @@ class ListOrders extends Component {
               this.state.selectedOrder && (
                 <div className="container-fluid">
                   <div className="row pb-2">
-                    <div className="container">
-                      {/* Document Information */}
+                    <div className="container col-6">
+                      {/* Document Information - Header LEFT */}
                       <div className="row line-item-header">
                         <div className="col-12 bg-dark text-white pl-3">Document Information</div>
                       </div>
-
-                      <div className="row no-gutters mb-1">
-                        <div className="col-3"><strong>Lumaprints Order #: </strong></div>
-                        <div className="col-3">{this.state.selectedOrder["Luma Order Number"]}</div>
-                        <div className="col-3"><strong>Purchase Order Type: </strong></div>
-                        <div className="col-3">{this.state.selectedOrder["Transaction Set Data"]["Purchase Order Type Code"][0]}</div>
+                      <div className="row">
+                        <div className="col-6 font-weight-bold">Lumaprints Order #:</div>
+                        <div className="col-6">{this.state.selectedOrder["Luma Order Number"]}</div>
                       </div>
-
-                      <div className="row no-gutters mb-1">
-                        <div className="col-3"><strong>Partner Order #: </strong></div>
-                        <div className="col-3">{this.state.selectedOrder["Partner Po Number"]}</div>
-                        <div className="col-3"><strong>Transaction Purpose: </strong></div>
-                        <div className="col-3">{this.state.selectedOrder["Transaction Set Data"]["Transaction Set Purpose Code"][0]}</div>
+                      <div className="row">
+                        <div className="col-6 font-weight-bold">Partner Order #:</div>
+                        <div className="col-6">{this.state.selectedOrder["Partner Po Number"]}</div>
                       </div>
-
-                      <div className="row no-gutters mb-1">
-                        <div className="col-3"><strong>Order Date: </strong></div>
-                        <div className="col-3">{moment(this.state.selectedOrder["Transaction Set Data"]["Purchase Order Date"]).format("YYYY-MM-DD")}</div>
+                      <div className="row">
+                        <div className="col-6 font-weight-bold">PO Date:</div>
+                        <div className="col-6">{moment(this.state.selectedOrder["Transaction Set Data"]["Purchase Order Date"]).format("YYYY-MM-DD")}</div>
                       </div>
+                    </div>
 
+                    <div className="container col-6">
+                      {/* Document Information - Header RIGHT */}
+                      <div className="row line-item-header">
+                        <div className="col-12 bg-dark text-white pl-3">&nbsp;</div>
+                      </div>
+                      <div className="row no-gutters">
+                        <div className="col-6 font-weight-bold">Purchase Order Type:</div>
+                        <div className="col-6 pl-3">{this.state.selectedOrder["Transaction Set Data"]["Purchase Order Type Code"][0]}</div>
+                      </div>
+                      <div className="row no-gutters">
+                        <div className="col-6 font-weight-bold">Transaction Purpose:</div>
+                        <div className="col-6 pl-3">{this.state.selectedOrder["Transaction Set Data"]["Transaction Set Purpose Code"][0]}</div>
+                      </div>
                     </div>
                   </div>
 
@@ -196,35 +203,32 @@ class ListOrders extends Component {
                       <div className="row mr-1">
                         <div className="col-12 bg-dark text-white pl-3 line-item-header">Reference Identification</div>
                       </div>
-                      <div className="container pl-0">
-                        <div className="row">
-                          <div className="col-6 font-weight-bold">Vendor ID #: </div>
-                          <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Vendor ID Number"]}</div>
-                        </div>
-                        <div className="row">
-                          <div className="col-6 font-weight-bold">Customer Order #: </div>
-                          <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Order Number"]}</div>
-                        </div>
-                        <div className="row">
-                          <div className="col-6 font-weight-bold">Customer Ref #: </div>
-                          <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Customer Reference Number"]}</div>
-                        </div>
+                      <div className="row">
+                        <div className="col-6 font-weight-bold">Vendor ID #: </div>
+                        <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Vendor ID Number"]}</div>
+                      </div>
+                      <div className="row">
+                        <div className="col-6 font-weight-bold">Customer Order #: </div>
+                        <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Order Number"]}</div>
+                      </div>
+                      <div className="row">
+                        <div className="col-6 font-weight-bold">Customer Ref #: </div>
+                        <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Customer Reference Number"]}</div>
                       </div>
                     </div>
 
                     {/* Date/Time Reference section (right) */}
                     <div className="container col-6">
-                      <div className="row ml-0">
-                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Date/Time Reference</div>
+                      <div className="row">
+                        <div className="col-12 bg-dark text-white line-item-header">Date/Time Reference</div>
                       </div>
-                      <div className="container pl-0">
-                        <div className="row">
-                          <div className="col-6 font-weight-bold">Order Date: </div>
-                          <div className="col-6">{moment(this.state.selectedOrder["Transaction Set Data"]["DateTime References"]["Order"]).format("YYYY-MM-DD")}</div>
-                        </div>
-                      </div>
-                    </div>
 
+                      <div className="row no-gutters">
+                        <div className="col-6 font-weight-bold">Customer Order Date:</div>
+                        <div className="col-6 pl-3">{moment(this.state.selectedOrder["Transaction Set Data"]["DateTime References"]["Order"]).format("YYYY-MM-DD")}</div>
+                      </div>
+
+                    </div>
                   </div>
 
                 </div>
