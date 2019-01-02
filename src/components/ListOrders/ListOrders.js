@@ -163,19 +163,30 @@ class ListOrders extends Component {
                 <div className="container-fluid">
                   <div className="row pb-2">
                     <div className="container">
+                      {/* Document Information */}
                       <div className="row line-item-header">
                         <div className="col-12 bg-dark text-white pl-3">Document Information</div>
                       </div>
-                      <div className="row">
-                        <div className="col-6">
-                          <strong>Partner Order #: </strong>
-                          <span className="pl-3">{this.state.selectedOrder["Partner Po Number"]}</span>
-                        </div>
-                        <div className="col-6">
-                          <strong>Transaction Purpose: </strong>
-                          <span className="pl-3">{this.state.selectedOrder["Transaction Set Data"]["Transaction Set Purpose Code"][0]}</span>
-                        </div>
+
+                      <div className="row no-gutters mb-1">
+                        <div className="col-3"><strong>Lumaprints Order #: </strong></div>
+                        <div className="col-3">{this.state.selectedOrder["Luma Order Number"]}</div>
+                        <div className="col-3"><strong>Purchase Order Type: </strong></div>
+                        <div className="col-3">{this.state.selectedOrder["Transaction Set Data"]["Purchase Order Type Code"][0]}</div>
                       </div>
+
+                      <div className="row no-gutters mb-1">
+                        <div className="col-3"><strong>Partner Order #: </strong></div>
+                        <div className="col-3">{this.state.selectedOrder["Partner Po Number"]}</div>
+                        <div className="col-3"><strong>Transaction Purpose: </strong></div>
+                        <div className="col-3">{this.state.selectedOrder["Transaction Set Data"]["Transaction Set Purpose Code"][0]}</div>
+                      </div>
+
+                      <div className="row no-gutters mb-1">
+                        <div className="col-3"><strong>Order Date: </strong></div>
+                        <div className="col-3">{moment(this.state.selectedOrder["Transaction Set Data"]["Purchase Order Date"]).format("YYYY-MM-DD")}</div>
+                      </div>
+
                     </div>
                   </div>
                 </div>
