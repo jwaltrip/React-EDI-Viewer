@@ -61,6 +61,7 @@ class ListOrders extends Component {
     const idxRange = this.range(this.state.perPage, startIdx).reverse();
 
     return this.state.orders.map((order, idx) => {
+      console.log(order["Line Item Data"]);
       return (
         <tr className="order-row" key={idx} onClick={() => this.setCurrentOrder(order)}>
           <th scope="row">{idxRange[idx]}</th>
@@ -224,10 +225,17 @@ class ListOrders extends Component {
                       <div className="row">
                         <div className="col-12 bg-dark text-white line-item-header">Date/Time Reference</div>
                       </div>
-
                       <div className="row no-gutters">
                         <div className="col-6 font-weight-bold">Customer Order Date:</div>
                         <div className="col-6 pl-3">{moment(this.state.selectedOrder["Transaction Set Data"]["DateTime References"]["Order"]).format("YYYY-MM-DD")}</div>
+                      </div>
+                      <div className="row no-gutters">
+                        <div className="col-6 font-weight-bold">Requested Ship:</div>
+                        <div className="col-6 pl-3">{moment(this.state.selectedOrder["Transaction Set Data"]["DateTime References"]["Requested Ship"]).format("YYYY-MM-DD")}</div>
+                      </div>
+                      <div className="row no-gutters">
+                        <div className="col-6 font-weight-bold">Delivery Requested:</div>
+                        <div className="col-6 pl-3">{moment(this.state.selectedOrder["Transaction Set Data"]["DateTime References"]["Delivery Requested"]).format("YYYY-MM-DD")}</div>
                       </div>
                     </div>
                   </div>
@@ -245,6 +253,96 @@ class ListOrders extends Component {
                         <div className="col-4 font-weight-bold">Ship ID Code/Route:</div>
                         <div className="col-8">{this.state.selectedOrder["Transaction Set Data"]["Shipping Method ID Code"] + ' ' + this.state.selectedOrder["Transaction Set Data"]["Shipping Routing Method"]}</div>
                       </div>
+                    </div>
+                  </div>
+
+                  {/* Buyer/Shipping Details */}
+                  <div className="row pb-2">
+                    {/* LEFT */}
+                    <div className="container col-6">
+                      <div className="row mr-1">
+                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Buyer Details</div>
+                      </div>
+                      <div className="row">
+                        {/* Buyer Address */}
+                        <div className="col-12 mb-1 font-weight-bold">Bill-to-Party</div>
+                        <div className="col-12">{this.state.selectedOrder["Buyer Data"]["Buyer Name"]}</div>
+                        <div className="col-12">
+                          { this.state.selectedOrder["Buyer Data"]["Buyer Address Line 2"] ?
+                            this.state.selectedOrder["Buyer Data"]["Buyer Address Line 1"] + ', ' + this.state.selectedOrder["Buyer Data"]["Buyer Address Line 2"] :
+                            this.state.selectedOrder["Buyer Data"]["Buyer Address Line 1"]
+                          }
+                        </div>
+                        <div className="col-12 mb-1">
+                          {this.state.selectedOrder["Buyer Data"]["Buyer City"] + ', ' + this.state.selectedOrder["Buyer Data"]["Buyer State"] + ' ' + this.state.selectedOrder["Buyer Data"]["Buyer Zip"] + ', ' + this.state.selectedOrder["Buyer Data"]["Buyer Country"]}
+                        </div>
+                        {/* Buyer Contact Info */}
+                        <div className="col-12 mb-1 font-weight-bold">Contact Info</div>
+                        <div className="container">
+                          <div className="row">
+                            <div className="col-2">Email:</div>
+                            <div className="col-10">{this.state.selectedOrder["Buyer Data"]["Buyer Email"]}</div>
+                          </div>
+                          <div className="row">
+                            <div className="col-2">Phone:</div>
+                            <div className="col-10">{this.state.selectedOrder["Buyer Data"]["Buyer Telephone"]}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* RIGHT */}
+                    <div className="container col-6">
+                      <div className="row">
+                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Shipping Details</div>
+                      </div>
+                      {/* Shipping Address */}
+                      <div className="row">
+                        <div className="col-12 mb-1 font-weight-bold">Ship To</div>
+                        <div className="col-12">{this.state.selectedOrder["Shipping Data"]["Shipping Name"]}</div>
+                        <div className="col-12">
+                          { this.state.selectedOrder["Shipping Data"]["Shipping Address Line 2"] ?
+                            this.state.selectedOrder["Shipping Data"]["Shipping Address Line 1"] + ', ' + this.state.selectedOrder["Shipping Data"]["Shipping Address Line 2"] :
+                            this.state.selectedOrder["Shipping Data"]["Shipping Address Line 1"]
+                          }
+                        </div>
+                        <div className="col-12 mb-1">
+                          {this.state.selectedOrder["Shipping Data"]["Shipping City"] + ', ' + this.state.selectedOrder["Shipping Data"]["Shipping State"] + ' ' + this.state.selectedOrder["Shipping Data"]["Shipping Zip"] + ', ' + this.state.selectedOrder["Shipping Data"]["Ship Country"]}
+                        </div>
+                        {/* Shipping Contact Info */}
+                        <div className="col-12 mb-1 font-weight-bold">Contact Info</div>
+                        <div className="container">
+                          <div className="row">
+                            <div className="col-2">Email:</div>
+                            <div className="col-10">{this.state.selectedOrder["Shipping Data"]["Shipping Email"]}</div>
+                          </div>
+                          <div className="row">
+                            <div className="col-2">Phone:</div>
+                            <div className="col-10">{this.state.selectedOrder["Shipping Data"]["Shipping Telephone"]}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Line item info */}
+                  <div className="row">
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Line Item Information</div>
+                      </div>
+                      <table className="table">
+                        <tbody>
+                          <tr className="title">
+                            <td className="line-item-head" width="11%">Line Item #</td>
+                            <td className="line-item-head" width="69%">Description</td>
+                            <td className="line-item-head" width="5%">Quanity</td>
+                            <td className="line-item-head" width="5%">Unit</td>
+                            <td className="line-item-head" width="5%">Price($)</td>
+                            <td className="line-item-head" width="5%">Total($)</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
 
