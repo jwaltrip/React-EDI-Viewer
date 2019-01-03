@@ -57,7 +57,6 @@ class ListOrders extends Component {
 
   listOrders = () => {
     const startIdx = this.state.totalResults - (this.state.perPage * this.state.currentPage-1);
-
     const idxRange = this.range(this.state.perPage, startIdx).reverse();
 
     return this.state.orders.map((order, idx) => {
@@ -96,6 +95,44 @@ class ListOrders extends Component {
         </tr>
       );
     });
+  };
+
+  listLineItems = (order) => {
+    let lineItems = [];
+
+    for (let i=0; i<order["Line Item Data"]["Product SKU"].length; i++) {
+      const lineItemID = order["Line Item Data"]["Line Item ID"][i];
+      const sku = order["Line Item Data"]["Product SKU"][i];
+      const itemDesc = order["Line Item Data"]["Item Description"][i];
+      const qty = order["Line Item Data"]["Quantity"][i];
+      const unitM = order["Line Item Data"]["Unit Measurement Code"][i];
+      const itemCostEa = order["Line Item Data"]["Unit Price"][i];
+      const itemCostThruQty = order["Line Item Data"]["Unit Cost Thru Quantity"][i];
+
+      const currLineItem = (
+        <tr key={i} className="border-bottom">
+          <td className="font-weight-bold text-dark">{lineItemID}</td>
+          <td>
+            <div className="row no-gutters">
+              <div className="col-3 font-weight-bold text-dark">SKU:</div>
+              <div className="col-9 px-0">{sku}</div>
+            </div>
+            <div className="row no-gutters">
+              <div className="col-3 font-weight-bold text-dark">Item Desc:</div>
+              <div className="col-9 px-0">{itemDesc}</div>
+            </div>
+          </td>
+          <td className="text-center">{qty}</td>
+          <td className="text-center">{unitM}</td>
+          <td className="text-center">{itemCostEa}</td>
+          <td className="text-center">{itemCostThruQty}</td>
+        </tr>
+      );
+
+      lineItems.push(currLineItem);
+    }
+    
+    return lineItems;
   };
 
   toggleModal = () => {
@@ -157,7 +194,9 @@ class ListOrders extends Component {
           toggle={this.toggleModal}
           size="lg"
         >
-          <ModalHeader toggle={this.toggleModal}>{this.state.selectedOrder && ('Lumaprints Purchase Order #: ' + this.state.selectedOrder["Luma Order Number"])}</ModalHeader>
+          <ModalHeader toggle={this.toggleModal}>
+            { this.state.selectedOrder && (<strong><span className="text-muted">Lumaprints Purchase Order #:</span> <span className="text-dark">{this.state.selectedOrder["Luma Order Number"]}</span></strong>) }
+          </ModalHeader>
           <ModalBody>
             {
               this.state.selectedOrder && (
@@ -240,6 +279,7 @@ class ListOrders extends Component {
                     </div>
                   </div>
 
+                  {/* Shipping Method */}
                   <div className="row pb-2">
                     <div className="container">
                       <div className="row">
@@ -331,18 +371,27 @@ class ListOrders extends Component {
                       <div className="row">
                         <div className="col-12 bg-dark text-white pl-3 line-item-header">Line Item Information</div>
                       </div>
-                      <table className="table">
+                      <table className="table table-sm">
                         <tbody>
                           <tr className="title">
-                            <td className="line-item-head" width="11%">Line Item #</td>
-                            <td className="line-item-head" width="69%">Description</td>
+                            <td className="line-item-head" width="9%">Line #</td>
+                            <td className="line-item-head" width="70%">Description</td>
                             <td className="line-item-head" width="5%">Quanity</td>
-                            <td className="line-item-head" width="5%">Unit</td>
-                            <td className="line-item-head" width="5%">Price($)</td>
-                            <td className="line-item-head" width="5%">Total($)</td>
+                            <td className="line-item-head text-center" width="7%">Unit</td>
+                            <td className="line-item-head" width="6%">Price($)</td>
+                            <td className="line-item-head" width="6%">Total($)</td>
                           </tr>
+                          {this.listLineItems(this.state.selectedOrder)}
                         </tbody>
                       </table>
+                      <div className="row pb-0">
+                        <div className="container">
+                          <div className="row">
+                            <div className="pl-3 font-weight-bold">Line Count:</div>
+                            <div className="pl-3">{this.state.selectedOrder["Transaction Set Data"]["Num Line Items"]}</div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
