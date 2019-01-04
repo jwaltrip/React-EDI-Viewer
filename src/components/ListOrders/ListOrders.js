@@ -3,7 +3,7 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom'
 import ReactPaginate from 'react-paginate';
 import moment from 'moment';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Alert } from 'reactstrap';
 
 import './ListOrders.css';
 
@@ -16,7 +16,8 @@ class ListOrders extends Component {
     perPage: 20,
     modal: false,
     selectedOrder: null,
-    isLoading: true
+    isLoading: true,
+    error: null
   };
 
   componentDidMount() {
@@ -30,15 +31,24 @@ class ListOrders extends Component {
   }
 
   fetchData = (currPage = this.state.currentPage) => {
-    axios(`/edi/${currPage}`)
+    axios(`/edi/${currPage}/?limit=${this.state.perPage}`)
       .then(orders => {
-        this.setState({
-          orders: orders.data.result.docs,
-          currentPage: Number(orders.data.result.page),
-          totalPages: orders.data.result.pages,
-          totalResults: orders.data.result.total,
-          isLoading: false
-        });
+        if (orders.data.success) {
+          this.setState({
+            orders: orders.data.result.docs,
+            currentPage: orders.data.result.page,
+            perPage: orders.data.result.limit,
+            totalPages: orders.data.result.pages,
+            totalResults: orders.data.result.total,
+            isLoading: false,
+            error: null
+          });
+        } else {
+          this.setState({
+            isLoading: true,
+            error: orders.data.error.name
+          });
+        }
       });
   };
 
@@ -60,7 +70,6 @@ class ListOrders extends Component {
     const idxRange = this.range(this.state.perPage, startIdx).reverse();
 
     return this.state.orders.map((order, idx) => {
-      console.log(order["Line Item Data"]);
       return (
         <tr className="order-row" key={idx} onClick={() => this.setCurrentOrder(order)}>
           <th scope="row">{idxRange[idx]}</th>
@@ -145,19 +154,49 @@ class ListOrders extends Component {
     });
   };
 
+  handlePerPageSelect = (e) => {
+    this.setState({ perPage: Number(e.target.value) }, () => {
+      this.fetchData();
+    });
+  };
+
   render() {
+    let errorMsg;
+    if (this.state.error) {
+      errorMsg = <Alert color="danger"><strong>Error: </strong>{this.state.error}</Alert>;
+    }
+
     return (
       <div className="container">
-        <h2>Orders</h2>
+        {errorMsg}
+        <div className="row no-gutters">
+          <div className="col-8">
+            <div className="d-flex h-100 align-items-center"><h2>Orders</h2></div>
+          </div>
+          <div className="col-4">
+            <Form>
+              <FormGroup className="form-group row no-gutters mb-0">
+                <Label md={9} className="text-right font-weight-bold pr-3" for="perPageSelect"># per page:</Label>
+                <Col md={3}>
+                  <Input type="select" name="perPageSelect" id="perPageSelect" value={this.state.perPage} onChange={this.handlePerPageSelect}>
+                    <option value={20}>20</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                  </Input>
+                </Col>
+              </FormGroup>
+            </Form>
+          </div>
+        </div>
         <br/>
         <table className="table table-sm table-hover">
-          <thead className="thead-dark">
+          <thead className="thead-dark sticky-top">
           <tr>
             <th width="5%" scope="col">#</th>
-            <th width="45%" scope="col">Filename</th>
+            <th width="49%" scope="col">Filename</th>
             <th width="18%" scope="col">Luma Order Number</th>
             <th width="18%" scope="col">Partner Order Number</th>
-            <th width="14%" scope="col">Date Placed</th>
+            <th width="10%" scope="col">Date Placed</th>
           </tr>
           </thead>
           <tbody>

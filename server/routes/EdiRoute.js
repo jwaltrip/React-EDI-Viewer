@@ -16,8 +16,8 @@ router.get('/', (req, res, next) => {
 
 router.get('/:page', (req, res, next) => {
   // config pagination
-  const perPage = 20;
-  const currPage = req.params.page || 1;
+  const perPage = Number(req.query.limit) || 20;
+  const currPage = Number(req.params.page) || 1;
   console.log('curr page backend', currPage);
 
   const queryOpts = {
@@ -29,7 +29,7 @@ router.get('/:page', (req, res, next) => {
 
   EdiDoc.paginate({}, queryOpts)
     .then(result => {
-      return res.send({ success: true, result });
+      return res.json({ success: true, result });
     })
     .catch(err => {
       return res.json({ success: false, error: err });
