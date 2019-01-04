@@ -31,6 +31,7 @@
     "react-redux": "^5.1.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
+    "react-stickynode": "^2.1.0",
     "react-transition-group": "^2.5.0",
     "reactstrap": "^7.0.2",
     "redux": "^4.0.1",

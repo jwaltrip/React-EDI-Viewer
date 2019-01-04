@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import ReactPaginate from 'react-paginate';
 import moment from 'moment';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Alert } from 'reactstrap';
+import Sticky from 'react-stickynode';
 
 import './ListOrders.css';
 
@@ -72,11 +73,11 @@ class ListOrders extends Component {
     return this.state.orders.map((order, idx) => {
       return (
         <tr className="order-row" key={idx} onClick={() => this.setCurrentOrder(order)}>
-          <th scope="row">{idxRange[idx]}</th>
-          <td>{order["Filename"]}</td>
-          <td>{order["Luma Order Number"]}</td>
-          <td>{order["Partner Po Number"]}</td>
-          <td>{moment(order["Transaction Set Data"]["Purchase Order Date"]).format("YYYY-MM-DD")}</td>
+          <th width="5%" scope="row">{idxRange[idx]}</th>
+          <td width="49%">{order["Filename"]}</td>
+          <td width="18%">{order["Luma Order Number"]}</td>
+          <td width="18%">{order["Partner Po Number"]}</td>
+          <td width="18%">{moment(order["Transaction Set Data"]["Purchase Order Date"]).format("YYYY-MM-DD")}</td>
         </tr>
       );
     });
@@ -88,17 +89,17 @@ class ListOrders extends Component {
     return idxRange.map((order, idx) => {
       return (
         <tr key={idx}>
-          <th className="order-skeleton" scope="row">&#9608;&#9608;</th>
-          <td className="order-skeleton">
+          <th width="5%" className="order-skeleton" scope="row">&#9608;&#9608;</th>
+          <td width="49%" className="order-skeleton">
             &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;
           </td>
-          <td className="order-skeleton">
+          <td width="18%" className="order-skeleton">
             &#9608;&#9608;&#9608;&#9608;&#9608;
           </td>
-          <td className="order-skeleton">
+          <td width="18%" className="order-skeleton">
             &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;
           </td>
-          <td className="order-skeleton">
+          <td width="18%" className="order-skeleton">
             &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;
           </td>
         </tr>
@@ -189,16 +190,18 @@ class ListOrders extends Component {
           </div>
         </div>
         <br/>
+        <Sticky>
+          <div className="container">
+            <div className="row header-sticky">
+              <div style={{width: '5%'}}>#</div>
+              <div style={{width: '49%'}}>Filename</div>
+              <div style={{width: '18%'}}>Luma Order Number</div>
+              <div style={{width: '18%'}}>Partner Order Number</div>
+              <div style={{width: '10%'}}>Date Placed</div>
+            </div>
+          </div>
+        </Sticky>
         <table className="table table-sm table-hover">
-          <thead className="thead-dark sticky-top">
-          <tr>
-            <th width="5%" scope="col">#</th>
-            <th width="49%" scope="col">Filename</th>
-            <th width="18%" scope="col">Luma Order Number</th>
-            <th width="18%" scope="col">Partner Order Number</th>
-            <th width="10%" scope="col">Date Placed</th>
-          </tr>
-          </thead>
           <tbody>
           { this.state.isLoading ?
             this.listOrdersSkeleton() :

@@ -33,3 +33,13 @@
   font-weight: bold;
   vertical-align: middle !important;
 }
+
+.header-sticky {
+  font-weight: bold;
+  color: #fff;
+  background-color: #212529;
+}
+
+.header-sticky > div {
+  padding: .3rem;
+}
