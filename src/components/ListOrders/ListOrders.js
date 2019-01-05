@@ -3,8 +3,22 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom'
 import ReactPaginate from 'react-paginate';
 import moment from 'moment';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText, Col, Alert } from 'reactstrap';
 import Sticky from 'react-stickynode';
+import {
+Modal,
+ModalHeader,
+ModalBody,
+ModalFooter,
+Form,
+FormGroup,
+Label,
+Input,
+FormText,
+Col,
+Alert,
+Button,
+ButtonGroup
+} from 'reactstrap';
 
 import './ListOrders.css';
 
@@ -155,8 +169,8 @@ class ListOrders extends Component {
     });
   };
 
-  handlePerPageSelect = (e) => {
-    this.setState({ perPage: Number(e.target.value) }, () => {
+  handlePerPageSelect = (perPage) => {
+    this.setState({ perPage: Number(perPage) }, () => {
       this.fetchData();
     });
   };
@@ -175,21 +189,33 @@ class ListOrders extends Component {
             <div className="d-flex h-100 align-items-center"><h2>Orders</h2></div>
           </div>
           <div className="col-4">
-            <Form>
-              <FormGroup className="form-group row no-gutters mb-0">
-                <Label md={9} className="text-right font-weight-bold pr-3" for="perPageSelect"># per page:</Label>
-                <Col md={3}>
-                  <Input type="select" name="perPageSelect" id="perPageSelect" value={this.state.perPage} onChange={this.handlePerPageSelect}>
-                    <option value={20}>20</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </Input>
-                </Col>
-              </FormGroup>
-            </Form>
+            <div className="float-right">
+              <div className="row mr-1">
+                <ButtonGroup size="sm">
+                  <Button color="secondary" onClick={() => this.handlePerPageSelect(20)} active={this.state.perPage === 20}>20</Button>
+                  <Button color="secondary" onClick={() => this.handlePerPageSelect(50)} active={this.state.perPage === 50}>50</Button>
+                  <Button color="secondary" onClick={() => this.handlePerPageSelect(100)} active={this.state.perPage === 100}>100</Button>
+                </ButtonGroup>
+              </div>
+              <div className="row mr-1"><span className="w-100 text-center"><small>items per page</small></span></div>
+            </div>
+
+
+
+            {/*<Form>*/}
+              {/*<FormGroup className="form-group row no-gutters mb-0">*/}
+                {/*<Label md={9} className="text-right font-weight-bold pr-3" for="perPageSelect"># per page:</Label>*/}
+                {/*<Col md={3}>*/}
+                  {/*<Input type="select" name="perPageSelect" id="perPageSelect" value={this.state.perPage} onChange={this.handlePerPageSelect}>*/}
+                    {/*<option value={20}>20</option>*/}
+                    {/*<option value={50}>50</option>*/}
+                    {/*<option value={100}>100</option>*/}
+                  {/*</Input>*/}
+                {/*</Col>*/}
+              {/*</FormGroup>*/}
+            {/*</Form>*/}
           </div>
         </div>
-        <br/>
         <Sticky>
           <div className="container">
             <div className="row header-sticky">
@@ -209,28 +235,47 @@ class ListOrders extends Component {
           }
           </tbody>
         </table>
-        <nav>
-          <ReactPaginate previousLabel={"previous"}
-                         nextLabel={"next"}
-                         breakLabel={"..."}
-                         breakClassName={"page-item break-disabled"}
-                         pageCount={this.state.totalPages}
-                         marginPagesDisplayed={2}
-                         pageRangeDisplayed={5}
-                         onPageChange={this.handlePageClick}
-                         containerClassName={"pagination text-center justify-content-center"}
-                         subContainerClassName={"pages pagination"}
-                         activeClassName={"active"}
-                         disabledClassName={"disabled"}
-                         pageClassName={"page-item"}
-                         previousClassName={"page-item"}
-                         nextClassName={"page-item"}
-                         pageLinkClassName={"page-link"}
-                         previousLinkClassName={"page-link"}
-                         nextLinkClassName={"page-link"}
-                         initialPage={this.props.match.params.id-1}
-          />
-        </nav>
+        <div className="d-flex justify-content-center">
+          <div className="align-self-start">
+            <div className="">
+              <div className="row mr-1">
+                <ButtonGroup size="sm">
+                  <Button color="secondary" onClick={() => this.handlePerPageSelect(20)} active={this.state.perPage === 20}>20</Button>
+                  <Button color="secondary" onClick={() => this.handlePerPageSelect(50)} active={this.state.perPage === 50}>50</Button>
+                  <Button color="secondary" onClick={() => this.handlePerPageSelect(100)} active={this.state.perPage === 100}>100</Button>
+                </ButtonGroup>
+              </div>
+              <div className="row mr-1"><span className="w-100 text-center"><small>items per page</small></span></div>
+            </div>
+          </div>
+
+          <div className="align-self-center">
+            <nav>
+              <ReactPaginate previousLabel={"previous"}
+                             nextLabel={"next"}
+                             breakLabel={"..."}
+                             breakClassName={"page-item break-disabled"}
+                             pageCount={this.state.totalPages}
+                             marginPagesDisplayed={2}
+                             pageRangeDisplayed={5}
+                             onPageChange={this.handlePageClick}
+                             containerClassName={"pagination text-center justify-content-center"}
+                             subContainerClassName={"pages pagination"}
+                             activeClassName={"active"}
+                             disabledClassName={"disabled"}
+                             pageClassName={"page-item"}
+                             previousClassName={"page-item"}
+                             nextClassName={"page-item"}
+                             pageLinkClassName={"page-link"}
+                             previousLinkClassName={"page-link"}
+                             nextLinkClassName={"page-link"}
+                             initialPage={this.props.match.params.id-1}
+              />
+            </nav>
+          </div>
+
+        </div>
+
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggleModal}
