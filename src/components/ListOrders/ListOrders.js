@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import ReactPaginate from 'react-paginate';
 import moment from 'moment';
 import Sticky from 'react-stickynode';
+import { range } from '../../utils/utils';
 import {
 Modal,
 ModalHeader,
@@ -28,10 +29,10 @@ const OrderTableHeader = () => (
   </div>
 );
 
-const OrderTableBody = ({ isLoading, listOrdersSkeleton, listOrders }) => (
+const OrderTableBody = ({ isLoading, listOrdersSkeleton, listOrders, orders, perPage, currPage, totalOrders, setCurrentOrder }) => (
   <table className="table table-sm table-hover">
     <tbody>
-    { isLoading ? listOrdersSkeleton() : listOrders() }
+    { isLoading ? listOrdersSkeleton() : listOrders(orders, perPage, currPage, totalOrders, setCurrentOrder) }
     </tbody>
   </table>
 );
@@ -392,17 +393,17 @@ class ListOrders extends Component {
     });
   };
 
-  range = (size, startAt = 0) => {
-    return [...Array(size).keys()].map(i => i + startAt);
-  };
+  // range = (size, startAt = 0) => {
+  //   return [...Array(size).keys()].map(i => i + startAt);
+  // };
 
-  listOrders = () => {
-    const startIdx = this.state.totalResults - (this.state.perPage * this.state.currentPage-1);
-    const idxRange = this.range(this.state.perPage, startIdx).reverse();
+  listOrders = (orders, perPage, currPage, totalOrders, setCurrentOrder) => {
+    const startIdx = totalOrders - (perPage * currPage-1);
+    const idxRange = range(perPage, startIdx).reverse();
 
-    return this.state.orders.map((order, idx) => {
+    return orders.map((order, idx) => {
       return (
-        <tr className="order-row" key={idx} onClick={() => this.setCurrentOrder(order)}>
+        <tr className="order-row" key={idx} onClick={() => setCurrentOrder(order)}>
           <th width="5%" scope="row">{idxRange[idx]}</th>
           <td width="49%">{order["Filename"]}</td>
           <td width="18%">{order["Luma Order Number"]}</td>
@@ -411,10 +412,11 @@ class ListOrders extends Component {
         </tr>
       );
     });
+
   };
 
   listOrdersSkeleton = () => {
-    const idxRange = this.range(this.state.perPage);
+    const idxRange = range(this.state.perPage);
 
     return idxRange.map((order, idx) => {
       return (
@@ -511,6 +513,11 @@ class ListOrders extends Component {
           isLoading={this.state.isLoading}
           listOrdersSkeleton={this.listOrdersSkeleton}
           listOrders={this.listOrders}
+          orders={this.state.orders}
+          perPage={this.state.perPage}
+          currPage={this.state.currentPage}
+          totalOrders={this.state.totalResults}
+          setCurrentOrder={this.setCurrentOrder}
         />
 
         {/* Table footer - contains pagination and ordersPerPage select */}
