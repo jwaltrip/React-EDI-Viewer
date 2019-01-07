@@ -16,6 +16,328 @@ ButtonGroup
 
 import './ListOrders.css';
 
+const OrderTableHeader = () => (
+  <div className="container">
+    <div className="row header-sticky">
+      <div style={{width: '5%'}}>#</div>
+      <div style={{width: '49%'}}>Filename</div>
+      <div style={{width: '18%'}}>Luma Order Number</div>
+      <div style={{width: '18%'}}>Partner Order Number</div>
+      <div style={{width: '10%'}}>Date Placed</div>
+    </div>
+  </div>
+);
+
+const OrderTableBody = ({ isLoading, listOrdersSkeleton, listOrders }) => (
+  <table className="table table-sm table-hover">
+    <tbody>
+    { isLoading ? listOrdersSkeleton() : listOrders() }
+    </tbody>
+  </table>
+);
+
+const OrderTableFooter = ({ perPage, totalPages, initialPage, handlePerPageSelect, handlePageClick }) => (
+  <div className="col-12">
+    <div className="row no-gutters">
+      {/* Rows per page button group */}
+      <RowsPerPageButtonGroup
+        perPage={perPage}
+        onPageSelect={handlePerPageSelect}
+      />
+      {/* pagination centered next to button group */}
+      <Pagination
+        totalPages={totalPages}
+        initialPage={initialPage}
+        handlePageClick={handlePageClick}
+      />
+    </div>
+  </div>
+);
+
+const RowsPerPageButtonGroup = ({ perPage, onPageSelect }) => (
+  <div className="col-1">
+    <div className="row mr-1">
+      <ButtonGroup size="sm">
+        <Button color="secondary" onClick={() => onPageSelect(20)} active={perPage === 20}>20</Button>
+        <Button color="secondary" onClick={() => onPageSelect(50)} active={perPage === 50}>50</Button>
+        <Button color="secondary" onClick={() => onPageSelect(100)} active={perPage === 100}>100</Button>
+      </ButtonGroup>
+    </div>
+    <div className="row mr-1"><span className="w-100 text-center"><small>rows per page</small></span></div>
+  </div>
+);
+
+const Pagination = ({ totalPages, initialPage, handlePageClick }) => (
+  <div className="col-10">
+    <nav>
+      <ReactPaginate previousLabel={"previous"}
+                     nextLabel={"next"}
+                     breakLabel={"..."}
+                     breakClassName={"page-item break-disabled"}
+                     pageCount={totalPages}
+                     marginPagesDisplayed={2}
+                     pageRangeDisplayed={5}
+                     onPageChange={handlePageClick}
+                     containerClassName={"pagination text-center justify-content-center"}
+                     subContainerClassName={"pages pagination"}
+                     activeClassName={"active"}
+                     disabledClassName={"disabled"}
+                     pageClassName={"page-item"}
+                     previousClassName={"page-item"}
+                     nextClassName={"page-item"}
+                     pageLinkClassName={"page-link"}
+                     previousLinkClassName={"page-link"}
+                     nextLinkClassName={"page-link"}
+                     initialPage={initialPage}
+      />
+    </nav>
+  </div>
+);
+
+const OrderModal = ({ isOpen, toggleModal, listLineItems, selectedOrder }) => (
+  <Modal isOpen={isOpen} toggle={toggleModal} size="lg">
+    <OrderModalHeader selectedOrder={selectedOrder} toggleModal={toggleModal} />
+    <OrderModalBody selectedOrder={selectedOrder} listLineItems={listLineItems} />
+    <OrderModalFooter toggleModal={toggleModal} />
+  </Modal>
+);
+
+const OrderModalHeader = ({ selectedOrder, toggleModal }) => (
+  <ModalHeader toggle={toggleModal}>
+    { selectedOrder && (<strong><span className="text-muted">Lumaprints Purchase Order #:</span> <span className="text-dark">{selectedOrder["Luma Order Number"]}</span></strong>) }
+  </ModalHeader>
+);
+
+const OrderModalBody = ({ selectedOrder, listLineItems }) => (
+  <ModalBody>
+    {
+      selectedOrder && (
+        <div className="container-fluid">
+          {/* Document Information */}
+          <OrderModalDocInfoRow selectedOrder={selectedOrder} />
+          {/* Reference Identificaiton + Datetime Reference */}
+          <OrderModalRefIdRow selectedOrder={selectedOrder} />
+          {/* Shipping Method */}
+          <OrderModalShipMethodRow selectedOrder={selectedOrder} />
+          {/* Buyer/Shipping Details */}
+          <OrderModalBuyerShipRow selectedOrder={selectedOrder} />
+          {/* Line item info */}
+          <OrderModalLineItemInfo selectedOrder={selectedOrder} listLineItems={listLineItems} />
+        </div>
+      )
+    }
+  </ModalBody>
+);
+
+const OrderModalFooter = ({ toggleModal }) => (
+  <ModalFooter>
+    <Button color="primary" onClick={toggleModal}>Close</Button>
+  </ModalFooter>
+);
+
+const OrderModalDocInfoRow = ({ selectedOrder }) => (
+  <div className="row pb-2">
+    {/* Doc Info - LEFT */}
+    <div className="container col-6">
+      <div className="row line-item-header">
+        <div className="col-12 bg-dark text-white pl-3">Document Information</div>
+      </div>
+      <div className="row">
+        <div className="col-6 font-weight-bold">Lumaprints Order #:</div>
+        <div className="col-6">{selectedOrder["Luma Order Number"]}</div>
+      </div>
+      <div className="row">
+        <div className="col-6 font-weight-bold">Partner Order #:</div>
+        <div className="col-6">{selectedOrder["Partner Po Number"]}</div>
+      </div>
+      <div className="row">
+        <div className="col-6 font-weight-bold">PO Date:</div>
+        <div className="col-6">{moment(selectedOrder["Transaction Set Data"]["Purchase Order Date"]).format("YYYY-MM-DD")}</div>
+      </div>
+    </div>
+
+    {/* Doc Info - RIGHT */}
+    <div className="container col-6">
+      <div className="row line-item-header">
+        <div className="col-12 bg-dark text-white pl-3">&nbsp;</div>
+      </div>
+      <div className="row no-gutters">
+        <div className="col-6 font-weight-bold">Purchase Order Type:</div>
+        <div className="col-6 pl-3">{selectedOrder["Transaction Set Data"]["Purchase Order Type Code"][0]}</div>
+      </div>
+      <div className="row no-gutters">
+        <div className="col-6 font-weight-bold">Transaction Purpose:</div>
+        <div className="col-6 pl-3">{selectedOrder["Transaction Set Data"]["Transaction Set Purpose Code"][0]}</div>
+      </div>
+    </div>
+  </div>
+);
+
+const OrderModalRefIdRow = ({ selectedOrder }) => (
+  <div className="row pb-2">
+    {/* Ref ID - LEFT */}
+    <div className="container col-6">
+      <div className="row mr-1">
+        <div className="col-12 bg-dark text-white pl-3 line-item-header">Reference Identification</div>
+      </div>
+      <div className="row">
+        <div className="col-6 font-weight-bold">Vendor ID #: </div>
+        <div className="col-6">{selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Vendor ID Number"]}</div>
+      </div>
+      <div className="row">
+        <div className="col-6 font-weight-bold">Customer Order #: </div>
+        <div className="col-6">{selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Order Number"]}</div>
+      </div>
+      <div className="row">
+        <div className="col-6 font-weight-bold">Customer Ref #: </div>
+        <div className="col-6">{selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Customer Reference Number"]}</div>
+      </div>
+    </div>
+
+    {/* Date/Time Ref - RIGHT */}
+    <div className="container col-6">
+      <div className="row">
+        <div className="col-12 bg-dark text-white line-item-header">Date/Time Reference</div>
+      </div>
+      <div className="row no-gutters">
+        <div className="col-6 font-weight-bold">Customer Order Date:</div>
+        <div className="col-6 pl-3">{moment(selectedOrder["Transaction Set Data"]["DateTime References"]["Order"]).format("YYYY-MM-DD")}</div>
+      </div>
+      <div className="row no-gutters">
+        <div className="col-6 font-weight-bold">Requested Ship:</div>
+        <div className="col-6 pl-3">{moment(selectedOrder["Transaction Set Data"]["DateTime References"]["Requested Ship"]).format("YYYY-MM-DD")}</div>
+      </div>
+      <div className="row no-gutters">
+        <div className="col-6 font-weight-bold">Delivery Requested:</div>
+        <div className="col-6 pl-3">{moment(selectedOrder["Transaction Set Data"]["DateTime References"]["Delivery Requested"]).format("YYYY-MM-DD")}</div>
+      </div>
+    </div>
+  </div>
+);
+
+const OrderModalShipMethodRow = ({ selectedOrder }) => (
+  <div className="row pb-2">
+    <div className="container">
+      <div className="row">
+        <div className="col-12 bg-dark text-white pl-3 line-item-header">Shipping Details (Routing Sequence/Transit Time)</div>
+      </div>
+      <div className="row">
+        <div className="col-4 font-weight-bold">Ship ID Code Qualifier:</div>
+        <div className="col-8">{selectedOrder["Transaction Set Data"]["Shipping Method ID Code Qualifier"][0]}</div>
+      </div>
+      <div className="row">
+        <div className="col-4 font-weight-bold">Ship ID Code/Route:</div>
+        <div className="col-8">{selectedOrder["Transaction Set Data"]["Shipping Method ID Code"] + ' ' + selectedOrder["Transaction Set Data"]["Shipping Routing Method"]}</div>
+      </div>
+    </div>
+  </div>
+);
+
+const OrderModalBuyerShipRow = ({ selectedOrder }) => (
+  <div className="row pb-2">
+    {/* LEFT */}
+    <div className="container col-6">
+      <div className="row mr-1">
+        <div className="col-12 bg-dark text-white pl-3 line-item-header">Buyer Details</div>
+      </div>
+      <div className="row">
+        {/* Buyer Address */}
+        <div className="col-12 mb-1 font-weight-bold">Bill-to-Party</div>
+        <div className="col-12">{selectedOrder["Buyer Data"]["Buyer Name"]}</div>
+        <div className="col-12">
+          { selectedOrder["Buyer Data"]["Buyer Address Line 2"] ?
+            selectedOrder["Buyer Data"]["Buyer Address Line 1"] + ', ' + selectedOrder["Buyer Data"]["Buyer Address Line 2"] :
+            selectedOrder["Buyer Data"]["Buyer Address Line 1"]
+          }
+        </div>
+        <div className="col-12 mb-1">
+          {selectedOrder["Buyer Data"]["Buyer City"] + ', ' + selectedOrder["Buyer Data"]["Buyer State"] + ' ' + selectedOrder["Buyer Data"]["Buyer Zip"] + ', ' + selectedOrder["Buyer Data"]["Buyer Country"]}
+        </div>
+        {/* Buyer Contact Info */}
+        <div className="col-12 mb-1 font-weight-bold">Contact Info</div>
+        <div className="container">
+          <div className="row">
+            <div className="col-2">Email:</div>
+            <div className="col-10">{selectedOrder["Buyer Data"]["Buyer Email"]}</div>
+          </div>
+          <div className="row">
+            <div className="col-2">Phone:</div>
+            <div className="col-10">{selectedOrder["Buyer Data"]["Buyer Telephone"]}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* RIGHT */}
+    <div className="container col-6">
+      <div className="row">
+        <div className="col-12 bg-dark text-white pl-3 line-item-header">Shipping Details</div>
+      </div>
+      {/* Shipping Address */}
+      <div className="row">
+        <div className="col-12 mb-1 font-weight-bold">Ship To</div>
+        <div className="col-12">{selectedOrder["Shipping Data"]["Shipping Name"]}</div>
+        <div className="col-12">
+          { selectedOrder["Shipping Data"]["Shipping Address Line 2"] ?
+            selectedOrder["Shipping Data"]["Shipping Address Line 1"] + ', ' + selectedOrder["Shipping Data"]["Shipping Address Line 2"] :
+            selectedOrder["Shipping Data"]["Shipping Address Line 1"]
+          }
+        </div>
+        <div className="col-12 mb-1">
+          {selectedOrder["Shipping Data"]["Shipping City"] + ', ' + selectedOrder["Shipping Data"]["Shipping State"] + ' ' + selectedOrder["Shipping Data"]["Shipping Zip"] + ', ' + selectedOrder["Shipping Data"]["Ship Country"]}
+        </div>
+        {/* Shipping Contact Info */}
+        <div className="col-12 mb-1 font-weight-bold">Contact Info</div>
+        <div className="container">
+          <div className="row">
+            <div className="col-2">Email:</div>
+            <div className="col-10">{selectedOrder["Shipping Data"]["Shipping Email"]}</div>
+          </div>
+          <div className="row">
+            <div className="col-2">Phone:</div>
+            <div className="col-10">{selectedOrder["Shipping Data"]["Shipping Telephone"]}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const OrderModalLineItemInfo = ({ selectedOrder, listLineItems }) => (
+  <div className="row">
+    <div className="container">
+      <div className="row">
+        <div className="col-12 bg-dark text-white pl-3 line-item-header">Line Item Information</div>
+      </div>
+      <table className="table table-sm">
+        <tbody>
+        <tr className="title">
+          <td className="line-item-head" width="9%">Line #</td>
+          <td className="line-item-head" width="70%">Description</td>
+          <td className="line-item-head" width="5%">Quanity</td>
+          <td className="line-item-head text-center" width="7%">Unit</td>
+          <td className="line-item-head" width="6%">Price($)</td>
+          <td className="line-item-head" width="6%">Total($)</td>
+        </tr>
+        { listLineItems(selectedOrder) }
+        </tbody>
+      </table>
+      <div className="row pb-0">
+        <div className="container">
+          <div className="row">
+            <div className="pl-3 font-weight-bold">Line Count:</div>
+            <div className="pl-3">{selectedOrder["Transaction Set Data"]["Num Line Items"]}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const OrderErrorMsg = ({ message }) => (
+  <Alert color="danger"><strong>Error: </strong>{message}</Alert>
+);
+
 class ListOrders extends Component {
   state = {
     orders: [],
@@ -172,7 +494,7 @@ class ListOrders extends Component {
   render() {
     let errorMsg;
     if (this.state.error) {
-      errorMsg = <Alert color="danger"><strong>Error: </strong>{this.state.error}</Alert>;
+      errorMsg = <OrderErrorMsg message={this.state.error} />;
     }
 
     return (
@@ -181,283 +503,32 @@ class ListOrders extends Component {
         <div className="row no-gutters">
           <h2>Orders</h2>
         </div>
-        <Sticky>
-          <div className="container">
-            <div className="row header-sticky">
-              <div style={{width: '5%'}}>#</div>
-              <div style={{width: '49%'}}>Filename</div>
-              <div style={{width: '18%'}}>Luma Order Number</div>
-              <div style={{width: '18%'}}>Partner Order Number</div>
-              <div style={{width: '10%'}}>Date Placed</div>
-            </div>
-          </div>
-        </Sticky>
-        <table className="table table-sm table-hover">
-          <tbody>
-          { this.state.isLoading ?
-            this.listOrdersSkeleton() :
-            this.listOrders()
-          }
-          </tbody>
-        </table>
-        <div className="col-12">
-          {/* Rows per page button group */}
-          <div className="row no-gutters">
-            <div className="col-1">
-              <div className="row mr-1">
-                <ButtonGroup size="sm">
-                  <Button color="secondary" onClick={() => this.handlePerPageSelect(20)} active={this.state.perPage === 20}>20</Button>
-                  <Button color="secondary" onClick={() => this.handlePerPageSelect(50)} active={this.state.perPage === 50}>50</Button>
-                  <Button color="secondary" onClick={() => this.handlePerPageSelect(100)} active={this.state.perPage === 100}>100</Button>
-                </ButtonGroup>
-              </div>
-              <div className="row mr-1"><span className="w-100 text-center"><small>rows per page</small></span></div>
-            </div>
+        {/* Order Table Sticky Header (onScroll) */}
+        <Sticky><OrderTableHeader /></Sticky>
 
-            {/* pagination centered next to button group */}
-            <div className="col-10">
-              <nav>
-                <ReactPaginate previousLabel={"previous"}
-                               nextLabel={"next"}
-                               breakLabel={"..."}
-                               breakClassName={"page-item break-disabled"}
-                               pageCount={this.state.totalPages}
-                               marginPagesDisplayed={2}
-                               pageRangeDisplayed={5}
-                               onPageChange={this.handlePageClick}
-                               containerClassName={"pagination text-center justify-content-center"}
-                               subContainerClassName={"pages pagination"}
-                               activeClassName={"active"}
-                               disabledClassName={"disabled"}
-                               pageClassName={"page-item"}
-                               previousClassName={"page-item"}
-                               nextClassName={"page-item"}
-                               pageLinkClassName={"page-link"}
-                               previousLinkClassName={"page-link"}
-                               nextLinkClassName={"page-link"}
-                               initialPage={this.props.match.params.id-1}
-                />
-              </nav>
-            </div>
+        {/* Order Table Body */}
+        <OrderTableBody
+          isLoading={this.state.isLoading}
+          listOrdersSkeleton={this.listOrdersSkeleton}
+          listOrders={this.listOrders}
+        />
 
-          </div>
-        </div>
+        {/* Table footer - contains pagination and ordersPerPage select */}
+        <OrderTableFooter
+          perPage={this.state.perPage}
+          totalPages={this.state.totalPages}
+          initialPage={this.props.match.params.id - 1}
+          handlePerPageSelect={this.handlePerPageSelect}
+          handlePageClick={this.handlePageClick}
+        />
 
-        {/* Modal - BEGIN */}
-        <Modal
+        {/* Order Details Modal */}
+        <OrderModal
           isOpen={this.state.modal}
-          toggle={this.toggleModal}
-          size="lg"
-        >
-          <ModalHeader toggle={this.toggleModal}>
-            { this.state.selectedOrder && (<strong><span className="text-muted">Lumaprints Purchase Order #:</span> <span className="text-dark">{this.state.selectedOrder["Luma Order Number"]}</span></strong>) }
-          </ModalHeader>
-          <ModalBody>
-            {
-              this.state.selectedOrder && (
-                <div className="container-fluid">
-                  {/* Document Information */}
-                  <div className="row pb-2">
-                    {/* Doc Info - LEFT */}
-                    <div className="container col-6">
-                      <div className="row line-item-header">
-                        <div className="col-12 bg-dark text-white pl-3">Document Information</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-6 font-weight-bold">Lumaprints Order #:</div>
-                        <div className="col-6">{this.state.selectedOrder["Luma Order Number"]}</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-6 font-weight-bold">Partner Order #:</div>
-                        <div className="col-6">{this.state.selectedOrder["Partner Po Number"]}</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-6 font-weight-bold">PO Date:</div>
-                        <div className="col-6">{moment(this.state.selectedOrder["Transaction Set Data"]["Purchase Order Date"]).format("YYYY-MM-DD")}</div>
-                      </div>
-                    </div>
-
-                    {/* Doc Info - RIGHT */}
-                    <div className="container col-6">
-                      <div className="row line-item-header">
-                        <div className="col-12 bg-dark text-white pl-3">&nbsp;</div>
-                      </div>
-                      <div className="row no-gutters">
-                        <div className="col-6 font-weight-bold">Purchase Order Type:</div>
-                        <div className="col-6 pl-3">{this.state.selectedOrder["Transaction Set Data"]["Purchase Order Type Code"][0]}</div>
-                      </div>
-                      <div className="row no-gutters">
-                        <div className="col-6 font-weight-bold">Transaction Purpose:</div>
-                        <div className="col-6 pl-3">{this.state.selectedOrder["Transaction Set Data"]["Transaction Set Purpose Code"][0]}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Reference Identificaiton + Datetime Reference */}
-                  <div className="row pb-2">
-                    {/* Ref ID - LEFT */}
-                    <div className="container col-6">
-                      <div className="row mr-1">
-                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Reference Identification</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-6 font-weight-bold">Vendor ID #: </div>
-                        <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Vendor ID Number"]}</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-6 font-weight-bold">Customer Order #: </div>
-                        <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Order Number"]}</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-6 font-weight-bold">Customer Ref #: </div>
-                        <div className="col-6">{this.state.selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Customer Reference Number"]}</div>
-                      </div>
-                    </div>
-
-                    {/* Date/Time Ref - RIGHT */}
-                    <div className="container col-6">
-                      <div className="row">
-                        <div className="col-12 bg-dark text-white line-item-header">Date/Time Reference</div>
-                      </div>
-                      <div className="row no-gutters">
-                        <div className="col-6 font-weight-bold">Customer Order Date:</div>
-                        <div className="col-6 pl-3">{moment(this.state.selectedOrder["Transaction Set Data"]["DateTime References"]["Order"]).format("YYYY-MM-DD")}</div>
-                      </div>
-                      <div className="row no-gutters">
-                        <div className="col-6 font-weight-bold">Requested Ship:</div>
-                        <div className="col-6 pl-3">{moment(this.state.selectedOrder["Transaction Set Data"]["DateTime References"]["Requested Ship"]).format("YYYY-MM-DD")}</div>
-                      </div>
-                      <div className="row no-gutters">
-                        <div className="col-6 font-weight-bold">Delivery Requested:</div>
-                        <div className="col-6 pl-3">{moment(this.state.selectedOrder["Transaction Set Data"]["DateTime References"]["Delivery Requested"]).format("YYYY-MM-DD")}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Shipping Method */}
-                  <div className="row pb-2">
-                    <div className="container">
-                      <div className="row">
-                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Shipping Details (Routing Sequence/Transit Time)</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-4 font-weight-bold">Ship ID Code Qualifier:</div>
-                        <div className="col-8">{this.state.selectedOrder["Transaction Set Data"]["Shipping Method ID Code Qualifier"][0]}</div>
-                      </div>
-                      <div className="row">
-                        <div className="col-4 font-weight-bold">Ship ID Code/Route:</div>
-                        <div className="col-8">{this.state.selectedOrder["Transaction Set Data"]["Shipping Method ID Code"] + ' ' + this.state.selectedOrder["Transaction Set Data"]["Shipping Routing Method"]}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Buyer/Shipping Details */}
-                  <div className="row pb-2">
-                    {/* LEFT */}
-                    <div className="container col-6">
-                      <div className="row mr-1">
-                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Buyer Details</div>
-                      </div>
-                      <div className="row">
-                        {/* Buyer Address */}
-                        <div className="col-12 mb-1 font-weight-bold">Bill-to-Party</div>
-                        <div className="col-12">{this.state.selectedOrder["Buyer Data"]["Buyer Name"]}</div>
-                        <div className="col-12">
-                          { this.state.selectedOrder["Buyer Data"]["Buyer Address Line 2"] ?
-                            this.state.selectedOrder["Buyer Data"]["Buyer Address Line 1"] + ', ' + this.state.selectedOrder["Buyer Data"]["Buyer Address Line 2"] :
-                            this.state.selectedOrder["Buyer Data"]["Buyer Address Line 1"]
-                          }
-                        </div>
-                        <div className="col-12 mb-1">
-                          {this.state.selectedOrder["Buyer Data"]["Buyer City"] + ', ' + this.state.selectedOrder["Buyer Data"]["Buyer State"] + ' ' + this.state.selectedOrder["Buyer Data"]["Buyer Zip"] + ', ' + this.state.selectedOrder["Buyer Data"]["Buyer Country"]}
-                        </div>
-                        {/* Buyer Contact Info */}
-                        <div className="col-12 mb-1 font-weight-bold">Contact Info</div>
-                        <div className="container">
-                          <div className="row">
-                            <div className="col-2">Email:</div>
-                            <div className="col-10">{this.state.selectedOrder["Buyer Data"]["Buyer Email"]}</div>
-                          </div>
-                          <div className="row">
-                            <div className="col-2">Phone:</div>
-                            <div className="col-10">{this.state.selectedOrder["Buyer Data"]["Buyer Telephone"]}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* RIGHT */}
-                    <div className="container col-6">
-                      <div className="row">
-                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Shipping Details</div>
-                      </div>
-                      {/* Shipping Address */}
-                      <div className="row">
-                        <div className="col-12 mb-1 font-weight-bold">Ship To</div>
-                        <div className="col-12">{this.state.selectedOrder["Shipping Data"]["Shipping Name"]}</div>
-                        <div className="col-12">
-                          { this.state.selectedOrder["Shipping Data"]["Shipping Address Line 2"] ?
-                            this.state.selectedOrder["Shipping Data"]["Shipping Address Line 1"] + ', ' + this.state.selectedOrder["Shipping Data"]["Shipping Address Line 2"] :
-                            this.state.selectedOrder["Shipping Data"]["Shipping Address Line 1"]
-                          }
-                        </div>
-                        <div className="col-12 mb-1">
-                          {this.state.selectedOrder["Shipping Data"]["Shipping City"] + ', ' + this.state.selectedOrder["Shipping Data"]["Shipping State"] + ' ' + this.state.selectedOrder["Shipping Data"]["Shipping Zip"] + ', ' + this.state.selectedOrder["Shipping Data"]["Ship Country"]}
-                        </div>
-                        {/* Shipping Contact Info */}
-                        <div className="col-12 mb-1 font-weight-bold">Contact Info</div>
-                        <div className="container">
-                          <div className="row">
-                            <div className="col-2">Email:</div>
-                            <div className="col-10">{this.state.selectedOrder["Shipping Data"]["Shipping Email"]}</div>
-                          </div>
-                          <div className="row">
-                            <div className="col-2">Phone:</div>
-                            <div className="col-10">{this.state.selectedOrder["Shipping Data"]["Shipping Telephone"]}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Line item info */}
-                  <div className="row">
-                    <div className="container">
-                      <div className="row">
-                        <div className="col-12 bg-dark text-white pl-3 line-item-header">Line Item Information</div>
-                      </div>
-                      <table className="table table-sm">
-                        <tbody>
-                          <tr className="title">
-                            <td className="line-item-head" width="9%">Line #</td>
-                            <td className="line-item-head" width="70%">Description</td>
-                            <td className="line-item-head" width="5%">Quanity</td>
-                            <td className="line-item-head text-center" width="7%">Unit</td>
-                            <td className="line-item-head" width="6%">Price($)</td>
-                            <td className="line-item-head" width="6%">Total($)</td>
-                          </tr>
-                          {this.listLineItems(this.state.selectedOrder)}
-                        </tbody>
-                      </table>
-                      <div className="row pb-0">
-                        <div className="container">
-                          <div className="row">
-                            <div className="pl-3 font-weight-bold">Line Count:</div>
-                            <div className="pl-3">{this.state.selectedOrder["Transaction Set Data"]["Num Line Items"]}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.toggleModal}>Close</Button>
-          </ModalFooter>
-        </Modal>
-        {/* Modal - END */}
+          toggleModal={this.toggleModal}
+          listLineItems={this.listLineItems}
+          selectedOrder={this.state.selectedOrder}
+        />
       </div>
     );
   }
