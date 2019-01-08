@@ -6,40 +6,44 @@ import moment from 'moment';
 import Sticky from 'react-stickynode';
 import { range } from '../../utils/utils';
 import {
-Modal,
-ModalHeader,
-ModalBody,
-ModalFooter,
-Alert,
-Button,
-ButtonGroup
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Alert,
+  Button,
+  ButtonGroup,
+  Container,
+  Row,
+  Col,
+  Table
 } from 'reactstrap';
 
 import './ListOrders.css';
 
 const OrderTableHeader = () => (
-  <div className="container">
-    <div className="row header-sticky">
+  <Container>
+    <Row className="header-sticky">
       <div style={{width: '5%'}}>#</div>
       <div style={{width: '49%'}}>Filename</div>
       <div style={{width: '18%'}}>Luma Order Number</div>
       <div style={{width: '18%'}}>Partner Order Number</div>
       <div style={{width: '10%'}}>Date Placed</div>
-    </div>
-  </div>
+    </Row>
+  </Container>
 );
 
 const OrderTableBody = ({ isLoading, listOrdersSkeleton, listOrders, orders, perPage, currPage, totalOrders, setCurrentOrder }) => (
-  <table className="table table-sm table-hover">
+  <Table hover size="sm">
     <tbody>
     { isLoading ? listOrdersSkeleton(perPage) : listOrders(orders, perPage, currPage, totalOrders, setCurrentOrder) }
     </tbody>
-  </table>
+  </Table>
 );
 
 const OrderTableFooter = ({ perPage, totalPages, initialPage, handlePerPageSelect, handlePageClick }) => (
-  <div className="col-12">
-    <div className="row no-gutters">
+  <Col>
+    <Row noGutters>
       {/* Rows per page button group */}
       <RowsPerPageButtonGroup
         perPage={perPage}
@@ -51,28 +55,28 @@ const OrderTableFooter = ({ perPage, totalPages, initialPage, handlePerPageSelec
         initialPage={initialPage}
         handlePageClick={handlePageClick}
       />
-    </div>
-  </div>
+    </Row>
+  </Col>
 );
 
 const RowsPerPageButtonGroup = ({ perPage, onPerPageSelect }) => (
-  <div className="col-1">
-    <div className="row mr-1">
+  <Col xs="1">
+    <Row className="justify-content-center">
       <ButtonGroup size="sm">
         <Button color="secondary" onClick={() => onPerPageSelect(20)} active={perPage === 20}>20</Button>
         <Button color="secondary" onClick={() => onPerPageSelect(50)} active={perPage === 50}>50</Button>
         <Button color="secondary" onClick={() => onPerPageSelect(100)} active={perPage === 100}>100</Button>
       </ButtonGroup>
-    </div>
-    <div className="row mr-1"><span className="w-100 text-center"><small>rows per page</small></span></div>
-  </div>
+    </Row>
+    <Row><small className="w-100 text-center">rows per page</small></Row>
+  </Col>
 );
 
 const Pagination = ({ totalPages, initialPage, handlePageClick }) => (
-  <div className="col-10">
+  <Col xs="10">
     <nav>
-      <ReactPaginate previousLabel={"previous"}
-                     nextLabel={"next"}
+      <ReactPaginate previousLabel={"«"}
+                     nextLabel={"»"}
                      breakLabel={"..."}
                      breakClassName={"page-item break-disabled"}
                      pageCount={totalPages}
@@ -84,15 +88,15 @@ const Pagination = ({ totalPages, initialPage, handlePageClick }) => (
                      activeClassName={"active"}
                      disabledClassName={"disabled"}
                      pageClassName={"page-item"}
-                     previousClassName={"page-item"}
-                     nextClassName={"page-item"}
+                     previousClassName={"page-item prev-next-label"}
+                     nextClassName={"page-item prev-next-label"}
                      pageLinkClassName={"page-link"}
                      previousLinkClassName={"page-link"}
                      nextLinkClassName={"page-link"}
                      initialPage={initialPage}
       />
     </nav>
-  </div>
+  </Col>
 );
 
 const OrderModal = ({ isOpen, toggleModal, listLineItems, selectedOrder }) => (
@@ -113,7 +117,7 @@ const OrderModalBody = ({ selectedOrder, listLineItems }) => (
   <ModalBody>
     {
       selectedOrder && (
-        <div className="container-fluid">
+        <Container fluid>
           {/* Document Information */}
           <OrderModalDocInfoRow selectedOrder={selectedOrder} />
           {/* Reference Identificaiton + Datetime Reference */}
@@ -124,7 +128,7 @@ const OrderModalBody = ({ selectedOrder, listLineItems }) => (
           <OrderModalBuyerShipRow selectedOrder={selectedOrder} />
           {/* Line item info */}
           <OrderModalLineItemInfo selectedOrder={selectedOrder} listLineItems={listLineItems} />
-        </div>
+        </Container>
       )
     }
   </ModalBody>
@@ -137,202 +141,202 @@ const OrderModalFooter = ({ toggleModal }) => (
 );
 
 const OrderModalDocInfoRow = ({ selectedOrder }) => (
-  <div className="row pb-2">
+  <Row className="pb-2">
     {/* Doc Info - LEFT */}
-    <div className="container col-6">
-      <div className="row line-item-header">
-        <div className="col-12 bg-dark text-white pl-3">Document Information</div>
-      </div>
-      <div className="row">
-        <div className="col-6 font-weight-bold">Lumaprints Order #:</div>
-        <div className="col-6">{selectedOrder["Luma Order Number"]}</div>
-      </div>
-      <div className="row">
-        <div className="col-6 font-weight-bold">Partner Order #:</div>
-        <div className="col-6">{selectedOrder["Partner Po Number"]}</div>
-      </div>
-      <div className="row">
-        <div className="col-6 font-weight-bold">PO Date:</div>
-        <div className="col-6">{moment(selectedOrder["Transaction Set Data"]["Purchase Order Date"]).format("YYYY-MM-DD")}</div>
-      </div>
-    </div>
+    <Col xs="6">
+      <Row className="line-item-header">
+        <Col className="bg-dark text-white pl-3">Document Information</Col>
+      </Row>
+      <Row>
+        <Col xs="6" className="font-weight-bold">Lumaprints Order #:</Col>
+        <Col xs="6">{selectedOrder["Luma Order Number"]}</Col>
+      </Row>
+      <Row>
+        <Col xs="6" className="font-weight-bold">Partner Order #:</Col>
+        <Col xs="6">{selectedOrder["Partner Po Number"]}</Col>
+      </Row>
+      <Row>
+        <Col xs="6" className="font-weight-bold">PO Date:</Col>
+        <Col xs="6">{moment(selectedOrder["Transaction Set Data"]["Purchase Order Date"]).format("YYYY-MM-DD")}</Col>
+      </Row>
+    </Col>
 
     {/* Doc Info - RIGHT */}
-    <div className="container col-6">
-      <div className="row line-item-header">
-        <div className="col-12 bg-dark text-white pl-3">&nbsp;</div>
-      </div>
-      <div className="row no-gutters">
-        <div className="col-6 font-weight-bold">Purchase Order Type:</div>
-        <div className="col-6 pl-3">{selectedOrder["Transaction Set Data"]["Purchase Order Type Code"][0]}</div>
-      </div>
-      <div className="row no-gutters">
-        <div className="col-6 font-weight-bold">Transaction Purpose:</div>
-        <div className="col-6 pl-3">{selectedOrder["Transaction Set Data"]["Transaction Set Purpose Code"][0]}</div>
-      </div>
-    </div>
-  </div>
+    <Col xs="6">
+      <Row className="line-item-header">
+        <Col className="bg-dark text-white pl-3">&nbsp;</Col>
+      </Row>
+      <Row noGutters>
+        <Col xs="6" className="font-weight-bold">Purchase Order Type:</Col>
+        <Col xs="6" className="pl-3">{selectedOrder["Transaction Set Data"]["Purchase Order Type Code"][0]}</Col>
+      </Row>
+      <Row noGutters>
+        <Col xs="6" className="font-weight-bold">Transaction Purpose:</Col>
+        <Col xs="6" className="pl-3">{selectedOrder["Transaction Set Data"]["Transaction Set Purpose Code"][0]}</Col>
+      </Row>
+    </Col>
+  </Row>
 );
 
 const OrderModalRefIdRow = ({ selectedOrder }) => (
-  <div className="row pb-2">
+  <Row className="pb-2">
     {/* Ref ID - LEFT */}
-    <div className="container col-6">
-      <div className="row mr-1">
-        <div className="col-12 bg-dark text-white pl-3 line-item-header">Reference Identification</div>
-      </div>
-      <div className="row">
-        <div className="col-6 font-weight-bold">Vendor ID #: </div>
-        <div className="col-6">{selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Vendor ID Number"]}</div>
-      </div>
-      <div className="row">
-        <div className="col-6 font-weight-bold">Customer Order #: </div>
-        <div className="col-6">{selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Order Number"]}</div>
-      </div>
-      <div className="row">
-        <div className="col-6 font-weight-bold">Customer Ref #: </div>
-        <div className="col-6">{selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Customer Reference Number"]}</div>
-      </div>
-    </div>
+    <Col xs="6">
+      <Row className="mr-1">
+        <Col className="bg-dark text-white pl-3 line-item-header">Reference Identification</Col>
+      </Row>
+      <Row>
+        <Col xs="6" className="font-weight-bold">Vendor ID #: </Col>
+        <Col xs="6">{selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Vendor ID Number"]}</Col>
+      </Row>
+      <Row>
+        <Col xs="6" className="font-weight-bold">Customer Order #: </Col>
+        <Col xs="6">{selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Order Number"]}</Col>
+      </Row>
+      <Row>
+        <Col xs="6" className="font-weight-bold">Customer Ref #: </Col>
+        <Col xs="6">{selectedOrder["Transaction Set Data"]["Beginning Segment for Purchase Order"]["Customer Reference Number"]}</Col>
+      </Row>
+    </Col>
 
     {/* Date/Time Ref - RIGHT */}
-    <div className="container col-6">
-      <div className="row">
-        <div className="col-12 bg-dark text-white line-item-header">Date/Time Reference</div>
-      </div>
-      <div className="row no-gutters">
-        <div className="col-6 font-weight-bold">Customer Order Date:</div>
-        <div className="col-6 pl-3">{moment(selectedOrder["Transaction Set Data"]["DateTime References"]["Order"]).format("YYYY-MM-DD")}</div>
-      </div>
-      <div className="row no-gutters">
-        <div className="col-6 font-weight-bold">Requested Ship:</div>
-        <div className="col-6 pl-3">{moment(selectedOrder["Transaction Set Data"]["DateTime References"]["Requested Ship"]).format("YYYY-MM-DD")}</div>
-      </div>
-      <div className="row no-gutters">
-        <div className="col-6 font-weight-bold">Delivery Requested:</div>
-        <div className="col-6 pl-3">{moment(selectedOrder["Transaction Set Data"]["DateTime References"]["Delivery Requested"]).format("YYYY-MM-DD")}</div>
-      </div>
-    </div>
-  </div>
+    <Col xs="6">
+      <Row>
+        <Col className="bg-dark text-white line-item-header">Date/Time Reference</Col>
+      </Row>
+      <Row noGutters>
+        <Col xs="6" className="font-weight-bold">Customer Order Date:</Col>
+        <Col xs="6" className="pl-3">{moment(selectedOrder["Transaction Set Data"]["DateTime References"]["Order"]).format("YYYY-MM-DD")}</Col>
+      </Row>
+      <Row noGutters>
+        <Col xs="6" className="font-weight-bold">Requested Ship:</Col>
+        <Col xs="6" className="pl-3">{moment(selectedOrder["Transaction Set Data"]["DateTime References"]["Requested Ship"]).format("YYYY-MM-DD")}</Col>
+      </Row>
+      <Row noGutters>
+        <Col xs="6" className="font-weight-bold">Delivery Requested:</Col>
+        <Col xs="6" className="pl-3">{moment(selectedOrder["Transaction Set Data"]["DateTime References"]["Delivery Requested"]).format("YYYY-MM-DD")}</Col>
+      </Row>
+    </Col>
+  </Row>
 );
 
 const OrderModalShipMethodRow = ({ selectedOrder }) => (
-  <div className="row pb-2">
-    <div className="container">
-      <div className="row">
-        <div className="col-12 bg-dark text-white pl-3 line-item-header">Shipping Details (Routing Sequence/Transit Time)</div>
-      </div>
-      <div className="row">
-        <div className="col-4 font-weight-bold">Ship ID Code Qualifier:</div>
-        <div className="col-8">{selectedOrder["Transaction Set Data"]["Shipping Method ID Code Qualifier"][0]}</div>
-      </div>
-      <div className="row">
-        <div className="col-4 font-weight-bold">Ship ID Code/Route:</div>
-        <div className="col-8">{selectedOrder["Transaction Set Data"]["Shipping Method ID Code"] + ' ' + selectedOrder["Transaction Set Data"]["Shipping Routing Method"]}</div>
-      </div>
-    </div>
-  </div>
+  <Row className="pb-2">
+    <Container>
+      <Row>
+        <Col className="bg-dark text-white pl-3 line-item-header">Shipping Details (Routing Sequence/Transit Time)</Col>
+      </Row>
+      <Row>
+        <Col xs="4" className="font-weight-bold">Ship ID Code Qualifier:</Col>
+        <Col xs="8">{selectedOrder["Transaction Set Data"]["Shipping Method ID Code Qualifier"][0]}</Col>
+      </Row>
+      <Row>
+        <Col xs="4" className="font-weight-bold">Ship ID Code/Route:</Col>
+        <Col xs="8">{selectedOrder["Transaction Set Data"]["Shipping Method ID Code"] + ' ' + selectedOrder["Transaction Set Data"]["Shipping Routing Method"]}</Col>
+      </Row>
+    </Container>
+  </Row>
 );
 
 const OrderModalBuyerShipRow = ({ selectedOrder }) => (
-  <div className="row pb-2">
+  <Row className="pb-2">
     {/* LEFT */}
-    <div className="container col-6">
-      <div className="row mr-1">
-        <div className="col-12 bg-dark text-white pl-3 line-item-header">Buyer Details</div>
-      </div>
-      <div className="row">
-        {/* Buyer Address */}
-        <div className="col-12 mb-1 font-weight-bold">Bill-to-Party</div>
-        <div className="col-12">{selectedOrder["Buyer Data"]["Buyer Name"]}</div>
-        <div className="col-12">
+    <Col xs="6">
+      <Row className="mr-1">
+        <Col className="bg-dark text-white pl-3 line-item-header">Buyer Details</Col>
+      </Row>
+      {/* Buyer Address */}
+      <Row>
+        <Col xs="12" className="mb-1 font-weight-bold">Bill-to-Party</Col>
+        <Col xs="12">{selectedOrder["Buyer Data"]["Buyer Name"]}</Col>
+        <Col xs="12">
           { selectedOrder["Buyer Data"]["Buyer Address Line 2"] ?
             selectedOrder["Buyer Data"]["Buyer Address Line 1"] + ', ' + selectedOrder["Buyer Data"]["Buyer Address Line 2"] :
             selectedOrder["Buyer Data"]["Buyer Address Line 1"]
           }
-        </div>
-        <div className="col-12 mb-1">
+        </Col>
+        <Col xs="12" className="mb-1">
           {selectedOrder["Buyer Data"]["Buyer City"] + ', ' + selectedOrder["Buyer Data"]["Buyer State"] + ' ' + selectedOrder["Buyer Data"]["Buyer Zip"] + ', ' + selectedOrder["Buyer Data"]["Buyer Country"]}
-        </div>
+        </Col>
         {/* Buyer Contact Info */}
-        <div className="col-12 mb-1 font-weight-bold">Contact Info</div>
-        <div className="container">
-          <div className="row">
-            <div className="col-2">Email:</div>
-            <div className="col-10">{selectedOrder["Buyer Data"]["Buyer Email"]}</div>
-          </div>
-          <div className="row">
-            <div className="col-2">Phone:</div>
-            <div className="col-10">{selectedOrder["Buyer Data"]["Buyer Telephone"]}</div>
-          </div>
-        </div>
-      </div>
-    </div>
+        <Col className="mb-1 font-weight-bold">Contact Info</Col>
+        <Container>
+          <Row>
+            <Col xs="2">Email:</Col>
+            <Col xs="10">{selectedOrder["Buyer Data"]["Buyer Email"]}</Col>
+          </Row>
+          <Row>
+            <Col xs="2">Phone:</Col>
+            <Col xs="10">{selectedOrder["Buyer Data"]["Buyer Telephone"]}</Col>
+          </Row>
+        </Container>
+      </Row>
+    </Col>
 
     {/* RIGHT */}
-    <div className="container col-6">
-      <div className="row">
-        <div className="col-12 bg-dark text-white pl-3 line-item-header">Shipping Details</div>
-      </div>
+    <Col xs="6">
+      <Row>
+        <Col className="bg-dark text-white pl-3 line-item-header">Shipping Details</Col>
+      </Row>
       {/* Shipping Address */}
-      <div className="row">
-        <div className="col-12 mb-1 font-weight-bold">Ship To</div>
-        <div className="col-12">{selectedOrder["Shipping Data"]["Shipping Name"]}</div>
-        <div className="col-12">
+      <Row>
+        <Col xs="12" className="mb-1 font-weight-bold">Ship To</Col>
+        <Col xs="12">{selectedOrder["Shipping Data"]["Shipping Name"]}</Col>
+        <Col xs="12">
           { selectedOrder["Shipping Data"]["Shipping Address Line 2"] ?
             selectedOrder["Shipping Data"]["Shipping Address Line 1"] + ', ' + selectedOrder["Shipping Data"]["Shipping Address Line 2"] :
             selectedOrder["Shipping Data"]["Shipping Address Line 1"]
           }
-        </div>
-        <div className="col-12 mb-1">
+        </Col>
+        <Col xs="12" className="mb-1">
           {selectedOrder["Shipping Data"]["Shipping City"] + ', ' + selectedOrder["Shipping Data"]["Shipping State"] + ' ' + selectedOrder["Shipping Data"]["Shipping Zip"] + ', ' + selectedOrder["Shipping Data"]["Ship Country"]}
-        </div>
+        </Col>
         {/* Shipping Contact Info */}
-        <div className="col-12 mb-1 font-weight-bold">Contact Info</div>
-        <div className="container">
-          <div className="row">
-            <div className="col-2">Email:</div>
-            <div className="col-10">{selectedOrder["Shipping Data"]["Shipping Email"]}</div>
-          </div>
-          <div className="row">
-            <div className="col-2">Phone:</div>
-            <div className="col-10">{selectedOrder["Shipping Data"]["Shipping Telephone"]}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        <Col className="mb-1 font-weight-bold">Contact Info</Col>
+        <Container>
+          <Row>
+            <Col xs="2">Email:</Col>
+            <Col xs="10">{selectedOrder["Shipping Data"]["Shipping Email"]}</Col>
+          </Row>
+          <Row>
+            <Col xs="2">Phone:</Col>
+            <Col xs="10">{selectedOrder["Shipping Data"]["Shipping Telephone"]}</Col>
+          </Row>
+        </Container>
+      </Row>
+    </Col>
+  </Row>
 );
 
 const OrderModalLineItemInfo = ({ selectedOrder, listLineItems }) => (
-  <div className="row">
-    <div className="container">
-      <div className="row">
-        <div className="col-12 bg-dark text-white pl-3 line-item-header">Line Item Information</div>
-      </div>
-      <table className="table table-sm">
+  <Row>
+    <Container>
+      <Row>
+        <Col className="bg-dark text-white pl-3 line-item-header">Line Item Information</Col>
+      </Row>
+      <Table size="sm">
         <tbody>
         <tr className="title">
           <td className="line-item-head" width="9%">Line #</td>
           <td className="line-item-head" width="70%">Description</td>
-          <td className="line-item-head" width="5%">Quanity</td>
+          <td className="line-item-head" width="2%">Qty</td>
           <td className="line-item-head text-center" width="7%">Unit</td>
           <td className="line-item-head" width="6%">Price($)</td>
           <td className="line-item-head" width="6%">Total($)</td>
         </tr>
         { listLineItems(selectedOrder) }
         </tbody>
-      </table>
-      <div className="row pb-0">
-        <div className="container">
-          <div className="row">
-            <div className="pl-3 font-weight-bold">Line Count:</div>
-            <div className="pl-3">{selectedOrder["Transaction Set Data"]["Num Line Items"]}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+      </Table>
+      <Row className="pb-0">
+        <Container>
+          <Row>
+            <span className="pl-3 font-weight-bold">Line Count:</span>
+            <span className="pl-3">{selectedOrder["Transaction Set Data"]["Num Line Items"]}</span>
+          </Row>
+        </Container>
+      </Row>
+    </Container>
+  </Row>
 );
 
 const OrderErrorMsg = ({ message }) => (
@@ -451,14 +455,14 @@ class ListOrders extends Component {
         <tr key={`order-line-item-${i}`} className="border-bottom">
           <td className="font-weight-bold text-dark">{lineItemID}</td>
           <td>
-            <div className="row no-gutters">
-              <div className="col-3 font-weight-bold text-dark">SKU:</div>
-              <div className="col-9 px-0">{sku}</div>
-            </div>
-            <div className="row no-gutters">
-              <div className="col-3 font-weight-bold text-dark">Item Desc:</div>
-              <div className="col-9 px-0">{itemDesc}</div>
-            </div>
+            <Row noGutters>
+              <Col xs="3" className="font-weight-bold text-dark">SKU:</Col>
+              <Col xs="9" className="px-0">{sku}</Col>
+            </Row>
+            <Row noGutters>
+              <Col xs="3" className="font-weight-bold text-dark">Item Desc:</Col>
+              <Col xs="9" className="px-0">{itemDesc}</Col>
+            </Row>
           </td>
           <td className="text-center">{qty}</td>
           <td className="text-center">{unitM}</td>
@@ -496,11 +500,10 @@ class ListOrders extends Component {
     }
 
     return (
-      <div className="container">
+      <Container>
         {errorMsg}
-        <div className="row no-gutters">
-          <h2>Orders</h2>
-        </div>
+        <Row noGutters><h2>Orders</h2></Row>
+
         {/* Order Table Sticky Header (onScroll) */}
         <Sticky><OrderTableHeader /></Sticky>
 
@@ -532,7 +535,7 @@ class ListOrders extends Component {
           listLineItems={this.listLineItems}
           selectedOrder={this.state.selectedOrder}
         />
-      </div>
+      </Container>
     );
   }
 }
