@@ -32,7 +32,7 @@ const OrderTableHeader = () => (
 const OrderTableBody = ({ isLoading, listOrdersSkeleton, listOrders, orders, perPage, currPage, totalOrders, setCurrentOrder }) => (
   <table className="table table-sm table-hover">
     <tbody>
-    { isLoading ? listOrdersSkeleton() : listOrders(orders, perPage, currPage, totalOrders, setCurrentOrder) }
+    { isLoading ? listOrdersSkeleton(perPage) : listOrders(orders, perPage, currPage, totalOrders, setCurrentOrder) }
     </tbody>
   </table>
 );
@@ -43,7 +43,7 @@ const OrderTableFooter = ({ perPage, totalPages, initialPage, handlePerPageSelec
       {/* Rows per page button group */}
       <RowsPerPageButtonGroup
         perPage={perPage}
-        onPageSelect={handlePerPageSelect}
+        onPerPageSelect={handlePerPageSelect}
       />
       {/* pagination centered next to button group */}
       <Pagination
@@ -55,13 +55,13 @@ const OrderTableFooter = ({ perPage, totalPages, initialPage, handlePerPageSelec
   </div>
 );
 
-const RowsPerPageButtonGroup = ({ perPage, onPageSelect }) => (
+const RowsPerPageButtonGroup = ({ perPage, onPerPageSelect }) => (
   <div className="col-1">
     <div className="row mr-1">
       <ButtonGroup size="sm">
-        <Button color="secondary" onClick={() => onPageSelect(20)} active={perPage === 20}>20</Button>
-        <Button color="secondary" onClick={() => onPageSelect(50)} active={perPage === 50}>50</Button>
-        <Button color="secondary" onClick={() => onPageSelect(100)} active={perPage === 100}>100</Button>
+        <Button color="secondary" onClick={() => onPerPageSelect(20)} active={perPage === 20}>20</Button>
+        <Button color="secondary" onClick={() => onPerPageSelect(50)} active={perPage === 50}>50</Button>
+        <Button color="secondary" onClick={() => onPerPageSelect(100)} active={perPage === 100}>100</Button>
       </ButtonGroup>
     </div>
     <div className="row mr-1"><span className="w-100 text-center"><small>rows per page</small></span></div>
@@ -393,17 +393,13 @@ class ListOrders extends Component {
     });
   };
 
-  // range = (size, startAt = 0) => {
-  //   return [...Array(size).keys()].map(i => i + startAt);
-  // };
-
   listOrders = (orders, perPage, currPage, totalOrders, setCurrentOrder) => {
     const startIdx = totalOrders - (perPage * currPage-1);
     const idxRange = range(perPage, startIdx).reverse();
 
     return orders.map((order, idx) => {
       return (
-        <tr className="order-row" key={idx} onClick={() => setCurrentOrder(order)}>
+        <tr className="order-row" key={`order-row-${idx}`} onClick={() => setCurrentOrder(order)}>
           <th width="5%" scope="row">{idxRange[idx]}</th>
           <td width="49%">{order["Filename"]}</td>
           <td width="18%">{order["Luma Order Number"]}</td>
@@ -415,12 +411,12 @@ class ListOrders extends Component {
 
   };
 
-  listOrdersSkeleton = () => {
-    const idxRange = range(this.state.perPage);
+  listOrdersSkeleton = (perPage) => {
+    const idxRange = range(perPage);
 
     return idxRange.map((order, idx) => {
       return (
-        <tr key={idx}>
+        <tr key={`order-skeleton-${idx}`}>
           <th width="5%" className="order-skeleton" scope="row">&#9608;&#9608;</th>
           <td width="49%" className="order-skeleton">
             &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;
@@ -452,7 +448,7 @@ class ListOrders extends Component {
       const itemCostThruQty = order["Line Item Data"]["Unit Cost Thru Quantity"][i];
 
       const currLineItem = (
-        <tr key={i} className="border-bottom">
+        <tr key={`order-line-item-${i}`} className="border-bottom">
           <td className="font-weight-bold text-dark">{lineItemID}</td>
           <td>
             <div className="row no-gutters">
