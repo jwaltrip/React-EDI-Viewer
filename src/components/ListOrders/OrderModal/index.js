@@ -1,6 +1,6 @@
 import OrderModal from './OrderModal';
 import OrderModalBody from './OrderModalBody';
-import OrderModalBuyerShipRow from 'OrderModalBuyerShipRow';
+import OrderModalBuyerShipRow from './OrderModalBuyerShipRow';
 import OrderModalDocInfoRow from './OrderModalDocInfoRow';
 import OrderModalFooter from './OrderModalFooter';
 import OrderModalHeader from './OrderModalHeader';
