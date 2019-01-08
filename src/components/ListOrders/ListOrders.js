@@ -45,12 +45,12 @@ const OrderTableFooter = ({ perPage, totalPages, initialPage, handlePerPageSelec
   <Col>
     <Row noGutters>
       {/* Rows per page button group */}
-      <RowsPerPageButtonGroup
+      <OrderTableRowsPerPageToggle
         perPage={perPage}
         onPerPageSelect={handlePerPageSelect}
       />
       {/* pagination centered next to button group */}
-      <Pagination
+      <OrderTablePagination
         totalPages={totalPages}
         initialPage={initialPage}
         handlePageClick={handlePageClick}
@@ -59,7 +59,7 @@ const OrderTableFooter = ({ perPage, totalPages, initialPage, handlePerPageSelec
   </Col>
 );
 
-const RowsPerPageButtonGroup = ({ perPage, onPerPageSelect }) => (
+const OrderTableRowsPerPageToggle = ({ perPage, onPerPageSelect }) => (
   <Col xs="1">
     <Row className="justify-content-center">
       <ButtonGroup size="sm">
@@ -72,7 +72,7 @@ const RowsPerPageButtonGroup = ({ perPage, onPerPageSelect }) => (
   </Col>
 );
 
-const Pagination = ({ totalPages, initialPage, handlePageClick }) => (
+const OrderTablePagination = ({ totalPages, initialPage, handlePageClick }) => (
   <Col xs="10">
     <nav>
       <ReactPaginate previousLabel={"«"}
