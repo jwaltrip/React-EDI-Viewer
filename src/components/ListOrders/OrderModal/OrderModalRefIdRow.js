@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from "moment";
+import { Row, Col } from 'reactstrap';
+
+// TODO add prop types
 
 const OrderModalRefIdRow = ({ selectedOrder }) => (
   <Row className="pb-2">

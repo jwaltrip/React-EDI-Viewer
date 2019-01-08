@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Row, Col, ButtonGroup, Button } from 'reactstrap';
+
+// TODO add prop types
 
 const OrderTableRowsPerPageToggle = ({ perPage, onPerPageSelect }) => (
   <Col xs="1">

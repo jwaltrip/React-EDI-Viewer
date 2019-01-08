@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ModalHeader } from 'reactstrap';
+
+// TODO add prop types
 
 const OrderModalHeader = ({ selectedOrder, toggleModal }) => (
   <ModalHeader toggle={toggleModal}>

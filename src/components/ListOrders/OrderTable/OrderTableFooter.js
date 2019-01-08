@@ -1,5 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Row, Col } from 'reactstrap';
+import OrderTableRowsPerPageToggle from './OrderTableRowsPerPageToggle';
+import OrderTablePagination from './OrderTablePagination';
+
+// TODO add prop types
 
 const OrderTableFooter = ({ perPage, totalPages, initialPage, handlePerPageSelect, handlePageClick }) => (
   <Col>

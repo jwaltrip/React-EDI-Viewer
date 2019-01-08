@@ -499,6 +499,8 @@ class ListOrders extends Component {
       errorMsg = <OrderErrorMsg message={this.state.error} />;
     }
 
+    // TODO create a single OrderTable component and export it in index.js
+
     return (
       <Container>
         {errorMsg}

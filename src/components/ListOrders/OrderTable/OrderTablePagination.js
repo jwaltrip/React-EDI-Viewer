@@ -1,5 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Col } from 'reactstrap';
+import ReactPaginate from 'react-paginate';
+
+// TODO add prop types
 
 const OrderTablePagination = ({ totalPages, initialPage, handlePageClick }) => (
   <Col xs="10">

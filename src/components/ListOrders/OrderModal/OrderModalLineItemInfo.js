@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Row, Col, Container, Table } from 'reactstrap';
+
+// TODO add prop types
 
 const OrderModalLineItemInfo = ({ selectedOrder, listLineItems }) => (
   <Row>

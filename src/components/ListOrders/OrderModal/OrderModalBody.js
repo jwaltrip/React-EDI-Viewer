@@ -1,5 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ModalBody, Container } from 'reactstrap';
+import OrderModalDocInfoRow from './OrderModalDocInfoRow';
+import OrderModalRefIdRow from './OrderModalRefIdRow';
+import OrderModalShipMethodRow from './OrderModalShipMethodRow';
+import OrderModalBuyerShipRow from './OrderModalBuyerShipRow';
+import OrderModalLineItemInfo from './OrderModalLineItemInfo';
+
+// TODO add prop types
 
 const OrderModalBody = ({ selectedOrder, listLineItems }) => (
   <ModalBody>

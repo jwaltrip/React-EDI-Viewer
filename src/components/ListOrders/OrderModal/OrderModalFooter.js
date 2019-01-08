@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ModalFooter, Button } from 'reactstrap';
+
+// TODO add prop types
 
 const OrderModalFooter = ({ toggleModal }) => (
   <ModalFooter>
