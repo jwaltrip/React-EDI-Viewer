@@ -1,3 +1,4 @@
+import OrderTable from './OrderTable';
 import OrderTableBody from './OrderTableBody';
 import OrderTableFooter from './OrderTableFooter';
 import OrderTableHeader from './OrderTableHeader';
@@ -11,3 +12,5 @@ export {
   OrderTablePagination,
   OrderTableRowsPerPageToggle
 }
+
+export default OrderTable;

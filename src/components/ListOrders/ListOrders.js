@@ -21,6 +21,34 @@ import {
 
 import './ListOrders.css';
 
+const OrderTable = ({ isLoading, orders, perPage, totalPages, totalOrders, currPage, initialPage, listOrders, listOrdersSkeleton, setCurrentOrder, onPerPageSelect, onPageClick }) => (
+  <div>
+    {/* Order Table Sticky Header (onScroll) */}
+    <Sticky><OrderTableHeader /></Sticky>
+
+    {/* Order Table Body */}
+    <OrderTableBody
+      isLoading={isLoading}
+      listOrdersSkeleton={listOrdersSkeleton}
+      listOrders={listOrders}
+      orders={orders}
+      perPage={perPage}
+      currPage={currPage}
+      totalOrders={totalOrders}
+      setCurrentOrder={setCurrentOrder}
+    />
+
+    {/* Table footer - contains pagination and ordersPerPage select */}
+    <OrderTableFooter
+      perPage={perPage}
+      totalPages={totalPages}
+      initialPage={initialPage}
+      handlePerPageSelect={onPerPageSelect}
+      handlePageClick={onPageClick}
+    />
+  </div>
+);
+
 const OrderTableHeader = () => (
   <Container>
     <Row className="header-sticky">
@@ -506,28 +534,19 @@ class ListOrders extends Component {
         {errorMsg}
         <Row noGutters><h2>Orders</h2></Row>
 
-        {/* Order Table Sticky Header (onScroll) */}
-        <Sticky><OrderTableHeader /></Sticky>
-
-        {/* Order Table Body */}
-        <OrderTableBody
+        <OrderTable
           isLoading={this.state.isLoading}
-          listOrdersSkeleton={this.listOrdersSkeleton}
-          listOrders={this.listOrders}
           orders={this.state.orders}
           perPage={this.state.perPage}
-          currPage={this.state.currentPage}
-          totalOrders={this.state.totalResults}
-          setCurrentOrder={this.setCurrentOrder}
-        />
-
-        {/* Table footer - contains pagination and ordersPerPage select */}
-        <OrderTableFooter
-          perPage={this.state.perPage}
           totalPages={this.state.totalPages}
+          totalOrders={this.state.totalResults}
+          currPage={this.state.currentPage}
           initialPage={this.props.match.params.id - 1}
-          handlePerPageSelect={this.handlePerPageSelect}
-          handlePageClick={this.handlePageClick}
+          listOrders={this.listOrders}
+          listOrdersSkeleton={this.listOrdersSkeleton}
+          setCurrentOrder={this.setCurrentOrder}
+          onPerPageSelect={this.handlePerPageSelect}
+          onPageClick={this.handlePageClick}
         />
 
         {/* Order Details Modal */}
