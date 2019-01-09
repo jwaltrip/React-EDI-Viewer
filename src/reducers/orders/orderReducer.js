@@ -1,4 +1,9 @@
-import { FETCH_ORDERS_BEGIN, FETCH_ORDERS_SUCCESS, FETCH_ORDERS_FAILURE } from "../../actions/types";
+import {
+  FETCH_ORDERS_BEGIN,
+  FETCH_ORDERS_SUCCESS,
+  FETCH_ORDERS_FAILURE,
+  SET_CURRENT_ORDER
+} from "../../actions/types";
 
 const initialState = {
   orders: [],
@@ -36,6 +41,11 @@ export default function orderReducer(state = initialState, action) {
         ...state,
         isLoading: false,
         error: payload.error
+      };
+    case SET_CURRENT_ORDER:
+      return {
+        ...state,
+        selectedOrder: payload.order
       };
     default:
       return state;

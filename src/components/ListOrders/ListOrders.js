@@ -6,7 +6,7 @@ import { range } from '../../utils/utils';
 import { Container, Row, Col } from 'reactstrap';
 
 import { connect } from "react-redux";
-import { fetchOrders } from "../../actions/orderActions";
+import { fetchOrders, setCurrentOrder } from "../../actions/orderActions";
 
 import './ListOrders.css';
 
@@ -30,9 +30,9 @@ class ListOrders extends Component {
   componentDidMount() {
     const { id } = this.props.match.params;
 
-    if (id === this.state.currentPage) {
+    if (id === this.props.currentPage) {
       // this.fetchData();
-      this.props.fetchOrders();
+      this.props.fetchOrders(this.props.currentPage, this.props.perPage);
     } else {
       // this.fetchData(Number(id));
       this.props.fetchOrders(Number(id), this.props.perPage);
@@ -55,7 +55,7 @@ class ListOrders extends Component {
         } else {
           this.setState({
             isLoading: true,
-            error: orders.data.error.name
+            error: orders.data.error
           });
         }
       });
@@ -155,8 +155,13 @@ class ListOrders extends Component {
     this.setState({ modal: !this.state.modal });
   };
 
+  // setCurrentOrder = (order) => {
+  //   this.setState({ selectedOrder: order }, () => {
+  //     this.toggleModal();
+  //   });
+  // };
   setCurrentOrder = (order) => {
-    this.setState({ selectedOrder: order }, () => {
+    this.props.setCurrentOrder(order).then(() => {
       this.toggleModal();
     });
   };
@@ -170,8 +175,8 @@ class ListOrders extends Component {
 
   render() {
     let errorMsg;
-    if (this.state.error) {
-      errorMsg = <OrderErrorMsg message={this.state.error} />;
+    if (this.props.error) {
+      errorMsg = <OrderErrorMsg message={this.props.error} />;
     }
 
     return (
@@ -180,12 +185,12 @@ class ListOrders extends Component {
         <Row noGutters><h2>Orders</h2></Row>
 
         <OrderTable
-          isLoading={this.state.isLoading}
-          orders={this.state.orders}
-          perPage={this.state.perPage}
-          totalPages={this.state.totalPages}
-          totalOrders={this.state.totalResults}
-          currPage={this.state.currentPage}
+          isLoading={this.props.isLoading}
+          orders={this.props.orders}
+          perPage={this.props.perPage}
+          totalPages={this.props.totalPages}
+          totalOrders={this.props.totalResults}
+          currPage={this.props.currentPage}
           initialPage={this.props.match.params.id - 1}
           listOrders={this.listOrders}
           listOrdersSkeleton={this.listOrdersSkeleton}
@@ -199,7 +204,7 @@ class ListOrders extends Component {
           isOpen={this.state.modal}
           toggleModal={this.toggleModal}
           listLineItems={this.listLineItems}
-          selectedOrder={this.state.selectedOrder}
+          selectedOrder={this.props.selectedOrder}
         />
       </Container>
     );
@@ -218,7 +223,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchOrders: (currPage, perPage) => dispatch(fetchOrders(currPage, perPage))
+  fetchOrders: (currPage, perPage) => dispatch(fetchOrders(currPage, perPage)),
+  setCurrentOrder: (order) => dispatch(setCurrentOrder(order))
 });
 
 export default connect(
