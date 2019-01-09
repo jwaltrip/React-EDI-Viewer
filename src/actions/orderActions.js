@@ -37,10 +37,11 @@ export const fetchOrders = (currPage = 1, perPage = 20) => dispatch => {
 
   axios(`/edi/${currPage}/?limit=${perPage}`)
     .then(orders => {
-      console.log(orders);
-
-      if (orders.data.success) return dispatch(fetchOrdersSuccess(orders));
-      else return dispatch(fetchOrdersFailure(orders.data.error));
+      if (orders.data.success) {
+        return dispatch(fetchOrdersSuccess(orders));
+      } else {
+        return dispatch(fetchOrdersFailure(orders.data.error));
+      }
     })
     .catch(error => dispatch(fetchOrdersFailure(error)));
 

@@ -28,7 +28,8 @@ import Home from "./components/Home";
 
 // prime react refactor
 // import RegisterPR from "./components/Register/RegisterPR";
-import ListOrders from "./components/ListOrders/ListOrders";
+// import ListAllOrders from "./components/ListAllOrders";
+import ListAllOrdersContainer from './containers/ListAllOrdersContainer';
 
 // when app starts, check localStorage if jwtToken is set, if so, setCurrentUser
 // then check jwtToken expiration date, if expired, then logout user, redirect to /login
@@ -60,7 +61,7 @@ class App extends Component {
                 <Route exact path="/login" component={ Login } />
                 <Route exact path="/posts" component={ PostContainer } />
                 {/*<Route exact path="/orders" component={ ListOrders } />*/}
-                <Route path="/orders/:id" component={ ListOrders } />
+                <Route path="/orders/:id" component={ ListAllOrdersContainer } />
               </Switch>
             </div>
           </div>

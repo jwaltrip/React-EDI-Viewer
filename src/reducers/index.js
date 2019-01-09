@@ -9,7 +9,7 @@ import ordersReducer from './orders/orderReducer';
 // export rootReducer
 export default combineReducers({
   posts: postReducer,
-  ediOrderData: ordersReducer,
   authErrors: authErrorReducer,
-  auth: authReducer
+  auth: authReducer,
+  ediOrderData: ordersReducer
 });
