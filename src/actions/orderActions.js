@@ -3,7 +3,8 @@ import {
   FETCH_ORDERS_SUCCESS,
   FETCH_ORDERS_FAILURE,
   SET_CURRENT_ORDER,
-  SET_ORDER_ROWS_PER_PAGE
+  SET_ORDER_ROWS_PER_PAGE,
+  SET_CURRENT_PAGE
 } from "./types";
 import axios from 'axios';
 
@@ -86,3 +87,28 @@ export const setRowsPerPage = (perPage) => dispatch => {
     resolve();
   });
 };
+
+/*
+*   END SET NUMBER OF ROWS PER PAGE ACTION
+* */
+
+/*
+*   BEGIN SET CURRENT PAGE ACTION
+* */
+
+export const setCurrentPageSuccess = (currPage) => ({
+  type: SET_CURRENT_PAGE,
+  payload: { currPage }
+});
+
+export const setCurrentPage = (currPage) => dispatch => {
+  return new Promise(resolve => {
+    dispatch(setCurrentPageSuccess(currPage));
+
+    resolve();
+  });
+};
+
+/*
+*   END SET CURRENT PAGE ACTION
+* */

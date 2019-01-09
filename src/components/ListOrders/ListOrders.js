@@ -6,7 +6,7 @@ import { range } from '../../utils/utils';
 import { Container, Row, Col } from 'reactstrap';
 
 import { connect } from "react-redux";
-import { fetchOrders, setCurrentOrder, setRowsPerPage } from "../../actions/orderActions";
+import { fetchOrders, setCurrentOrder, setRowsPerPage, setCurrentPage } from "../../actions/orderActions";
 
 import './ListOrders.css';
 
@@ -61,12 +61,21 @@ class ListOrders extends Component {
       });
   };
 
+  // handlePageClick = (data) => {
+  //   this.setState({currentPage: data.selected + 1, isLoading: true}, () => {
+  //     // update router url
+  //     this.props.history.push(`/orders/${this.state.currentPage}`);
+  //     // fetch next page data
+  //     // this.fetchData();
+  //     this.props.fetchOrders(this.props.currentPage, this.props.perPage);
+  //   });
+  // };
   handlePageClick = (data) => {
-    this.setState({currentPage: data.selected + 1, isLoading: true}, () => {
+    console.log(data);
+    this.props.setCurrentPage(data.selected + 1).then(() => {
       // update router url
       this.props.history.push(`/orders/${this.state.currentPage}`);
       // fetch next page data
-      // this.fetchData();
       this.props.fetchOrders(this.props.currentPage, this.props.perPage);
     });
   };
@@ -175,8 +184,6 @@ class ListOrders extends Component {
   handlePerPageSelect = (perPage) => {
     this.props.setRowsPerPage(perPage).then(() => {
       this.props.fetchOrders(this.props.currentPage, this.props.perPage);
-
-      this.props.history.push(`/orders/${this.props.currentPage}`);
     });
   };
 
@@ -232,7 +239,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchOrders: (currPage, perPage) => dispatch(fetchOrders(currPage, perPage)),
   setCurrentOrder: (order) => dispatch(setCurrentOrder(order)),
-  setRowsPerPage: (perPage) => dispatch(setRowsPerPage(perPage))
+  setRowsPerPage: (perPage) => dispatch(setRowsPerPage(perPage)),
+  setCurrentPage: (currPage) => dispatch(setCurrentPage(currPage))
 });
 
 export default connect(
