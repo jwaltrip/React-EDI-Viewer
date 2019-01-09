@@ -2,7 +2,8 @@ import {
   FETCH_ORDERS_BEGIN,
   FETCH_ORDERS_SUCCESS,
   FETCH_ORDERS_FAILURE,
-  SET_CURRENT_ORDER
+  SET_CURRENT_ORDER,
+  SET_ORDER_ROWS_PER_PAGE
 } from "./types";
 import axios from 'axios';
 
@@ -63,4 +64,25 @@ export const setCurrentOrder = (order) => dispatch => {
 
     resolve();
   })
+};
+
+/*
+*   END SET CURRENT ORDER ACTION
+* */
+
+/*
+*   BEGIN SET NUMBER OF ROWS PER PAGE ACTION
+* */
+
+export const setRowsPerPageSuccess = (perPage) => ({
+  type: SET_ORDER_ROWS_PER_PAGE,
+  payload: { perPage }
+});
+
+export const setRowsPerPage = (perPage) => dispatch => {
+  return new Promise(resolve => {
+    dispatch(setRowsPerPageSuccess(perPage));
+
+    resolve();
+  });
 };

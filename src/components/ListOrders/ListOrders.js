@@ -6,7 +6,7 @@ import { range } from '../../utils/utils';
 import { Container, Row, Col } from 'reactstrap';
 
 import { connect } from "react-redux";
-import { fetchOrders, setCurrentOrder } from "../../actions/orderActions";
+import { fetchOrders, setCurrentOrder, setRowsPerPage } from "../../actions/orderActions";
 
 import './ListOrders.css';
 
@@ -166,10 +166,17 @@ class ListOrders extends Component {
     });
   };
 
+  // handlePerPageSelect = (perPage) => {
+  //   this.setState({ perPage: Number(perPage) }, () => {
+  //     // this.fetchData();
+  //     this.props.fetchOrders(this.props.currentPage, this.props.perPage);
+  //   });
+  // };
   handlePerPageSelect = (perPage) => {
-    this.setState({ perPage: Number(perPage) }, () => {
-      // this.fetchData();
+    this.props.setRowsPerPage(perPage).then(() => {
       this.props.fetchOrders(this.props.currentPage, this.props.perPage);
+
+      this.props.history.push(`/orders/${this.props.currentPage}`);
     });
   };
 
@@ -224,7 +231,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchOrders: (currPage, perPage) => dispatch(fetchOrders(currPage, perPage)),
-  setCurrentOrder: (order) => dispatch(setCurrentOrder(order))
+  setCurrentOrder: (order) => dispatch(setCurrentOrder(order)),
+  setRowsPerPage: (perPage) => dispatch(setRowsPerPage(perPage))
 });
 
 export default connect(

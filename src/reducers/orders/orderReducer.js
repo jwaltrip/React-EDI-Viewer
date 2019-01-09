@@ -2,7 +2,8 @@ import {
   FETCH_ORDERS_BEGIN,
   FETCH_ORDERS_SUCCESS,
   FETCH_ORDERS_FAILURE,
-  SET_CURRENT_ORDER
+  SET_CURRENT_ORDER,
+  SET_ORDER_ROWS_PER_PAGE
 } from "../../actions/types";
 
 const initialState = {
@@ -46,6 +47,11 @@ export default function orderReducer(state = initialState, action) {
       return {
         ...state,
         selectedOrder: payload.order
+      };
+    case SET_ORDER_ROWS_PER_PAGE:
+      return {
+        ...state,
+        perPage: payload.perPage
       };
     default:
       return state;
