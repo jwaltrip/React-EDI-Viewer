@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 import { range } from '../../utils/utils';
 import { Container, Row, Col } from 'reactstrap';
+
+import { connect } from "react-redux";
+import { fetchOrders } from "../../actions/orderActions";
 
 import './ListOrders.css';
 
@@ -28,9 +31,11 @@ class ListOrders extends Component {
     const { id } = this.props.match.params;
 
     if (id === this.state.currentPage) {
-      this.fetchData();
+      // this.fetchData();
+      this.props.fetchOrders();
     } else {
-      this.fetchData(Number(id));
+      // this.fetchData(Number(id));
+      this.props.fetchOrders(Number(id), this.props.perPage);
     }
   }
 
@@ -61,7 +66,8 @@ class ListOrders extends Component {
       // update router url
       this.props.history.push(`/orders/${this.state.currentPage}`);
       // fetch next page data
-      this.fetchData();
+      // this.fetchData();
+      this.props.fetchOrders(this.props.currentPage, this.props.perPage);
     });
   };
 
@@ -157,7 +163,8 @@ class ListOrders extends Component {
 
   handlePerPageSelect = (perPage) => {
     this.setState({ perPage: Number(perPage) }, () => {
-      this.fetchData();
+      // this.fetchData();
+      this.props.fetchOrders(this.props.currentPage, this.props.perPage);
     });
   };
 
@@ -199,4 +206,22 @@ class ListOrders extends Component {
   }
 }
 
-export default withRouter(ListOrders);
+const mapStateToProps = state => ({
+  orders: state.orders.orders,
+  currentPage: state.orders.currentPage,
+  perPage: state.orders.perPage,
+  totalPages: state.orders.totalPages,
+  totalResults: state.orders.totalResults,
+  selectedOrder: state.orders.selectedOrder,
+  isLoading: state.orders.isLoading,
+  error: state.orders.error
+});
+
+// const mapDispatchToProps = dispatch => ({
+//   fetchOrders: dispatch(fetchOrders)
+// });
+
+export default connect(
+  mapStateToProps,
+  { fetchOrders })
+(withRouter(ListOrders));
