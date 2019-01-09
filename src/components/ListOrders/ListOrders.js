@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 import { range } from '../../utils/utils';
@@ -15,66 +15,44 @@ import OrderModal from './OrderModal';
 import OrderErrorMsg from './OrderErrorMsg';
 
 class ListOrders extends Component {
-  state = {
-    orders: [],
-    currentPage: 1,
-    totalPages: 0,
-    totalResults: 0,
-    perPage: 20,
-    modal: false,
-    selectedOrder: null,
-    isLoading: true,
-    error: null
-  };
+  state = { modal: false };
 
   componentDidMount() {
     const { id } = this.props.match.params;
 
     if (id === this.props.currentPage) {
-      // this.fetchData();
       this.props.fetchOrders(this.props.currentPage, this.props.perPage);
     } else {
-      // this.fetchData(Number(id));
       this.props.fetchOrders(Number(id), this.props.perPage);
     }
   }
 
-  fetchData = (currPage = this.state.currentPage) => {
-    axios(`/edi/${currPage}/?limit=${this.state.perPage}`)
-      .then(orders => {
-        if (orders.data.success) {
-          this.setState({
-            orders: orders.data.result.docs,
-            currentPage: orders.data.result.page,
-            perPage: orders.data.result.limit,
-            totalPages: orders.data.result.pages,
-            totalResults: orders.data.result.total,
-            isLoading: false,
-            error: null
-          });
-        } else {
-          this.setState({
-            isLoading: true,
-            error: orders.data.error
-          });
-        }
-      });
-  };
-
-  // handlePageClick = (data) => {
-  //   this.setState({currentPage: data.selected + 1, isLoading: true}, () => {
-  //     // update router url
-  //     this.props.history.push(`/orders/${this.state.currentPage}`);
-  //     // fetch next page data
-  //     // this.fetchData();
-  //     this.props.fetchOrders(this.props.currentPage, this.props.perPage);
-  //   });
+  // fetchData = (currPage = this.state.currentPage) => {
+  //   axios(`/edi/${currPage}/?limit=${this.state.perPage}`)
+  //     .then(orders => {
+  //       if (orders.data.success) {
+  //         this.setState({
+  //           orders: orders.data.result.docs,
+  //           currentPage: orders.data.result.page,
+  //           perPage: orders.data.result.limit,
+  //           totalPages: orders.data.result.pages,
+  //           totalResults: orders.data.result.total,
+  //           isLoading: false,
+  //           error: null
+  //         });
+  //       } else {
+  //         this.setState({
+  //           isLoading: true,
+  //           error: orders.data.error
+  //         });
+  //       }
+  //     });
   // };
+
   handlePageClick = (data) => {
-    console.log(data);
     this.props.setCurrentPage(data.selected + 1).then(() => {
       // update router url
-      this.props.history.push(`/orders/${this.state.currentPage}`);
+      this.props.history.push(`/orders/${this.props.currentPage}`);
       // fetch next page data
       this.props.fetchOrders(this.props.currentPage, this.props.perPage);
     });
@@ -164,23 +142,12 @@ class ListOrders extends Component {
     this.setState({ modal: !this.state.modal });
   };
 
-  // setCurrentOrder = (order) => {
-  //   this.setState({ selectedOrder: order }, () => {
-  //     this.toggleModal();
-  //   });
-  // };
   setCurrentOrder = (order) => {
     this.props.setCurrentOrder(order).then(() => {
       this.toggleModal();
     });
   };
 
-  // handlePerPageSelect = (perPage) => {
-  //   this.setState({ perPage: Number(perPage) }, () => {
-  //     // this.fetchData();
-  //     this.props.fetchOrders(this.props.currentPage, this.props.perPage);
-  //   });
-  // };
   handlePerPageSelect = (perPage) => {
     this.props.setRowsPerPage(perPage).then(() => {
       this.props.fetchOrders(this.props.currentPage, this.props.perPage);
