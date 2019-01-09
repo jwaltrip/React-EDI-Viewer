@@ -207,21 +207,21 @@ class ListOrders extends Component {
 }
 
 const mapStateToProps = state => ({
-  orders: state.orders.orders,
-  currentPage: state.orders.currentPage,
-  perPage: state.orders.perPage,
-  totalPages: state.orders.totalPages,
-  totalResults: state.orders.totalResults,
-  selectedOrder: state.orders.selectedOrder,
-  isLoading: state.orders.isLoading,
-  error: state.orders.error
+  orders: state.ediOrderData.orders,
+  currentPage: state.ediOrderData.currentPage,
+  perPage: state.ediOrderData.perPage,
+  totalPages: state.ediOrderData.totalPages,
+  totalResults: state.ediOrderData.totalResults,
+  selectedOrder: state.ediOrderData.selectedOrder,
+  isLoading: state.ediOrderData.isLoading,
+  error: state.ediOrderData.error
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   fetchOrders: dispatch(fetchOrders)
-// });
+const mapDispatchToProps = dispatch => ({
+  fetchOrders: (currPage, perPage) => dispatch(fetchOrders(currPage, perPage))
+});
 
 export default connect(
   mapStateToProps,
-  { fetchOrders })
+  mapDispatchToProps)
 (withRouter(ListOrders));

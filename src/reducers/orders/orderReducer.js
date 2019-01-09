@@ -12,6 +12,8 @@ const initialState = {
 };
 
 export default function orderReducer(state = initialState, action) {
+  const { payload } = action;
+
   switch(action.type) {
     case FETCH_ORDERS_BEGIN:
       return {
@@ -23,16 +25,17 @@ export default function orderReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        orders: action.payload,
-        // currentPage: action.payload.page,
-        // perPage: action.payload.limit,
-        // totalPages: action.payload.total,
+        orders: payload.data,
+        currentPage: payload.currentPage,
+        perPage: payload.perPage,
+        totalPages: payload.totalPages,
+        totalResults: payload.totalResults
       };
     case FETCH_ORDERS_FAILURE:
       return {
         ...state,
         isLoading: false,
-        error: action.payload.error
+        error: payload.error
       };
     default:
       return state;

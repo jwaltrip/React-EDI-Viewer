@@ -11,5 +11,5 @@ export default combineReducers({
   posts: postReducer,
   authErrors: authErrorReducer,
   auth: authReducer,
-  orders: ordersReducer
+  ediOrderData: ordersReducer
 });

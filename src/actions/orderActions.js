@@ -7,7 +7,13 @@ export const fetchOrdersBegin = () => ({
 
 export const fetchOrdersSuccess = (orders) => ({
   type: FETCH_ORDERS_SUCCESS,
-  payload: { data: orders.data.result }
+  payload: {
+    data: orders.data.result.docs,
+    currentPage: orders.data.result.page,
+    perPage: orders.data.result.limit,
+    totalPages: orders.data.result.pages,
+    totalResults: orders.data.result.total,
+  }
 });
 
 export const fetchOrdersFailure = (error) => ({
@@ -19,7 +25,12 @@ export const fetchOrders = (currPage = 1, perPage = 20) => dispatch => {
   dispatch(fetchOrdersBegin());
 
   axios(`/edi/${currPage}/?limit=${perPage}`)
-    .then(orders => dispatch(fetchOrdersSuccess(orders)))
+    .then(orders => {
+      console.log(orders);
+
+      if (orders.data.success) return dispatch(fetchOrdersSuccess(orders))
+      else return dispatch(fetchOrdersFailure(orders.data.error.name));
+    })
     .catch(error => dispatch(fetchOrdersFailure(error)));
 
 };
