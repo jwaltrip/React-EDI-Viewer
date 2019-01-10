@@ -1,7 +1,11 @@
 import {
   FETCH_SEARCH_ORDERS_BEGIN,
   FETCH_SEARCH_ORDERS_SUCCESS,
-  FETCH_SEARCH_ORDERS_FAILURE, SET_SEARCH_CURRENT_ORDER, SET_SEARCH_ORDER_ROWS_PER_PAGE, SET_SEARCH_CURRENT_PAGE
+  FETCH_SEARCH_ORDERS_FAILURE,
+  SET_SEARCH_CURRENT_ORDER,
+  SET_SEARCH_ORDER_ROWS_PER_PAGE,
+  SET_SEARCH_CURRENT_PAGE,
+  SET_SEARCH_TERM
 } from "./types";
 import axios from 'axios';
 
@@ -111,3 +115,12 @@ export const setSearchCurrentPage = (currPage) => dispatch => {
 /*
 *   END SET SEARCH CURRENT PAGE ACTION
 * */
+
+export const setSearchTermSuccess = (searchTerm) => ({
+  type: SET_SEARCH_TERM,
+  payload: { searchTerm }
+});
+
+export const setSearchTerm = (searchTerm) => dispatch => {
+  dispatch(setSearchTermSuccess(searchTerm));
+};

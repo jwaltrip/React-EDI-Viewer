@@ -19,31 +19,27 @@ class SearchOrders extends Component {
 
   state = { modal: false };
 
-  // TODO update fetch action to search
   componentDidMount() {
-    // const { id } = this.props.match.params;
-    //
-    // if (id === this.props.currentPage) {
-    //   this.props.fetchOrders(this.props.currentPage, this.props.perPage);
-    // } else {
-    //   this.props.fetchOrders(Number(id), this.props.perPage);
-    // }
     const { searchTerm } = this.props.match.params;
 
-    console.log('search url param', searchTerm);
+    this.props.setSearchTerm(searchTerm);
     this.props.fetchSearchOrders(searchTerm, this.props.currentPage, this.props.perPage);
   }
 
-  // TODO handle updating of route w/ search term
-  // TODO update fetch action to search
+  componentWillReceiveProps(nextProps) {
+    const { searchTerm } = this.props.match.params;
+
+    if (nextProps.match.params.searchTerm !== searchTerm) {
+      this.props.setSearchTerm(nextProps.match.params.searchTerm);
+      this.props.fetchSearchOrders(nextProps.match.params.searchTerm, this.props.currentPage, this.props.perPage);
+    }
+  }
+
   handlePageClick = (data) => {
     const { searchTerm } = this.props.match.params;
 
     this.props.setSearchCurrentPage(data.selected + 1).then(() => {
-      // update router url
-      // this.props.history.push(`/orders/${this.props.currentPage}`);
       // fetch next page data
-      console.log(`pageClick currPage: ${this.props.currentPage} || perPage: ${this.props.perPage}`);
       this.props.fetchSearchOrders(searchTerm, this.props.currentPage, this.props.perPage);
     });
   };
@@ -65,8 +61,9 @@ class SearchOrders extends Component {
     });
   };
 
-  listOrdersSkeleton = (perPage) => {
-    const idxRange = range(perPage);
+  listOrdersSkeleton = (perPage, totalResults) => {
+    const numRows = (perPage > totalResults) ? totalResults : perPage;
+    const idxRange = range(numRows);
 
     return idxRange.map((order, idx) => {
       return (

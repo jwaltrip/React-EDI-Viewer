@@ -14,10 +14,9 @@ class SearchForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  // TODO onSubmit, redirect to search route to render search results
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submit search text', this.state.searchText);
+    // redirect to search page
     this.props.history.push(`/orders/search/${this.state.searchText}`);
   };
 

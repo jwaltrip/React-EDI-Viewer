@@ -6,7 +6,8 @@ import {
   fetchSearchOrders,
   setSearchCurrentOrder,
   setSearchRowsPerPage,
-  setSearchCurrentPage
+  setSearchCurrentPage,
+  setSearchTerm
 } from "../../actions/orderSearchActions";
 
 const mapStateToProps = state => ({
@@ -24,7 +25,8 @@ const mapDispatchToProps = dispatch => ({
   fetchSearchOrders: (searchTerm, currPage, perPage) => dispatch(fetchSearchOrders(searchTerm, currPage, perPage)),
   setSearchCurrentOrder: (order) => dispatch(setSearchCurrentOrder(order)),
   setSearchRowsPerPage: (perPage) => dispatch(setSearchRowsPerPage(perPage)),
-  setSearchCurrentPage: (currPage) => dispatch(setSearchCurrentPage(currPage))
+  setSearchCurrentPage: (currPage) => dispatch(setSearchCurrentPage(currPage)),
+  setSearchTerm: (searchTerm) => dispatch(setSearchTerm(searchTerm))
 });
 
 export default connect(

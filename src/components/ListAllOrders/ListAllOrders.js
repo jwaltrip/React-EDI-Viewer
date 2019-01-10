@@ -55,8 +55,12 @@ class ListAllOrders extends Component {
     });
   };
 
-  listOrdersSkeleton = (perPage) => {
-    const idxRange = range(perPage);
+  listOrdersSkeleton = (perPage, totalResults) => {
+    let numRows;
+    if (totalResults === 0) { numRows = perPage; }
+    else { numRows = (perPage > totalResults) ? totalResults : perPage; }
+
+    const idxRange = range(numRows);
 
     return idxRange.map((order, idx) => {
       return (

@@ -7,7 +7,7 @@ import { Table } from 'reactstrap';
 const OrderTableBody = ({ isLoading, listOrdersSkeleton, listOrders, orders, perPage, currPage, totalOrders, setCurrentOrder }) => (
   <Table hover size="sm">
     <tbody>
-    { isLoading ? listOrdersSkeleton(perPage) : listOrders(orders, perPage, currPage, totalOrders, setCurrentOrder) }
+    { isLoading ? listOrdersSkeleton(perPage, totalOrders) : listOrders(orders, perPage, currPage, totalOrders, setCurrentOrder) }
     </tbody>
   </Table>
 );

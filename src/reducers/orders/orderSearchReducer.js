@@ -4,7 +4,7 @@ import {
   FETCH_SEARCH_ORDERS_FAILURE,
   SET_SEARCH_CURRENT_ORDER,
   SET_SEARCH_ORDER_ROWS_PER_PAGE,
-  SET_SEARCH_CURRENT_PAGE
+  SET_SEARCH_CURRENT_PAGE, SET_SEARCH_TERM
 } from "../../actions/types";
 
 const initialState = {
@@ -60,6 +60,11 @@ export default function orderSearchReducer(state = initialState, action) {
         ...state,
         isLoading: true,
         currentPage: payload.currPage
+      };
+    case SET_SEARCH_TERM:
+      return {
+        ...state,
+        searchTerm: payload.searchTerm
       };
     default:
       return state;
