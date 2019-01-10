@@ -2,6 +2,12 @@ import SearchOrders from '../../components/SearchOrders';
 import { withRouter } from 'react-router-dom';
 // redux imports
 import { connect } from "react-redux";
+import {
+  fetchSearchOrders,
+  setSearchCurrentOrder,
+  setSearchRowsPerPage,
+  setSearchCurrentPage
+} from "../../actions/orderSearchActions";
 
 const mapStateToProps = state => ({
   orders: state.searchOrderData.orders,
@@ -15,10 +21,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // fetchSearchOrders: (searchTerm, currPage, perPage) => dispatch(fetchSearchOrders(searchTerm, currPage, perPage)),
-  // setCurrentOrder: (order) => dispatch(setCurrentOrder(order)),
-  // setRowsPerPage: (perPage) => dispatch(setRowsPerPage(perPage)),
-  // setCurrentPage: (currPage) => dispatch(setCurrentPage(currPage))
+  fetchSearchOrders: (searchTerm, currPage, perPage) => dispatch(fetchSearchOrders(searchTerm, currPage, perPage)),
+  setSearchCurrentOrder: (order) => dispatch(setSearchCurrentOrder(order)),
+  setSearchRowsPerPage: (perPage) => dispatch(setSearchRowsPerPage(perPage)),
+  setSearchCurrentPage: (currPage) => dispatch(setSearchCurrentPage(currPage))
 });
 
 export default connect(

@@ -39,10 +39,10 @@ router.get('/:page', (req, res, next) => {
 });
 
 // search route with pagination
-router.get('/search/:searchTerm/:page?', (req, res, next) => {
+router.get('/search/:searchTerm', (req, res, next) => {
   const searchTerm = String(req.params.searchTerm).toUpperCase();
   const perPage = Number(req.query.limit) || 20;
-  const currPage = Number(req.params.page) || 1;
+  const currPage = Number(req.query.page) || 1;
 
   const queryOpts = {
     sort: { "Luma Order Number": -1 },

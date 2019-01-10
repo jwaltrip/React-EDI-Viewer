@@ -1,9 +1,13 @@
 import {
   FETCH_SEARCH_ORDERS_BEGIN,
   FETCH_SEARCH_ORDERS_SUCCESS,
-  FETCH_SEARCH_ORDERS_FAILURE
+  FETCH_SEARCH_ORDERS_FAILURE, SET_SEARCH_CURRENT_ORDER, SET_SEARCH_ORDER_ROWS_PER_PAGE, SET_SEARCH_CURRENT_PAGE
 } from "./types";
 import axios from 'axios';
+
+/*
+*   BEGIN FETCH SEARCH ORDERS ACTION
+* */
 
 export const fetchSearchOrdersBegin = () => ({
   type: FETCH_SEARCH_ORDERS_BEGIN
@@ -25,10 +29,10 @@ export const fetchSearchOrdersFailure = (error) => ({
   payload: { error: error.response.statusText }
 });
 
-export const fetchSearchOrders = (searchTerm, currPage = 1, perPage = 20) => dispatch => {
+export const fetchSearchOrders = (searchTerm, currPage, perPage) => dispatch => {
   dispatch(fetchSearchOrdersBegin());
 
-  axios(`/edi/search/${searchTerm}/?limit=${perPage}`)
+  axios(`/edi/search/${searchTerm}/?limit=${perPage}&page=${currPage}`)
     .then(orders => {
       console.log('search', orders);
 
@@ -40,3 +44,70 @@ export const fetchSearchOrders = (searchTerm, currPage = 1, perPage = 20) => dis
     })
     .catch(err => dispatch(fetchSearchOrdersFailure(err)));
 };
+
+/*
+*   END FETCH SEARCH ORDERS ACTION
+* */
+
+/*
+*   BEGIN SET SEARCH CURRENT ORDER ACTION
+* */
+
+export const setSearchCurrentOrderSuccess = (order) => ({
+  type: SET_SEARCH_CURRENT_ORDER,
+  payload: { order }
+});
+
+export const setSearchCurrentOrder = (order) => dispatch => {
+  return new Promise(resolve => {
+    dispatch(setSearchCurrentOrderSuccess(order));
+
+    resolve();
+  });
+};
+
+/*
+*   END SET SEARCH CURRENT ORDER ACTION
+* */
+
+/*
+*   BEGIN SET SEARCH NUMBER OF ROWS PER PAGE ACTION
+* */
+
+export const setSearchRowsPerPageSuccess = (perPage) => ({
+  type: SET_SEARCH_ORDER_ROWS_PER_PAGE,
+  payload: { perPage }
+});
+
+export const setSearchRowsPerPage = (perPage) => dispatch => {
+  return new Promise(resolve => {
+    dispatch(setSearchRowsPerPageSuccess(perPage));
+
+    resolve();
+  })
+};
+
+/*
+*   END SET SEARCH NUMBER OF ROWS PER PAGE ACTION
+* */
+
+/*
+*   BEGIN SET SEARCH CURRENT PAGE ACTION
+* */
+
+export const setSearchCurrentPageSuccess = (currPage) => ({
+  type: SET_SEARCH_CURRENT_PAGE,
+  payload: { currPage }
+});
+
+export const setSearchCurrentPage = (currPage) => dispatch => {
+  return new Promise(resolve => {
+    dispatch(setSearchCurrentPageSuccess(currPage));
+
+    resolve();
+  })
+};
+
+/*
+*   END SET SEARCH CURRENT PAGE ACTION
+* */

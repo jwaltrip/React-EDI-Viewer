@@ -19,6 +19,7 @@ class SearchOrders extends Component {
 
   state = { modal: false };
 
+  // TODO update fetch action to search
   componentDidMount() {
     // const { id } = this.props.match.params;
     //
@@ -27,17 +28,24 @@ class SearchOrders extends Component {
     // } else {
     //   this.props.fetchOrders(Number(id), this.props.perPage);
     // }
+    const { searchTerm } = this.props.match.params;
+
+    console.log('search url param', searchTerm);
+    this.props.fetchSearchOrders(searchTerm, this.props.currentPage, this.props.perPage);
   }
 
   // TODO handle updating of route w/ search term
   // TODO update fetch action to search
   handlePageClick = (data) => {
-    // this.props.setCurrentPage(data.selected + 1).then(() => {
-    //   // update router url
-    //   this.props.history.push(`/orders/${this.props.currentPage}`);
-    //   // fetch next page data
-    //   this.props.fetchOrders(this.props.currentPage, this.props.perPage);
-    // });
+    const { searchTerm } = this.props.match.params;
+
+    this.props.setSearchCurrentPage(data.selected + 1).then(() => {
+      // update router url
+      // this.props.history.push(`/orders/${this.props.currentPage}`);
+      // fetch next page data
+      console.log(`pageClick currPage: ${this.props.currentPage} || perPage: ${this.props.perPage}`);
+      this.props.fetchSearchOrders(searchTerm, this.props.currentPage, this.props.perPage);
+    });
   };
 
   listOrders = (orders, perPage, currPage, totalOrders, setCurrentOrder) => {
@@ -124,16 +132,17 @@ class SearchOrders extends Component {
   };
 
   setCurrentOrder = (order) => {
-    // this.props.setCurrentOrder(order).then(() => {
-    //   this.toggleModal();
-    // });
+    this.props.setSearchCurrentOrder(order).then(() => {
+      this.toggleModal();
+    });
   };
 
-  // TODO update fetch action to search
   handlePerPageSelect = (perPage) => {
-    // this.props.setRowsPerPage(perPage).then(() => {
-    //   this.props.fetchOrders(this.props.currentPage, this.props.perPage);
-    // });
+    const { searchTerm } = this.props.match.params;
+
+    this.props.setSearchRowsPerPage(perPage).then(() => {
+      this.props.fetchSearchOrders(searchTerm, this.props.currentPage, this.props.perPage);
+    });
   };
 
   render() {
@@ -154,7 +163,6 @@ class SearchOrders extends Component {
           totalPages={this.props.totalPages}
           totalOrders={this.props.totalResults}
           currPage={this.props.currentPage}
-          initialPage={this.props.match.params.id - 1}
           listOrders={this.listOrders}
           listOrdersSkeleton={this.listOrdersSkeleton}
           setCurrentOrder={this.setCurrentOrder}
