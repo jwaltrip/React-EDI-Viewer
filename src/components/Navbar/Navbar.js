@@ -23,10 +23,7 @@ class Navbar extends Component {
           <Link className="nav-link" to="/orders/1">Orders</Link>
         </li>
       </ul>,
-      <SearchForm
-        key={`nav-2`}
-        fetchSearchOrders={this.props.fetchSearchOrders}
-      />
+      <SearchForm key={`nav-2`} />
       ,
       <ul key={`nav-3`} className="navbar-nav ml-auto">
         <a className="nav-link" href="#" onClick={ this.onLogout }>

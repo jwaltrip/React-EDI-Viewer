@@ -9,6 +9,8 @@ import './searchOrders.css';
 import OrderTable from '../OrderTable';
 import OrderModal from '../OrderModal';
 import OrderErrorMsg from '../OrderErrorMsg';
+import SearchResultMetadata from '../SearchResultMetadata';
+
 
 class SearchOrders extends Component {
 
@@ -152,6 +154,8 @@ class SearchOrders extends Component {
       <Container>
         {errorMsg}
         <Row noGutters><h2>Search Results</h2></Row>
+
+        <SearchResultMetadata searchTerm={this.props.searchTerm} numResults={this.props.totalResults} />
 
         <OrderTable
           isLoading={this.props.isLoading}

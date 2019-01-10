@@ -38,8 +38,6 @@ export const fetchSearchOrders = (searchTerm, currPage, perPage) => dispatch => 
 
   axios(`/edi/search/${searchTerm}/?limit=${perPage}&page=${currPage}`)
     .then(orders => {
-      console.log('search', orders);
-
       if (orders.data.success) {
         return dispatch(fetchSearchOrdersSuccess(orders));
       } else {

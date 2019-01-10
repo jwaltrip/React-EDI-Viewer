@@ -18,7 +18,8 @@ const mapStateToProps = state => ({
   totalResults: state.searchOrderData.totalResults,
   selectedOrder: state.searchOrderData.selectedOrder,
   isLoading: state.searchOrderData.isLoading,
-  error: state.searchOrderData.error
+  error: state.searchOrderData.error,
+  searchTerm: state.searchOrderData.searchTerm
 });
 
 const mapDispatchToProps = dispatch => ({
