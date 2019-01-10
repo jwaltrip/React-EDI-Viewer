@@ -13,22 +13,15 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 // import bootstrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// import primereact css
-// import 'primereact/resources/themes/rhea/theme.css';
-// import 'primereact/resources/primereact.min.css';
-// import 'primeicons/primeicons.css';
-
 // import example post components
 import PostContainer from './components/Post/PostContainer';
 
-import Navbar from "./components/Navbar";
+// import Navbar from './components/Navbar/Navbar';
+import Navbar from './containers/NavbarContainer';
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
 
-// prime react refactor
-// import RegisterPR from "./components/Register/RegisterPR";
-// import ListAllOrders from "./components/ListAllOrders";
 import ListAllOrdersContainer from './containers/ListAllOrdersContainer';
 
 // when app starts, check localStorage if jwtToken is set, if so, setCurrentUser

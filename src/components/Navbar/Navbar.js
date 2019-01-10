@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { logoutUser } from '../actions/authActions';
+import SearchForm from "../SearchForm";
 
 class Navbar extends Component {
 
@@ -17,7 +15,7 @@ class Navbar extends Component {
 
     // this is utilizing fragments
     const authLinks = ([
-      <ul key={1} className="navbar-nav mr-auto">
+      <ul key={`nav-1`} className="navbar-nav mr-auto">
         <li className="nav-item">
           <Link className="nav-link" to="/posts">Posts</Link>
         </li>
@@ -25,21 +23,9 @@ class Navbar extends Component {
           <Link className="nav-link" to="/orders/1">Orders</Link>
         </li>
       </ul>,
-      <form className="form-inline my-2 my-lg-0">
-        <input
-          className="form-control mr-sm-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button
-          className="btn btn-primary my-2 my-sm-0"
-          type="submit"
-        >
-          Search
-        </button>
-      </form>,
-      <ul key={2} className="navbar-nav ml-auto">
+      <SearchForm key={`nav-2`} />
+      ,
+      <ul key={`nav-3`} className="navbar-nav ml-auto">
         <a className="nav-link" href="#" onClick={ this.onLogout }>
           <img
             src={user.avatar}
@@ -80,11 +66,4 @@ Navbar.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
-});
-
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(withRouter(Navbar));
+export default Navbar;
