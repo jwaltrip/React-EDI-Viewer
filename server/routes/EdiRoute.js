@@ -4,8 +4,9 @@ const router = express.Router();
 // import the EdiRoute mongodb model
 const EdiDoc = require("../models/EdiDoc");
 
+// returns all orders
 router.get('/', (req, res, next) => {
-  EdiDoc.find({}).limit(25).exec()
+  EdiDoc.find({}).exec()
     .then((docs) => {
       return res.json({ docs, success: true });
     })
@@ -14,6 +15,7 @@ router.get('/', (req, res, next) => {
     })
 });
 
+// returns paginated orders
 router.get('/:page', (req, res, next) => {
   // config pagination
   const perPage = Number(req.query.limit) || 20;
@@ -36,23 +38,26 @@ router.get('/:page', (req, res, next) => {
     });
 });
 
-// router.get('/:page', (req, res, next) => {
-//   // config pagination
-//   const perPage = 20;
-//   const currPage = req.params.page || 1;
-//   console.log('curr page backend', currPage);
-//
-//   EdiDoc.find({})
-//     .sort({"Luma Order Number": -1})
-//     .skip((perPage * currPage) - perPage)
-//     .limit(perPage)
-//     .exec()
-//     .then(orders => {
-//       return res.json({ orders: orders, currentPage: currPage, success: true });
-//     })
-//     .catch(err => {
-//       return res.json({ error: err, success: false });
-//     })
-// });
+// search route with pagination
+router.get('/search/:searchTerm/:page?', (req, res, next) => {
+  const searchTerm = String(req.params.searchTerm).toUpperCase();
+  const perPage = Number(req.query.limit) || 20;
+  const currPage = Number(req.params.page) || 1;
+
+  const queryOpts = {
+    sort: { "Luma Order Number": -1 },
+    lean: true,
+    page: currPage,
+    limit: perPage
+  };
+
+  EdiDoc.paginate({ "Search": searchTerm }, queryOpts)
+    .then(result => {
+      return res.json({ success: true, result });
+    })
+    .catch(err => {
+      return res.json({ success: false, error: err });
+    });
+});
 
 module.exports = router;
