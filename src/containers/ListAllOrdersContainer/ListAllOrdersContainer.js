@@ -10,14 +10,14 @@ import {
 } from "../../actions/orderActions";
 
 const mapStateToProps = state => ({
-  orders: state.ediOrderData.orders,
-  currentPage: state.ediOrderData.currentPage,
-  perPage: state.ediOrderData.perPage,
-  totalPages: state.ediOrderData.totalPages,
-  totalResults: state.ediOrderData.totalResults,
-  selectedOrder: state.ediOrderData.selectedOrder,
-  isLoading: state.ediOrderData.isLoading,
-  error: state.ediOrderData.error
+  orders: state.orderData.orders,
+  currentPage: state.orderData.currentPage,
+  perPage: state.orderData.perPage,
+  totalPages: state.orderData.totalPages,
+  totalResults: state.orderData.totalResults,
+  selectedOrder: state.orderData.selectedOrder,
+  isLoading: state.orderData.isLoading,
+  error: state.orderData.error
 });
 
 const mapDispatchToProps = dispatch => ({

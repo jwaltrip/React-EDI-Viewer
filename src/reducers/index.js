@@ -5,11 +5,13 @@ import postReducer from './postReducer';
 import authErrorReducer from "./authentication/authErrorReducer";
 import authReducer from "./authentication/authReducer";
 import ordersReducer from './orders/orderReducer';
+import orderSearchReducer from './orders/orderSearchReducer';
 
 // export rootReducer
 export default combineReducers({
   posts: postReducer,
   authErrors: authErrorReducer,
   auth: authReducer,
-  ediOrderData: ordersReducer
+  orderData: ordersReducer,
+  searchOrderData: orderSearchReducer
 });
