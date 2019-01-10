@@ -22,7 +22,8 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
 
-import ListAllOrdersContainer from './containers/ListAllOrdersContainer';
+import ListAllOrders from './containers/ListAllOrdersContainer';
+import SearchOrders from './containers/SearchOrdersContainer';
 
 // when app starts, check localStorage if jwtToken is set, if so, setCurrentUser
 // then check jwtToken expiration date, if expired, then logout user, redirect to /login
@@ -54,7 +55,8 @@ class App extends Component {
                 <Route exact path="/login" component={ Login } />
                 <Route exact path="/posts" component={ PostContainer } />
                 {/*<Route exact path="/orders" component={ ListOrders } />*/}
-                <Route path="/orders/:id" component={ ListAllOrdersContainer } />
+                <Route path="/orders/search/:searchTerm" component={ SearchOrders } />
+                <Route path="/orders/:id" component={ ListAllOrders } />
               </Switch>
             </div>
           </div>

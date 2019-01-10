@@ -23,7 +23,10 @@ class Navbar extends Component {
           <Link className="nav-link" to="/orders/1">Orders</Link>
         </li>
       </ul>,
-      <SearchForm key={`nav-2`} />
+      <SearchForm
+        key={`nav-2`}
+        fetchSearchOrders={this.props.fetchSearchOrders}
+      />
       ,
       <ul key={`nav-3`} className="navbar-nav ml-auto">
         <a className="nav-link" href="#" onClick={ this.onLogout }>
@@ -52,7 +55,7 @@ class Navbar extends Component {
 
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <Link className="navbar-brand" to="/">Redux Auth</Link>
+        <Link className="navbar-brand" to="/">Lumaprints EDI Viewer</Link>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           {isAuthenticated ? authLinks : guestLinks}
         </div>

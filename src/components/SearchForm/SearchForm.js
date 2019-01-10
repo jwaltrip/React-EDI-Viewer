@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class SearchForm extends Component {
   constructor(props) {
@@ -17,7 +17,8 @@ class SearchForm extends Component {
   // TODO onSubmit, redirect to search route to render search results
   handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log('submit search text', this.state.searchText);
+    this.props.history.push(`/orders/search/${this.state.searchText}`);
   };
 
   render() {
@@ -43,4 +44,4 @@ class SearchForm extends Component {
   }
 }
 
-export default SearchForm;
+export default withRouter(SearchForm);
