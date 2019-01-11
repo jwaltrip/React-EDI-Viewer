@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import react router
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 // import provider to connect App to redux store
 import { Provider } from 'react-redux';
 // import the redux store to be used in the Provider component
@@ -50,6 +50,7 @@ class App extends Component {
                 <Route exact path="/register" component={ Register } />
                 <Route exact path="/login" component={ Login } />
                 <Route path="/orders/search/:searchTerm" component={ SearchOrders } />
+                {/*<Redirect from="/orders" to="/orders/1" />*/}
                 <Route path="/orders/:id" component={ ListAllOrders } />
               </Switch>
             </div>
