@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+import "react-datepicker/dist/react-datepicker.css";
+import "./SearchForm.css";
 
 class SearchForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: ''
+      searchText: '',
+      isOpen: false,
+      startDate: new Date()
     };
   }
 
@@ -24,25 +31,56 @@ class SearchForm extends Component {
     });
   };
 
+  toggleDatePicker = (e) => {
+    e.preventDefault();
+    this.setState({ isOpen: !this.state.isOpen });
+  };
+
+  handleDatepickerChange = (date) => {
+    const formattedDate = moment(date).format("MM-DD-YYYY");
+    this.setState({ searchText: formattedDate, isOpen: false });
+  };
+
   render() {
     return (
-      <form className="form-inline my-2 my-lg-0" onSubmit={this.handleSubmit}>
-        <input
-          className="form-control mr-sm-2"
-          type="search"
-          name="searchText"
-          placeholder="Search"
-          aria-label="Search"
-          value={this.state.searchText}
-          onChange={this.handleTextChange}
-        />
-        <button
-          className="btn btn-primary my-2 my-sm-0"
-          type="submit"
-        >
-          Search
-        </button>
-      </form>
+      <div>
+        <form className="form-inline my-2 my-lg-0" onSubmit={this.handleSubmit}>
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <button className="btn btn-success" type="button" onClick={this.toggleDatePicker}>
+                <i className="far fa-calendar-alt"></i>
+              </button>
+            </div>
+            <input
+              className="form-control mr-sm-2"
+              type="search"
+              name="searchText"
+              placeholder="Search"
+              aria-label="Search"
+              value={this.state.searchText}
+              onChange={this.handleTextChange}
+            />
+          </div>
+          <button
+            className="btn btn-primary my-2 my-sm-0"
+            type="submit"
+          >
+            Search
+          </button>
+        </form>
+        <div className="datepicker-container">
+          {
+            this.state.isOpen && (
+              <DatePicker
+                selected={this.state.startDate}
+                onChange={this.handleDatepickerChange}
+                dateFormat="MM-dd-yyyy"
+                inline
+              />
+            )
+          }
+        </div>
+      </div>
     );
   }
 }
