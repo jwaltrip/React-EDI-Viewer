@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import {
+
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
+
 import SearchForm from "../SearchForm";
 
 class Navbar extends Component {
@@ -20,19 +27,26 @@ class Navbar extends Component {
           <Link className="nav-link" to="/orders/1">Orders</Link>
         </li>
       </ul>,
-      <SearchForm key={`nav-2`} />
-      ,
-      <ul key={`nav-3`} className="navbar-nav ml-auto">
-        <a className="nav-link" href="#" onClick={ this.onLogout }>
-          <img
-            src={user.avatar}
-            alt={user.name}
-            title={user.name}
-            className="rounded-circle"
-            style={{ width: 25, marginRight: 5 }}
-          />
-          Logout
-        </a>
+      <ul className="navbar-nav ml-auto">
+        <SearchForm key={`nav-2`} />
+
+        <UncontrolledDropdown nav inNavbar>
+          <DropdownToggle nav caret>
+            <img
+              src={user.avatar}
+              alt={user.name}
+              title={user.name}
+              className="rounded-circle mr-2"
+              style={{ width: 25, marginRight: 5 }}
+            />
+            {user.name}
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem onClick={ this.onLogout }>
+              Logout
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
       </ul>
     ]);
 

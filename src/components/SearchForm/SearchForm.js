@@ -43,7 +43,7 @@ class SearchForm extends Component {
 
   render() {
     return (
-      <div>
+      <div className="mr-3">
         <form className="form-inline my-2 my-lg-0" onSubmit={this.handleSubmit}>
           <div className="input-group">
             <div className="input-group-prepend">
