@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
-
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -27,8 +26,9 @@ class Navbar extends Component {
           <Link className="nav-link" to="/orders/1">Orders</Link>
         </li>
       </ul>,
-      <ul className="navbar-nav ml-auto">
-        <SearchForm key={`nav-2`} />
+      <ul key={`nav-2`} className="navbar-nav ml-auto">
+        {/* the inline search form w/ date picker */}
+        <SearchForm />
 
         <UncontrolledDropdown nav inNavbar>
           <DropdownToggle nav caret>
