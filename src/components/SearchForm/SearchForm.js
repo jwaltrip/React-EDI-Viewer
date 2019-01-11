@@ -16,8 +16,12 @@ class SearchForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+
+    const tmpSearchText = this.state.searchText;
     // redirect to search page
-    this.props.history.push(`/orders/search/${this.state.searchText}`);
+    this.setState({ searchText: '' }, () => {
+      this.props.history.push(`/orders/search/${tmpSearchText}`);
+    });
   };
 
   render() {

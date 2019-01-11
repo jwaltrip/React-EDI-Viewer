@@ -1,7 +1,5 @@
 const express = require("express");
-const path = require("path");
 const bodyParser = require("body-parser");
-// const cors = require("cors");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const config = require("./config/DB");
@@ -21,7 +19,6 @@ mongoose.connect(config.DB, { useNewUrlParser: true }).then(
 
 // import routes
 const userRoutes = require("./routes/UserRoute");
-const postRoutes = require("./routes/PostRoute");
 const ediRoutes = require("./routes/EdiRoute");
 
 // setup middleware
@@ -34,8 +31,6 @@ const port = process.env.PORT || 5000;
 
 // setup routes
 app.use('/api/users', userRoutes);
-app.use('/posts', postRoutes);
-// app.use('/edi', passport.authenticate('jwt', { session: false }), ediRoutes);
 app.use('/edi', ediRoutes);
 
 const server = app.listen(port, () => {

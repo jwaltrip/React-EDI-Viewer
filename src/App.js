@@ -13,15 +13,11 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 // import bootstrap css
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// import example post components
-import PostContainer from './components/Post/PostContainer';
-
 // import Navbar from './components/Navbar/Navbar';
 import Navbar from './containers/NavbarContainer';
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
-
 import ListAllOrders from './containers/ListAllOrdersContainer';
 import SearchOrders from './containers/SearchOrdersContainer';
 
@@ -53,8 +49,6 @@ class App extends Component {
                 <Route exact path="/" component={ Home } />
                 <Route exact path="/register" component={ Register } />
                 <Route exact path="/login" component={ Login } />
-                <Route exact path="/posts" component={ PostContainer } />
-                {/*<Route exact path="/orders" component={ ListOrders } />*/}
                 <Route path="/orders/search/:searchTerm" component={ SearchOrders } />
                 <Route path="/orders/:id" component={ ListAllOrders } />
               </Switch>
