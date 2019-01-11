@@ -55,10 +55,11 @@ class SearchForm extends Component {
               className="form-control mr-sm-2"
               type="search"
               name="searchText"
-              placeholder="Search"
+              placeholder="Search by order #, SKU, name, or date"
               aria-label="Search"
               value={this.state.searchText}
               onChange={this.handleTextChange}
+              style={{ width: '350px' }}
             />
           </div>
           <button
