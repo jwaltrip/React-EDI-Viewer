@@ -16,12 +16,17 @@ class SearchOrders extends Component {
 
   // TODO add prop types from redux state
   static propTypes = {
-
+    auth: PropTypes.object.isRequired,
   };
 
   state = { modal: false };
 
   componentDidMount() {
+    // check that user is authenticated
+    if (!this.props.auth.isAuthenticated) {
+      window.location.href = '/login';
+    }
+
     const { searchTerm } = this.props.match.params;
 
     this.props.setSearchTerm(searchTerm);

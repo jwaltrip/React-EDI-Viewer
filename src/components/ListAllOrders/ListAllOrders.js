@@ -14,12 +14,17 @@ class ListAllOrders extends Component {
 
   // TODO add prop types from redux state
   static propTypes = {
-
+    auth: PropTypes.object.isRequired,
   };
 
   state = { modal: false };
 
   componentDidMount() {
+    // check if user is authenticated
+    if (!this.props.auth.isAuthenticated) {
+      window.location.href = '/login';
+    }
+
     const { id } = this.props.match.params;
 
     if (id === this.props.currentPage) {

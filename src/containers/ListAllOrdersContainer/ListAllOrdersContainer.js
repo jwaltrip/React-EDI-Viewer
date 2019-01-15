@@ -17,7 +17,8 @@ const mapStateToProps = state => ({
   totalResults: state.orderData.totalResults,
   selectedOrder: state.orderData.selectedOrder,
   isLoading: state.orderData.isLoading,
-  error: state.orderData.error
+  error: state.orderData.error,
+  auth: state.auth
 });
 
 const mapDispatchToProps = dispatch => ({

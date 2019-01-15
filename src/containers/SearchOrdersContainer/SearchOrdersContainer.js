@@ -19,7 +19,8 @@ const mapStateToProps = state => ({
   selectedOrder: state.searchOrderData.selectedOrder,
   isLoading: state.searchOrderData.isLoading,
   error: state.searchOrderData.error,
-  searchTerm: state.searchOrderData.searchTerm
+  searchTerm: state.searchOrderData.searchTerm,
+  auth: state.auth
 });
 
 const mapDispatchToProps = dispatch => ({
