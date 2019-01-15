@@ -35,8 +35,8 @@
     "validator": "^10.9.0"
   },
   "scripts": {
-    "start:dev": "concurrently --names \"server.,react..\" -c \"blue.dim,magenta.dim\" --prefix \"{time}..{name}{index}\" \"nodemon ./server/server.js\" \"npm run start\"",
-    "start:server": "nodemon ./server/server.js",
+    "start:dev": "concurrently --names \"server.,react..\" -c \"blue.dim,magenta.dim\" --prefix \"{time}..{name}{index}\" \"nodemon server.js\" \"yarn run start\"",
+    "start:server": "nodemon server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
