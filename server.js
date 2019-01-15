@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // setup express to serve the static index.html built by react
-app.use(express.static(path.join(__dirname, "src", "build")));
+app.use(express.static(path.join(__dirname, "build")));
 
 // set the backend server port
 const port = process.env.PORT || 5000;
@@ -39,7 +39,7 @@ app.use('/edi', ediRoutes);
 // a catchall route if any API calls aren't used, then serve the index.html built by react
 // this needs to be after all other routes
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "src", "build", "index.html"));
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.listen(port, () => {
