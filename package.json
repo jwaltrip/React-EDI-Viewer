@@ -2,6 +2,9 @@
   "name": "react-edi-viewer",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "8.11.3"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
@@ -35,12 +38,14 @@
     "validator": "^10.9.0"
   },
   "scripts": {
+    "start": "node server.js",
     "start:dev": "concurrently --names \"server.,react..\" -c \"blue.dim,magenta.dim\" --prefix \"{time}..{name}{index}\" \"nodemon server.js\" \"yarn run start\"",
     "start:server": "nodemon server.js",
-    "start": "react-scripts start",
+    "start:react": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "yarn install --only=dev && yarn install && yarn run build"
   },
   "eslintConfig": {
     "extends": "react-app"

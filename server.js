@@ -25,7 +25,9 @@ const ediRoutes = require("./routes/EdiRoute");
 // setup middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// app.use(cors());
+
+// setup express to serve the static index.html built by react
+app.use(express.static(path.join(__dirname, "src", "build")));
 
 // set the backend server port
 const port = process.env.PORT || 5000;
@@ -33,6 +35,12 @@ const port = process.env.PORT || 5000;
 // setup routes
 app.use('/api/users', userRoutes);
 app.use('/edi', ediRoutes);
+
+// a catchall route if any API calls aren't used, then serve the index.html built by react
+// this needs to be after all other routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "build", "index.html"));
+});
 
 app.listen(port, () => {
   console.log(`Backend server running and listening on port ${port}`);
