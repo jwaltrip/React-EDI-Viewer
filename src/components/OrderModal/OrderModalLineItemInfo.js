@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Container, Table } from 'reactstrap';
 
-// TODO add prop types
-
 const OrderModalLineItemInfo = ({ selectedOrder, listLineItems }) => (
   <Row>
     <Container>
@@ -35,13 +33,15 @@ const OrderModalLineItemInfo = ({ selectedOrder, listLineItems }) => (
   </Row>
 );
 
-OrderModalLineItemInfo.displayName = 'OrderModalLineItemInfo';
 OrderModalLineItemInfo.propTypes = {
-
+  listLineItems: PropTypes.func.isRequired,
+  selectedOrder: PropTypes.object,
 };
 
 OrderModalLineItemInfo.defaultProps = {
-
+  selectedOrder: {}
 };
+
+OrderModalLineItemInfo.displayName = 'OrderModalLineItemInfo';
 
 export default OrderModalLineItemInfo;

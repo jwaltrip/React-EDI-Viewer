@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Container } from 'reactstrap';
 
-// TODO add prop types
-
 const OrderModalShipMethodRow = ({ selectedOrder }) => (
   <Row className="pb-2">
     <Container>
@@ -22,13 +20,10 @@ const OrderModalShipMethodRow = ({ selectedOrder }) => (
   </Row>
 );
 
-OrderModalShipMethodRow.displayName = 'OrderModalShipMethodRow';
 OrderModalShipMethodRow.propTypes = {
-
+  selectedOrder: PropTypes.object.isRequired,
 };
 
-OrderModalShipMethodRow.defaultProps = {
-
-};
+OrderModalShipMethodRow.displayName = 'OrderModalShipMethodRow';
 
 export default OrderModalShipMethodRow;

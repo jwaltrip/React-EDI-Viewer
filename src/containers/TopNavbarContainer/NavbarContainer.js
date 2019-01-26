@@ -1,4 +1,4 @@
-import Navbar from '../../components/Navbar';
+import TopNavbar from '../../components/TopNavbar';
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
@@ -14,4 +14,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(Navbar));
+)(withRouter(TopNavbar));

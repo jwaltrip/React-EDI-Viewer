@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { loginUser } from "../../actions/authActions";
 import classnames from 'classnames';
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      email: '',
-      password: '',
-      errors: {}
-    };
-  }
+  state = {
+    email: '',
+    password: '',
+    errors: {}
+  };
+
+  static propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
 
   componentDidMount() {
     // if user is authenticated, then redirect them to homepage
@@ -98,17 +99,4 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
-  errors: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.authErrors
-});
-
-export default connect(
-  mapStateToProps,
-  { loginUser }
-)(withRouter(Login));
+export default Login;

@@ -17,13 +17,11 @@ const SearchResultMetadata = ({ searchTerm, numResults }) => {
   );
 };
 
-SearchResultMetadata.displayName = 'SearchResultMetadata';
 SearchResultMetadata.propTypes = {
-
+  searchTerm: PropTypes.string.isRequired,
+  numResults: PropTypes.number.isRequired,
 };
 
-SearchResultMetadata.defaultProps = {
-
-};
+SearchResultMetadata.displayName = 'SearchResultMetadata';
 
 export default SearchResultMetadata;

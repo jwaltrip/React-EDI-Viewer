@@ -20,7 +20,6 @@ const mapStateToProps = state => ({
   isLoading: state.searchOrderData.isLoading,
   error: state.searchOrderData.error,
   searchTerm: state.searchOrderData.searchTerm,
-  auth: state.auth
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -33,4 +32,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps)(withRouter(SearchOrders));
+  mapDispatchToProps
+)(withRouter(SearchOrders));

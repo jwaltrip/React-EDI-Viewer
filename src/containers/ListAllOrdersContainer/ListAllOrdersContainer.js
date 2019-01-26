@@ -18,7 +18,6 @@ const mapStateToProps = state => ({
   selectedOrder: state.orderData.selectedOrder,
   isLoading: state.orderData.isLoading,
   error: state.orderData.error,
-  auth: state.auth
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -30,4 +29,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps)(withRouter(ListAllOrders));
+  mapDispatchToProps
+)(withRouter(ListAllOrders));

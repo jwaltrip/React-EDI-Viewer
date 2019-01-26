@@ -7,8 +7,6 @@ import OrderModalShipMethodRow from './OrderModalShipMethodRow';
 import OrderModalBuyerShipRow from './OrderModalBuyerShipRow';
 import OrderModalLineItemInfo from './OrderModalLineItemInfo';
 
-// TODO add prop types
-
 const OrderModalBody = ({ selectedOrder, listLineItems }) => (
   <ModalBody>
     {
@@ -30,13 +28,14 @@ const OrderModalBody = ({ selectedOrder, listLineItems }) => (
   </ModalBody>
 );
 
-OrderModalBody.displayName = 'OrderModalBody';
 OrderModalBody.propTypes = {
-
+  listLineItems: PropTypes.func.isRequired,
+  selectedOrder: PropTypes.object,
 };
 
 OrderModalBody.defaultProps = {
-
+  selectedOrder: {}
 };
+OrderModalBody.displayName = 'OrderModalBody';
 
 export default OrderModalBody;

@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { registerUser } from "../../actions/authActions";
 import classnames from 'classnames';
 
 class Register extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      name: '',
-      email: '',
-      password: '',
-      password_confirm: '',
-      errors: {}
-    };
-  }
+  state = {
+    name: '',
+    email: '',
+    password: '',
+    password_confirm: '',
+    errors: {}
+  };
+
+  static propTypes = {
+    registerUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
 
   componentDidMount() {
     // if user is logged in, then they should not be able to access the Register page
@@ -130,17 +131,4 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = {
-  registerUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.authErrors
-});
-
-export default connect(
-  mapStateToProps,
-  { registerUser }
-)(withRouter(Register));
+export default Register;

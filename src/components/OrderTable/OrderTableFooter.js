@@ -4,8 +4,6 @@ import { Row, Col } from 'reactstrap';
 import OrderTableRowsPerPageToggle from './OrderTableRowsPerPageToggle';
 import OrderTablePagination from './OrderTablePagination';
 
-// TODO add prop types
-
 const OrderTableFooter = ({ perPage, totalPages, initialPage, handlePerPageSelect, handlePageClick }) => (
   <Col>
     <Row noGutters>
@@ -24,13 +22,18 @@ const OrderTableFooter = ({ perPage, totalPages, initialPage, handlePerPageSelec
   </Col>
 );
 
-OrderTableFooter.displayName = 'OrderTableFooter';
 OrderTableFooter.propTypes = {
-
+  perPage: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  initialPage: PropTypes.number,
+  handlePerPageSelect: PropTypes.func.isRequired,
+  handlePageClick: PropTypes.func.isRequired,
 };
 
 OrderTableFooter.defaultProps = {
-
+  initialPage: 0
 };
+
+OrderTableFooter.displayName = 'OrderTableFooter';
 
 export default OrderTableFooter;

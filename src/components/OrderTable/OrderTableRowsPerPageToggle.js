@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, ButtonGroup, Button } from 'reactstrap';
 
-// TODO add prop types
-
 const OrderTableRowsPerPageToggle = ({ perPage, onPerPageSelect }) => (
   <Col xs="1">
     <Row className="justify-content-center">
@@ -17,13 +15,11 @@ const OrderTableRowsPerPageToggle = ({ perPage, onPerPageSelect }) => (
   </Col>
 );
 
-OrderTableRowsPerPageToggle.displayName = 'OrderTableRowsPerPageToggle';
 OrderTableRowsPerPageToggle.propTypes = {
-
+  perPage: PropTypes.number.isRequired,
+  onPerPageSelect: PropTypes.func.isRequired,
 };
 
-OrderTableRowsPerPageToggle.defaultProps = {
-
-};
+OrderTableRowsPerPageToggle.displayName = 'OrderTableRowsPerPageToggle';
 
 export default OrderTableRowsPerPageToggle;

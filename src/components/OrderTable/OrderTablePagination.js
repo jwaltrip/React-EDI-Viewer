@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { Col } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
 
-// TODO add prop types
-
 const OrderTablePagination = ({ totalPages, initialPage, handlePageClick }) => (
   <Col xs="10">
     <nav>
@@ -32,13 +30,16 @@ const OrderTablePagination = ({ totalPages, initialPage, handlePageClick }) => (
   </Col>
 );
 
-OrderTablePagination.displayName = 'OrderTablePagination';
 OrderTablePagination.propTypes = {
-
+  totalPages: PropTypes.number.isRequired,
+  initialPage: PropTypes.number,
+  handlePageClick: PropTypes.func.isRequired,
 };
 
 OrderTablePagination.defaultProps = {
-
+  initialPage: 0
 };
+
+OrderTablePagination.displayName = 'OrderTablePagination';
 
 export default OrderTablePagination;

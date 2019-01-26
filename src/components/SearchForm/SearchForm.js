@@ -7,14 +7,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./SearchForm.css";
 
 class SearchForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchText: '',
-      isOpen: false,
-      startDate: new Date()
-    };
-  }
+
+  state = {
+    searchText: '',
+    isOpen: false,
+    startDate: new Date()
+  };
 
   handleTextChange = (e) => {
     e.preventDefault();

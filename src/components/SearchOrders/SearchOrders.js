@@ -14,30 +14,45 @@ import SearchResultMetadata from '../SearchResultMetadata';
 
 class SearchOrders extends Component {
 
-  // TODO add prop types from redux state
   static propTypes = {
-    auth: PropTypes.object.isRequired,
+    fetchSearchOrders: PropTypes.func.isRequired,
+    setSearchCurrentOrder: PropTypes.func.isRequired,
+    setSearchRowsPerPage: PropTypes.func.isRequired,
+    setSearchCurrentPage: PropTypes.func.isRequired,
+    setSearchTerm: PropTypes.func.isRequired,
+    orders: PropTypes.array.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    perPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    totalResults: PropTypes.number.isRequired,
+    selectedOrder: PropTypes.object,
+    isLoading: PropTypes.bool.isRequired,
+    searchTerm: PropTypes.string,
+    error: PropTypes.object,
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
+
+  static defaultProps = {
+    selectedOrder: {},
+    searchTerm: '',
+    error: {}
   };
 
   state = { modal: false };
 
-  componentDidMount() {
-    // check that user is authenticated
-    if (!this.props.auth.isAuthenticated) {
-      window.location.href = '/login';
-    }
-
+  async componentDidMount() {
     const { searchTerm } = this.props.match.params;
 
-    this.props.setSearchTerm(searchTerm);
+    await this.props.setSearchTerm(searchTerm);
     this.props.fetchSearchOrders(searchTerm, this.props.currentPage, this.props.perPage);
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     const { searchTerm } = this.props.match.params;
 
     if (nextProps.match.params.searchTerm !== searchTerm) {
-      this.props.setSearchTerm(nextProps.match.params.searchTerm);
+      await this.props.setSearchTerm(nextProps.match.params.searchTerm);
       this.props.fetchSearchOrders(nextProps.match.params.searchTerm, this.props.currentPage, this.props.perPage);
     }
   }

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import moment from "moment";
 import { Row, Col } from 'reactstrap';
 
-// TODO add prop types
-
 const OrderModalDocInfoRow = ({ selectedOrder }) => (
   <Row className="pb-2">
     {/* Doc Info - LEFT */}
@@ -43,13 +41,10 @@ const OrderModalDocInfoRow = ({ selectedOrder }) => (
   </Row>
 );
 
-OrderModalDocInfoRow.displayName = 'OrderModalDocInfoRow';
 OrderModalDocInfoRow.propTypes = {
-
+  selectedOrder: PropTypes.object.isRequired,
 };
 
-OrderModalDocInfoRow.defaultProps = {
-
-};
+OrderModalDocInfoRow.displayName = 'OrderModalDocInfoRow';
 
 export default OrderModalDocInfoRow;

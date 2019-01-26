@@ -12,19 +12,31 @@ import OrderErrorMsg from '../OrderErrorMsg';
 
 class ListAllOrders extends Component {
 
-  // TODO add prop types from redux state
   static propTypes = {
-    auth: PropTypes.object.isRequired,
+    fetchOrders: PropTypes.func.isRequired,
+    setCurrentOrder: PropTypes.func.isRequired,
+    setRowsPerPage: PropTypes.func.isRequired,
+    setCurrentPage: PropTypes.func.isRequired,
+    orders: PropTypes.array.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    perPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    totalResults: PropTypes.number.isRequired,
+    selectedOrder: PropTypes.object,
+    isLoading: PropTypes.bool.isRequired,
+    error: PropTypes.object,
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  };
+
+  static defaultProps = {
+    selectedOrder: {},
+    error: {}
   };
 
   state = { modal: false };
 
   componentDidMount() {
-    // check if user is authenticated
-    if (!this.props.auth.isAuthenticated) {
-      window.location.href = '/login';
-    }
-
     const { id } = this.props.match.params;
 
     if (id === this.props.currentPage) {

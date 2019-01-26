@@ -1,8 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Row, Container } from 'reactstrap';
-
-// TODO add prop types
 
 const OrderTableHeader = () => (
   <Container>
@@ -17,12 +14,5 @@ const OrderTableHeader = () => (
 );
 
 OrderTableHeader.displayName = 'OrderTableHeader';
-OrderTableHeader.propTypes = {
-
-};
-
-OrderTableHeader.defaultProps = {
-
-};
 
 export default OrderTableHeader;
