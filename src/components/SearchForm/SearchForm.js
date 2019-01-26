@@ -57,7 +57,7 @@ class SearchForm extends Component {
               aria-label="Search"
               value={this.state.searchText}
               onChange={this.handleTextChange}
-              style={{ width: '350px' }}
+              style={{ width: '310px' }}
             />
           </div>
           <button
