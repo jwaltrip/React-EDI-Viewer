@@ -1,51 +1,48 @@
-# React X12 EDI Viewer  
-This app reads incoming data from X12 EDI 850 Purchase Order documents and displays them in a user friendly format
+# React EDI Web Portal
+This project was inspired due to a lack of a user friendly way to view incoming purchase order data sent over
+a B2B X12 EDI document exchange.
 
----
+#### Backstory  
+A company that I worked for had recently setup an automated B2B EDI document exchange which included these documents:
+- (850) Purchase Orders
+- (855) Purchase Order Acknowledgements
+- (856) Advanced Ship Notice
+- (810) Invoice
 
-## MERN Stack + Redux Boilerplate w/ JWT User Authentication
+All of these document transactions were sent directly into a SQL database, and the B2B partnership moved to production
+status before a tool was made for our customer service team to easily be able to view the incoming purchase order data
 
-This is a simple full MERN stack boilerplate with Redux and JSON Web Token user authentication integrated.
+It was rather inconvenient to have our CS team use a SQL database explorer - these typically included much more functionality
+than what was needed, along with various risks of misinterpretting the data or altering the table definitions
 
-It is used by myself to quickly get a full stack MERN + Redux app up and running with minimal setup
+What we needed was a minimal, read-only web portal for our CS team to view the incoming purchase order data for individual
+orders - and this is what I aimed to provide with this app!
 
-### Installation after clone
+## See it in Action!
+https://aca-final-project-edi-viewer.herokuapp.com
 
->Both the front end and back end utilize the same package.json file
+Feel free to register an account and browse through the purchase orders (all sensitive data has been scrubbed)
 
-After cloning, simply `cd` into the root directory and run either:
+## Features
+- Lists all incoming purchase orders, and when an order is clicked a modal is displayed containing relevant order information
+- Search function that can search based on: order #, date, SKU, or name
+- A calendar button next to search field to select a date to search
+- Can select how many rows per page are displayed
+- Pagination that adjusts to number of rows per page selected
+- A sticky table header on scroll down when viewing 50 or 100 orders per page
+- User authentication based on JWT
 
-`yarn install` or `npm install` (depending on which package manager you prefer)
-
-This will install all the dependencies for both front and back end.
-
-##### Configure the MongoDB connection string
-
-Copy the template file `/server/config/DB.example.js` to `/server/config/DB.js` and enter your MongoDB connection string here
-
-The copied `DB.js` file will be ignored by git (via .gitignore) and will not be pushed to a public repo, keeping your DB connection info safe locally
-
-### How to Use
-
-The Express + MongoDB backend is located in the `/server` dir (and runs on port `4000`)
-
-The React + Redux frontend is located in the `/src` dir (and runs on port `3000`)
-
-#### Start the servers
-
-> Both the front and backend servers can be started together using the concurrently npm module
-
-**To start both the front and back end concurrently:**
-
-`npm run start:dev`
-
-_Note: to kill both servers, type `ctrl+c` **once** into the terminal_
-
-**To start just the Express + MongoDB backend:**
-
-`npm run start:server`
-
-**To start just the React + Redux frontend:**
-
-`npm run start`
-
+## Technologies Used
+- React + React Router v4 + Redux + Redux Thunk
+- Node
+- Express
+- MongoDB
+- Mongoose
+- Passport.js
+- JWT Authentication
+- Bcrypt.js
+- Reactstrap
+- Bootstrap CSS
+- Classnames
+- Validator.js
+- Deployed on Heroku
